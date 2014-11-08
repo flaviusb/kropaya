@@ -3,7 +3,7 @@ kropaya
 
 A fantasy language, unhindered by reality.
 
-Ur-Principle: Like Atomish, but starting from first class labels and row polymorphism instead of starting from message sends to activatable cells.
+Ur-Principle: Like [Atomish](http://github.com/flaviusb/Atomish), but starting from first class labels and row polymorphism instead of starting from message sends to activatable cells.
 
 Does this even make sense? I am not yet sure.
 
