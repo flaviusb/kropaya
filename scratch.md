@@ -23,3 +23,5 @@ Quotient types. Mirrors, described types, equality. A Quotient type should be ab
 Predicates. Sets. Intensional vs extensional.
 
 Totality. Divergence. Programs and co-programs.
+
+Edges.
