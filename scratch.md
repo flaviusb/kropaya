@@ -25,3 +25,5 @@ Predicates. Sets. Intensional vs extensional.
 Totality. Divergence. Programs and co-programs.
 
 Edges.
+
+Whole program types and codebase types for program and codebase invariants.
