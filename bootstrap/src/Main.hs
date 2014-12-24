@@ -7,6 +7,8 @@ import Data.Text
 import Data.Text.Read
 import Data.Maybe
 
+import KropayaTypes
+
 [peggy|
 top :: Integer = expr !.
 
