@@ -10,7 +10,19 @@ import Data.Maybe
 import KropayaTypes
 
 [peggy|
-top :: Atomic = number !.
+top :: Atomic = txt / number !.
+
+sstring_escapes :: Char
+  = ('\\' 'n'  { '\n' })
+  / ('\\' 'r'  { '\r' })
+  / ('\\' ']'  { ']'  })
+  / ('\\' '\\' { '\\' })
+
+txt :: Atomic
+  = sstring
+
+sstring :: Atomic
+  = '#' '[' ([^\]\\] / sstring_escapes)* ']' { KStr $ pack $1 }
 
 number :: Atomic
   = kdecimal
