@@ -1,4 +1,4 @@
-module KropayaTypes where
+module KropayaTypes(Atomic(..), Row(..), Label(..), Product(..), Sum(..), TRow(..), Lambda(..), Arglist(..), Code(..), R0Type(..)) where
 
 import Numeric
 import Data.Text

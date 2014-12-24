@@ -10,25 +10,20 @@ import Data.Maybe
 import KropayaTypes
 
 [peggy|
-top :: Integer = expr !.
+top :: Atomic = number !.
 
-expr :: Integer
-  = expr "+" expr { $1 + $2 }
-  / expr "-" expr { $1 - $2 }
-  / number
-
-number :: Integer
+number :: Atomic
   = hinteger
   / dinteger
 
 sign :: Maybe Char
   = [-+]?
 
-dinteger :: Integer
-  = sign [0-9]+ { sigdec $1 $2 }
+dinteger :: Atomic
+  = sign [0-9]+ { KInt (sigdec $1 $2) }
 
-hinteger :: Integer
-  = sign "0x" [0-9a-fA-F]+ { sighex $1 $2 }
+hinteger :: Atomic
+  = sign "0x" [0-9a-fA-F]+ { KInt (sighex $1 $2) }
 |]
 
 sighex = sigthing hexadecimal
