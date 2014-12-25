@@ -7,7 +7,8 @@ import Data.Maybe
 
 data Atomic   = KInt     Integer
               | KDec     Double
-              | KStr     Text
+              | KSSt     Text
+              | KQSt     [Either [Code] Text]
               | KSym     Text     deriving (Show, Eq)
 
 data Row      = Row [Label] deriving (Show, Eq)

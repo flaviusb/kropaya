@@ -10,7 +10,7 @@ import Data.Maybe
 import KropayaTypes
 
 [peggy|
-code :: [Code] = (txt { KR0Type $ KAtomic $1 } / number { KR0Type $ KAtomic $1 } / nl) nl? !. { $1 : (maybeToList $2) }
+code :: [Code] = (txt { KR0Type $ KAtomic $1 } / number { KR0Type $ KAtomic $1 } / nl) nl? { $1 : (maybeToList $2) }
 
 sstring_escapes :: Char
   = ('\\' 'n'  { '\n' })
@@ -18,14 +18,27 @@ sstring_escapes :: Char
   / ('\\' ']'  { ']'  })
   / ('\\' '\\' { '\\' })
 
+qstring_escapes :: Char
+  = ('\\' 'n'  { '\n' })
+  / ('\\' 'r'  { '\r' })
+  / ('\\' '\"' { '"'  })
+  / ('\\' '#'  { '#'  })
+  / ('\\' '\\' { '\\' })
+
 txt :: Atomic
-  = sstring
+  = sstring / qstring
 
 nl :: Code
   = ('\n' '\r' / '\n' / '.') { NL }
 
 sstring :: Atomic
-  = '#' '[' ([^\]\\] / sstring_escapes)* ']' { KStr $ pack $1 }
+  = '#' '[' ([^\]\\] / sstring_escapes)* ']' { KSSt $ pack $1 }
+
+qstring :: Atomic
+  = ('\"' (
+      ('#' '{' code? '}' { maybe (Right $ pack "") (\x -> Left x) $1 }) /
+      ((qstring_escapes / [^#\"\\])+ { Right $ pack $1 })
+    )* '\"') { KQSt $1 } --"
 
 number :: Atomic
   = kdecimal
