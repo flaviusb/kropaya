@@ -1,5 +1,5 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes, FlexibleContexts #-}
-module KropayaReader(top, number) where
+module KropayaReader(code, number) where
 
 import Text.Peggy
 import Numeric
@@ -10,7 +10,7 @@ import Data.Maybe
 import KropayaTypes
 
 [peggy|
-top :: Atomic = txt / number !.
+code :: [Code] = (txt { KR0Type $ KAtomic $1 } / number { KR0Type $ KAtomic $1 } / nl) nl? !. { $1 : (maybeToList $2) }
 
 sstring_escapes :: Char
   = ('\\' 'n'  { '\n' })
@@ -20,6 +20,9 @@ sstring_escapes :: Char
 
 txt :: Atomic
   = sstring
+
+nl :: Code
+  = ('\n' '\r' / '\n' / '.') { NL }
 
 sstring :: Atomic
   = '#' '[' ([^\]\\] / sstring_escapes)* ']' { KStr $ pack $1 }
@@ -33,7 +36,7 @@ sign :: Maybe Char
   = [-+]?
 
 kdecimal :: Atomic
-  = sign [0-9]+ "." [0-9]+ { KDec (sigrat $1 ($2 ++ "." ++ $3)) }
+  = sign [0-9]+ '.' [0-9]+ { KDec (sigrat $1 ($2 ++ "." ++ $3)) }
 
 dinteger :: Atomic
   = sign [0-9]+ { KInt (sigdec $1 $2) }

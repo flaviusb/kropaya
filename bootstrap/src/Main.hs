@@ -13,4 +13,4 @@ import KropayaReader
 
 main :: IO ()
 main =
-  print . parseString top "" =<< getContents
+  print . parseString code "" =<< getContents

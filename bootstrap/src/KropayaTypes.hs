@@ -21,7 +21,8 @@ data TRow     = KProduct Product
 
 data Lambda   = Lambda Arglist Code deriving (Show, Eq)
 data Arglist  = Arglist [Text] deriving (Show, Eq)
-data Code     = R0Type deriving (Show, Eq)
+data Code     = KR0Type R0Type
+              | NL             deriving (Show, Eq)
 
 data R0Type   = KAtomic  Atomic
               | KRow     TRow
