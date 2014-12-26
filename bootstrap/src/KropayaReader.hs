@@ -12,6 +12,11 @@ import KropayaTypes
 [peggy|
 code :: [Code] = (txt { KR0Type $ KAtomic $1 } / number { KR0Type $ KAtomic $1 } / nl) nl? { $1 : (maybeToList $2) }
 
+identifier :: Text
+  = ([_+]+[_+:]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_:$!?%=<>-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
+  [~!@$%^&*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+<>-]+ [:~!@$%^&*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+<>-]* { pack $ $1 ++ $2 } /
+  '[' ']' { pack "[]" } / '{' '}' { pack "\123\125" } / '…' { pack "…" }
+
 sstring_escapes :: Char
   = ('\\' 'n'  { '\n' })
   / ('\\' 'r'  { '\r' })
