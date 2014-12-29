@@ -10,7 +10,7 @@ Does this even make sense? I am not yet sure.
 Is it any good?
 ---------------
 
-At the moment, no. There is no running code at all.
+At the moment, no. There is little running code, and basically no documentation.
 
 Project Organisation
 --------------------
