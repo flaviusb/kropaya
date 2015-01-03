@@ -1,7 +1,11 @@
 Atomic
 Lambda
-Row/Tagged: Product or Sum
+Row: Product or Sum - represent tagged constructors as nested rows ie a sum of products
+Label/selector/etc -> pinned or polymorphic or literal
+Predicates: Lacks, Row equality
+Operations: Row extension, Row restriction
 Binding
+Defining form
 
 ---
 
