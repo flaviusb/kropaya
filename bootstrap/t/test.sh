@@ -36,3 +36,11 @@ function to_todo() {
 function to_skip() {
   pragma="# SKIP $1"
 }
+
+expect_eq() {
+  if [ "$1" = "$2" ]; then
+    ok
+  else
+    not_ok
+  fi
+}
