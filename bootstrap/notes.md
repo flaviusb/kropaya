@@ -9,6 +9,16 @@ Defining form
 
 ---
 
+Note:
+
+&foo = literal foo label
+
+
+case :: <x::y |z> → {x::(y→a) |z} → a
+case it pattern = (pattern∘x) (it∘x)
+
+---
+
 Atomic Type
 Dependent Row: Product or Sum
 Dependent Lambda
