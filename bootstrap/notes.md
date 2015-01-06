@@ -13,8 +13,16 @@ Note:
 
 &foo = literal foo label
 
+∀ gives polymorphism as such.
+∃ gives parametrisation ie functors/modules.
+λ gives free variables as such.
+Everything that is not quantified is assumed to be a bound variable as such.
 
-case :: <x::y |z> → {x::(y→a) |z} → a
+{} are products, and can be used to declare type or data
+<> are sums, and can be used to declare type or data
+⦇⦈ are rows which could be products or sums, and can be used only to declare type in constraints
+
+case :: ∀ x y z a. <x::y |z> → {x::(y→a) |z} → a.
 case it pattern = (pattern∘x) (it∘x)
 
 ---
