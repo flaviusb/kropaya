@@ -25,6 +25,20 @@ Everything that is not quantified is assumed to be a bound variable as such.
 case :: ∀ x y z a. <x::y |z> → {x::(y→a) |z} → a.
 case it pattern = (pattern∘x) (it∘x)
 
+use:
+
+List = ∃ t. <&nil::&nil, &cons::{&car::t, &cdr::List t}>
+
+listtostr :: ∀ t. t∈Showable. List t → String
+listtostr lst = "(" +
+  case lst {
+    &nil   ⇒ "",
+    &cons  ⇒ \x → (show $ x∘car) + (listtostr $ x∘cdr)
+  } + ")".
+
+processnode :: ∃ a. ∀ x y z. {x::(y→a) |z} → <x::y |z> → a.
+processnode pattern it = (pattern∘x) (it∘x)
+
 ---
 
 Atomic Type
