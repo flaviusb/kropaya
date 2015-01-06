@@ -20,7 +20,7 @@ Everything that is not quantified is assumed to be a bound variable as such.
 
 {} are products, and can be used to declare type or data
 <> are sums, and can be used to declare type or data
-⦇⦈ are rows which could be products or sums, and can be used only to declare type in constraints
+⦇⦈ are rows which could be products or sums, and can be used only to declare type
 
 case :: ∀ x y z a. <x::y |z> → {x::(y→a) |z} → a.
 case it pattern = (pattern∘x) (it∘x)
@@ -47,7 +47,7 @@ Dependent Lambda
 
 ---
 
-Atomic -> Repr, ops
+Atomic -> Thing with an Edge backing onto... something. The Edge defines the primops. Import the Edge to get access to the values that hold those primops.
 
 ---
 
