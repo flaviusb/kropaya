@@ -15,13 +15,13 @@ ws :: [Char]
   = ' '+ { "" }
 
 existential_block :: QuantifierBlock
-  = '∃' (identifier ws { Variable $1 })+ '.' { ExistentialBlock $1 }
+  = '∃' ws (identifier ws { Variable $1 })+ '.' { ExistentialBlock $2 }
 
 universal_block :: QuantifierBlock
-  = '∀' (identifier ws { Variable $1 })+ '.' { UniversalBlock $1 }
+  = '∀' ws (identifier ws { Variable $1 })+ '.' { UniversalBlock $2 }
 
 lambda_block :: QuantifierBlock
-  = 'λ' (identifier ws { Variable $1 })+ '.' { LambdaBlock $1 }
+  = 'λ' ws (identifier ws { Variable $1 })+ '.' { LambdaBlock $2 }
 
 quantifier_blocks :: [QuantifierBlock]
   = (existential_block / universal_block / lambda_block)*
