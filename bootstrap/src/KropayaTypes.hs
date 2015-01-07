@@ -1,9 +1,18 @@
-module KropayaTypes(Atomic(..), Row(..), Label(..), Predicate(..), RowOp(..), TRow(..), Lambda(..), Arglist(..), Code(..), R0Type(..)) where
+module KropayaTypes(Atomic(..), Row(..), Label(..), Predicate(..), RowOp(..), TRow(..), Lambda(..), Arglist(..), Code(..), R0Type(..), Variable(..), QuantifierBlock(..)) where
 
 import Numeric
 import Data.Text
 import Data.Text.Read
 import Data.Maybe
+
+-- 'Untyped' first AST
+
+data Variable  = Variable Text deriving (Show, Eq)
+data QuantifierBlock = UniversalBlock [Variable]
+                     | ExistentialBlock [Variable]
+                     | LambdaBlock [Variable] deriving (Eq, Show)
+
+--- 'Typed' Second AST
 
 data Atomic    = KInt     Integer
                | KDec     Double

@@ -10,6 +10,22 @@ import Data.Maybe
 import KropayaTypes
 
 [peggy|
+
+ws :: [Char]
+  = ' '+ { "" }
+
+existential_block :: QuantifierBlock
+  = '∃' (identifier ws { Variable $1 })+ '.' { ExistentialBlock $1 }
+
+universal_block :: QuantifierBlock
+  = '∀' (identifier ws { Variable $1 })+ '.' { UniversalBlock $1 }
+
+lambda_block :: QuantifierBlock
+  = 'λ' (identifier ws { Variable $1 })+ '.' { LambdaBlock $1 }
+
+quantifier_blocks :: [QuantifierBlock]
+  = (existential_block / universal_block / lambda_block)*
+
 code :: [Code] = (txt { KR0Type $ KAtomic $1 } / number { KR0Type $ KAtomic $1 } / nl) nl? { $1 : (maybeToList $2) }
 
 identifier :: Text
