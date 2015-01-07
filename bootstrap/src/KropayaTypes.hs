@@ -12,6 +12,44 @@ data QuantifierBlock = UniversalBlock [Variable]
                      | ExistentialBlock [Variable]
                      | LambdaBlock [Variable] deriving (Eq, Show)
 
+data LabelBit = LabelLit Text
+              | LabelVar Variable deriving (Show, Eq)
+data LabelSectionType  = LabelSectionType LabelBit Expression deriving (Show, Eq)
+data LabelSectionValue = LabelSectionValue LabelBit Expression deriving (Show, Eq)
+data RowType = RowType [LabelSectionType] deriving (Show, Eq)
+data ProductType = ProductType [LabelSectionType] deriving (Show, Eq)
+data SumType = SumType [LabelSectionType] deriving (Show, Eq)
+data ProductValue = ProductValue [LabelSectionValue] deriving (Show, Eq)
+data SumValue = SumValue [LabelSectionValue] deriving (Show, Eq)
+data LambdaType = LambdaType [Expression] deriving (Show, Eq)
+data LambdaValue = LambdaValue [Statement] deriving (Show, Eq)
+data AtomicType = IntType | DecimalType | TextType | BinaryType | SymbolType deriving (Show, Eq)
+data AtomicValue = IntValue Integer
+                 | DecimalValue Double
+                 | TextValue Text
+                 | InterpolatedTextValue [Either [Statement] Text]
+                 | BinaryValue [Byte]
+                 | SymbolValue Text deriving (Show, Eq)
+
+data CodeType = CTLabelBit    LabelBit
+              | CTRowType     RowType
+              | CTProductType ProductType
+              | CTSumType     SumType
+              | CTLambdaType  LambdaType
+              | CTAtomicType  AtomicType deriving (Show, Eq)
+
+data CodeValue = CVLabelBit     LabelBit
+               | CVProductValue ProductValue
+               | CVSumValue     SumValue
+               | CVLambdaValue  LambdaValue
+               | CVAtomicValue  AtomicValue deriving (Show, Eq)
+
+
+data Expression = [QuantifierBlock] 
+data Statement = JustExpression Expression
+               | Binding Variable Expression
+               | Typing  Variable Expression deriving (Show, Eq)
+
 --- 'Typed' Second AST
 
 data Atomic    = KInt     Integer

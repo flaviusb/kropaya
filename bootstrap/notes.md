@@ -23,7 +23,7 @@ Everything that is not quantified is assumed to be a bound variable as such.
 ⦇⦈ are rows which could be products or sums, and can be used only to declare type
 
 case :: ∀ x y z a. <x::y |z> → {x::(y→a) |z} → a.
-case it pattern = (pattern∘x) (it∘x)
+case it pattern = (pattern x) (it x)
 
 quantifier-block == ('∀'|'∃'|'λ') identifier+ '.'
 type == quantifier-block\* (row-type|product-type|sum-type|lambda-type|atomic-type|identifier) '.'
@@ -38,7 +38,7 @@ listtostr :: ∀ t. List t → String
 listtostr lst = "(" +
   case lst {
     &nil   ⇒ \_ → "",
-    &cons  ⇒ \x → (show $ x∘car) + (listtostr $ x∘cdr)
+    &cons  ⇒ \x → (show $ x &car) + (listtostr $ x &cdr)
   } + ")".
 
 processnode :: ∃ a. ∀ x y z. {x::(y→a) |z} → <x::y |z> → a.
