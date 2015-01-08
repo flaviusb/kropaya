@@ -29,7 +29,10 @@ quantifier_blocks :: [QuantifierBlock]
 code :: [Statement] = ((code_value { JustExpression $ Expression [] $ Right $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
 
 code_value :: CodeValue
- = atomic_value { CVAtomicValue $1 } / label_lit {CVLabelLit $1}
+ = atomic_value { CVAtomicValue $1 } / label_lit {CVLabelLit $1} / variable { CVVariable $1 }
+
+variable :: Variable
+ = identifier { Variable $1 }
 
 atomic_value :: AtomicValue
   = (txt / number)
