@@ -19,7 +19,8 @@ cabal-version:       >=1.10
 library
   build-depends:       base >=4.0 && <5.0,
                        peggy,
-                       text
+                       text,
+                       bytestring
   hs-source-dirs:      src
   exposed-modules:     KropayaTypes, KropayaReader
   default-language:    Haskell2010
@@ -32,6 +33,7 @@ executable kropaya-bootstrap
   build-depends:       base >=4.0 && <5.0,
                        peggy,
                        text,
+                       bytestring,
                        kropaya-bootstrap
   hs-source-dirs:      stubs/compiler
   default-language:    Haskell2010
@@ -43,6 +45,7 @@ executable kropaya-bootstrap-raw-parser
   build-depends:       base >=4.0 && <5.0,
                        peggy,
                        text,
+                       bytestring,
                        kropaya-bootstrap
   hs-source-dirs:      stubs/parser
   default-language:    Haskell2010

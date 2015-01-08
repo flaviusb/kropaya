@@ -4,6 +4,7 @@ import Numeric
 import Data.Text
 import Data.Text.Read
 import Data.Maybe
+import qualified Data.ByteString as BS
 
 -- 'Untyped' first AST
 
@@ -28,7 +29,7 @@ data AtomicValue = IntValue Integer
                  | DecimalValue Double
                  | TextValue Text
                  | InterpolatedTextValue [Either [Statement] Text]
-                 | BinaryValue [Byte]
+                 | BinaryValue BS.ByteString
                  | SymbolValue Text deriving (Show, Eq)
 
 data CodeType = CTLabelBit    LabelBit
@@ -45,7 +46,7 @@ data CodeValue = CVLabelBit     LabelBit
                | CVAtomicValue  AtomicValue deriving (Show, Eq)
 
 
-data Expression = [QuantifierBlock] 
+data Expression = Expression [QuantifierBlock] (Either CodeType CodeValue) deriving (Show, Eq)
 data Statement = JustExpression Expression
                | Binding Variable Expression
                | Typing  Variable Expression deriving (Show, Eq)
