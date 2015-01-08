@@ -2,7 +2,7 @@
 
 . $(dirname $0)/test.sh
 
-plan 5
+plan 10
 
 name "Parse an int"
 first=`echo "3" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
@@ -27,4 +27,29 @@ expect_eq "$first" "$first_expect"
 name "Parse a variable"
 first=`echo zog | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
 first_expect="Right [JustExpression (Expression [] (Right (CVVariable (Variable \"zog\"))))]"
+expect_eq "$first" "$first_expect"
+
+name "Parse Integer type"
+first=`echo Integer | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect="Right [JustExpression (Expression [] (Left (CTAtomicType IntType)))]"
+expect_eq "$first" "$first_expect"
+
+name "Parse Decimal type"
+first=`echo Decimal | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect="Right [JustExpression (Expression [] (Left (CTAtomicType DecimalType)))]"
+expect_eq "$first" "$first_expect"
+
+name "Parse Text type"
+first=`echo Text | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect="Right [JustExpression (Expression [] (Left (CTAtomicType TextType)))]"
+expect_eq "$first" "$first_expect"
+
+name "Parse Binary type"
+first=`echo Binary | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect="Right [JustExpression (Expression [] (Left (CTAtomicType BinaryType)))]"
+expect_eq "$first" "$first_expect"
+
+name "Parse Symbol type"
+first=`echo Symbol | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect="Right [JustExpression (Expression [] (Left (CTAtomicType SymbolType)))]"
 expect_eq "$first" "$first_expect"

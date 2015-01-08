@@ -23,10 +23,21 @@ universal_block :: QuantifierBlock
 lambda_block :: QuantifierBlock
   = 'λ' ws (identifier ws { Variable $1 })+ '.' { LambdaBlock $2 }
 
-quantifier_blocks :: [QuantifierBlock]
-  = (existential_block / universal_block / lambda_block)*
+quantifier_block :: QuantifierBlock
+  = (existential_block / universal_block / lambda_block)
 
-code :: [Statement] = ((code_value { JustExpression $ Expression [] $ Right $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
+code :: [Statement] = ((expression { JustExpression $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
+
+expression :: Expression
+ = quantifier_block* (code_type { Left $1 } / code_value { Right $1 }) { Expression $1 $2 }
+
+code_type :: CodeType
+ = atomic_type { CTAtomicType $1 }
+
+atomic_type :: AtomicType
+ = (('I' 'n' 't' 'e' 'g' 'e' 'r' { IntType }) / ('D' 'e' 'c' 'i' 'm' 'a' 'l' { DecimalType })
+ / ('T' 'e' 'x' 't' { TextType }) / ('B' 'i' 'n' 'a' 'r' 'y' { BinaryType })
+ / ('S' 'y' 'm' 'b' 'o' 'l' { SymbolType }))
 
 code_value :: CodeValue
  = atomic_value { CVAtomicValue $1 } / label_lit {CVLabelLit $1} / variable { CVVariable $1 }
@@ -39,6 +50,15 @@ atomic_value :: AtomicValue
 
 label_lit :: LabelLit
   = '&' identifier { LabelLit $1 }
+
+label_bit :: LabelBit
+ = label_lit { LabelLitBit $1 } / variable { LabelVarBit $1 }
+
+label_section_type :: LabelSectionType
+ = label_bit ':' ':' expression { LabelSectionType $1 $2 }
+
+label_section_value :: LabelSectionType
+ = label_bit '⇒' expression { LabelSectionType $1 $2 }
 
 identifier :: Text
   = ([_+]+[_+:]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_:$!?%=-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
