@@ -41,7 +41,8 @@ atomic_type :: AtomicType
  / ('S' 'y' 'm' 'b' 'o' 'l' { SymbolType }))
 
 code_value :: CodeValue
- = atomic_value { CVAtomicValue $1 } / label_lit {CVLabelLit $1} / variable { CVVariable $1 }
+ = atomic_value { CVAtomicValue $1 } / label_lit { CVLabelLit $1 } / variable { CVVariable $1 }
+ / product_value { CVProductValue $1 } / sum_value { CVSumValue $1 }
 
 variable :: Variable
  = identifier { Variable $1 }
@@ -69,6 +70,12 @@ product_type :: ProductType
 
 sum_type :: SumType
  = '<' ws? label_section_type* ws? '>' { SumType $2 }
+
+product_value :: ProductValue
+ = '{' ws? label_section_value* ws? '}' { ProductValue $2 }
+
+sum_value :: SumValue
+ = '<' ws? label_section_value* ws? '>' { SumValue $2 }
 
 identifier :: Text
   = ([_+]+[_+]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_$!?%=-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /

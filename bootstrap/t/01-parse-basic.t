@@ -2,7 +2,7 @@
 
 . $(dirname $0)/test.sh
 
-plan 16
+plan 18
 
 name "Parse an int"
 first=`echo "3" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
@@ -82,4 +82,14 @@ expect_eq "$first" "$first_expect"
 name "Parse simple sum type with whitespace"
 first=`echo "< &foo :: Integer >" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
 first_expect="Right [JustExpression (Expression [] (Left (CTSumType (SumType [LabelSectionType (LabelLitBit (LabelLit \"foo\")) (Expression [] (Left (CTAtomicType IntType)))]))))]"
+expect_eq "$first" "$first_expect"
+
+name "Parse simple product value"
+first=`echo "{&three ⇒ 3}" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect="Right [JustExpression (Expression [] (Right (CVProductValue (ProductValue [LabelSectionValue (LabelLitBit (LabelLit \"three\")) (Expression [] (Right (CVAtomicValue (IntValue 3))))]))))]"
+expect_eq "$first" "$first_expect"
+
+name "Parse simple sum value"
+first=`echo "<&three ⇒ 3>" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect="Right [JustExpression (Expression [] (Right (CVSumValue (SumValue [LabelSectionValue (LabelLitBit (LabelLit \"three\")) (Expression [] (Right (CVAtomicValue (IntValue 3))))]))))]"
 expect_eq "$first" "$first_expect"
