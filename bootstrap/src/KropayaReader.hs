@@ -26,7 +26,7 @@ lambda_block :: QuantifierBlock
 quantifier_blocks :: [QuantifierBlock]
   = (existential_block / universal_block / lambda_block)*
 
-code :: [Code] = (txt { KR0Type $ KAtomic $1 } / number { KR0Type $ KAtomic $1 } / nl) nl? { $1 : (maybeToList $2) }
+code :: [Statement] = ((txt { JustExpression $ Expression [] $ Right $ CVAtomicValue $1 } / number { JustExpression $ Expression [] $ Right $ CVAtomicValue $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
 
 identifier :: Text
   = ([_+]+[_+:]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_:$!?%=<>-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
@@ -46,22 +46,22 @@ qstring_escapes :: Char
   / ('\\' '#'  { '#'  })
   / ('\\' '\\' { '\\' })
 
-txt :: Atomic
+txt :: AtomicValue
   = sstring / qstring
 
-nl :: Code
-  = ('\n' '\r' / '\n' / '.') { NL }
+nl :: String
+  = ('\n' '\r' / '\n' / '.') { "" }
 
-sstring :: Atomic
-  = '#' '[' ([^\]\\] / sstring_escapes)* ']' { KSSt $ pack $1 }
+sstring :: AtomicValue
+  = '#' '[' ([^\]\\] / sstring_escapes)* ']' { TextValue $ pack $1 }
 
-qstring :: Atomic
+qstring :: AtomicValue
   = ('\"' (
       ('#' '{' code? '}' { maybe (Right $ pack "") (\x -> Left x) $1 }) /
       ((qstring_escapes / [^#\"\\])+ { Right $ pack $1 })
-    )* '\"') { KQSt $1 } --"
+    )* '\"') { InterpolatedTextValue $1 } --"
 
-number :: Atomic
+number :: AtomicValue
   = kdecimal
   / hinteger
   / dinteger
@@ -69,14 +69,14 @@ number :: Atomic
 sign :: Maybe Char
   = [-+]?
 
-kdecimal :: Atomic
-  = sign [0-9]+ '.' [0-9]+ { KDec (sigrat $1 ($2 ++ "." ++ $3)) }
+kdecimal :: AtomicValue
+  = sign [0-9]+ '.' [0-9]+ { DecimalValue (sigrat $1 ($2 ++ "." ++ $3)) }
 
-dinteger :: Atomic
-  = sign [0-9]+ { KInt (sigdec $1 $2) }
+dinteger :: AtomicValue
+  = sign [0-9]+ { IntValue (sigdec $1 $2) }
 
-hinteger :: Atomic
-  = sign '0' 'x' [0-9a-fA-F]+ { KInt (sighex $1 $2) }
+hinteger :: AtomicValue
+  = sign '0' 'x' [0-9a-fA-F]+ { IntValue (sighex $1 $2) }
 |]
 
 sighex = sigthing hexadecimal
