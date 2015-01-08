@@ -26,7 +26,13 @@ lambda_block :: QuantifierBlock
 quantifier_blocks :: [QuantifierBlock]
   = (existential_block / universal_block / lambda_block)*
 
-code :: [Statement] = ((txt { JustExpression $ Expression [] $ Right $ CVAtomicValue $1 } / number { JustExpression $ Expression [] $ Right $ CVAtomicValue $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
+code :: [Statement] = ((code_value { JustExpression $ Expression [] $ Right $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
+
+code_value :: CodeValue
+ = atomic_value { CVAtomicValue $1 }
+
+atomic_value :: AtomicValue
+  = (txt / number)
 
 identifier :: Text
   = ([_+]+[_+:]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_:$!?%=<>-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
