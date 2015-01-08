@@ -2,7 +2,7 @@
 
 . $(dirname $0)/test.sh
 
-plan 18
+plan 20
 
 name "Parse an int"
 first=`echo "3" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
@@ -69,6 +69,11 @@ first=`echo "{&foo::Integer}" | ../dist/build/kropaya-bootstrap-raw-parser/kropa
 first_expect="Right [JustExpression (Expression [] (Left (CTProductType (ProductType [LabelSectionType (LabelLitBit (LabelLit \"foo\")) (Expression [] (Left (CTAtomicType IntType)))]))))]"
 expect_eq "$first" "$first_expect"
 
+name "Parse simple plural product type"
+first=`echo "{&foo::Integer, &bar::Integer,&baz :: Text ,quuz:: Decimal}" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect="Right [JustExpression (Expression [] (Left (CTProductType (ProductType [LabelSectionType (LabelLitBit (LabelLit \"foo\")) (Expression [] (Left (CTAtomicType IntType))),LabelSectionType (LabelLitBit (LabelLit \"bar\")) (Expression [] (Left (CTAtomicType IntType))),LabelSectionType (LabelLitBit (LabelLit \"baz\")) (Expression [] (Left (CTAtomicType TextType))),LabelSectionType (LabelVarBit (Variable \"quuz\")) (Expression [] (Left (CTAtomicType DecimalType)))]))))]"
+expect_eq "$first" "$first_expect"
+
 name "Parse simple product type with whitespace"
 first=`echo "{ &foo :: Integer }" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
 first_expect="Right [JustExpression (Expression [] (Left (CTProductType (ProductType [LabelSectionType (LabelLitBit (LabelLit \"foo\")) (Expression [] (Left (CTAtomicType IntType)))]))))]"
@@ -77,6 +82,11 @@ expect_eq "$first" "$first_expect"
 name "Parse simple sum type"
 first=`echo "<&foo::Integer>" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
 first_expect="Right [JustExpression (Expression [] (Left (CTSumType (SumType [LabelSectionType (LabelLitBit (LabelLit \"foo\")) (Expression [] (Left (CTAtomicType IntType)))]))))]"
+expect_eq "$first" "$first_expect"
+
+name "Parse simple plural sum type"
+first=`echo "<&foo::Integer, &bar::Integer,&baz :: Text ,quuz:: Decimal>" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect="Right [JustExpression (Expression [] (Left (CTSumType (SumType [LabelSectionType (LabelLitBit (LabelLit \"foo\")) (Expression [] (Left (CTAtomicType IntType))),LabelSectionType (LabelLitBit (LabelLit \"bar\")) (Expression [] (Left (CTAtomicType IntType))),LabelSectionType (LabelLitBit (LabelLit \"baz\")) (Expression [] (Left (CTAtomicType TextType))),LabelSectionType (LabelVarBit (Variable \"quuz\")) (Expression [] (Left (CTAtomicType DecimalType)))]))))]"
 expect_eq "$first" "$first_expect"
 
 name "Parse simple sum type with whitespace"
@@ -91,5 +101,5 @@ expect_eq "$first" "$first_expect"
 
 name "Parse simple sum value"
 first=`echo "<&three ⇒ 3>" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
-first_expect="Right [JustExpression (Expression [] (Right (CVSumValue (SumValue [LabelSectionValue (LabelLitBit (LabelLit \"three\")) (Expression [] (Right (CVAtomicValue (IntValue 3))))]))))]"
+first_expect="Right [JustExpression (Expression [] (Right (CVSumValue (SumValue (LabelSectionValue (LabelLitBit (LabelLit \"three\")) (Expression [] (Right (CVAtomicValue (IntValue 3)))))))))]"
 expect_eq "$first" "$first_expect"

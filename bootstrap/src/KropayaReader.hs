@@ -62,20 +62,26 @@ label_section_type :: LabelSectionType
 label_section_value :: LabelSectionValue
  = label_bit ws? '⇒' ws? expression { LabelSectionValue $1 $4 }
 
+label_section_type_list :: [LabelSectionType]
+ = label_section_type (ws? ',' ws? label_section_type { $3 })* { $1:$2 }
+
+label_section_value_list :: [LabelSectionValue]
+ = label_section_value (ws? ',' ws? label_section_value { $3 })* { $1:$2 }
+
 row_type :: RowType
  = '⦇' ws? label_section_type* ws? '⦈' { RowType $2 }
 
 product_type :: ProductType
- = '{' ws? label_section_type* ws? '}' { ProductType $2 }
+ = '{' ws? label_section_type_list ws? '}' { ProductType $2 }
 
 sum_type :: SumType
- = '<' ws? label_section_type* ws? '>' { SumType $2 }
+ = '<' ws? label_section_type_list ws? '>' { SumType $2 }
 
 product_value :: ProductValue
- = '{' ws? label_section_value* ws? '}' { ProductValue $2 }
+ = '{' ws? label_section_value_list ws? '}' { ProductValue $2 }
 
 sum_value :: SumValue
- = '<' ws? label_section_value* ws? '>' { SumValue $2 }
+ = '<' ws? label_section_value ws? '>' { SumValue $2 }
 
 identifier :: Text
   = ([_+]+[_+]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_$!?%=-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
