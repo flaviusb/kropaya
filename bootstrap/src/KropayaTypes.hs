@@ -1,4 +1,4 @@
-module KropayaTypes(Atomic(..), Row(..), Label(..), Predicate(..), RowOp(..), TRow(..), Lambda(..), Arglist(..), Code(..), R0Type(..), Variable(..), QuantifierBlock(..)) where
+module KropayaTypes(Atomic(..), Row(..), Label(..), Predicate(..), RowOp(..), TRow(..), Lambda(..), Arglist(..), Code(..), R0Type(..), Variable(..), QuantifierBlock(..), LabelBit(..), LabelSectionType(..), LabelSectionValue(..), RowType(..), ProductType(..), ProductValue(..), SumType(..), SumValue(..), LambdaType(..), LambdaValue(..), AtomicType(..), AtomicValue(..), CodeType(..), CodeValue(..), Expression(..), Statement(..), Program(..)) where
 
 import Numeric
 import Data.Text
@@ -50,6 +50,8 @@ data Expression = Expression [QuantifierBlock] (Either CodeType CodeValue) deriv
 data Statement = JustExpression Expression
                | Binding Variable Expression
                | Typing  Variable Expression deriving (Show, Eq)
+
+data Program = Program [Statement] deriving (Show, Eq)
 
 --- 'Typed' Second AST
 
