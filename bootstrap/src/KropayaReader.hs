@@ -32,7 +32,8 @@ expression :: Expression
  = quantifier_block* (code_type { Left $1 } / code_value { Right $1 }) { Expression $1 $2 }
 
 code_type :: CodeType
- = atomic_type { CTAtomicType $1 } / row_type { CTRowType $1 }
+ = atomic_type { CTAtomicType $1 } / row_type { CTRowType $1 } / product_type { CTProductType $1 }
+ / sum_type { CTSumType $1 }
 
 atomic_type :: AtomicType
  = (('I' 'n' 't' 'e' 'g' 'e' 'r' { IntType }) / ('D' 'e' 'c' 'i' 'm' 'a' 'l' { DecimalType })
@@ -62,6 +63,12 @@ label_section_value :: LabelSectionValue
 
 row_type :: RowType
  = '⦇' ws? label_section_type* ws? '⦈' { RowType $2 }
+
+product_type :: ProductType
+ = '{' ws? label_section_type* ws? '}' { ProductType $2 }
+
+sum_type :: SumType
+ = '<' ws? label_section_type* ws? '>' { SumType $2 }
 
 identifier :: Text
   = ([_+]+[_+]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_$!?%=-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
