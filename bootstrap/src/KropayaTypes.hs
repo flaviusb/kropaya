@@ -1,4 +1,4 @@
-module KropayaTypes(Atomic(..), Row(..), Label(..), Predicate(..), RowOp(..), TRow(..), Lambda(..), Arglist(..), Code(..), R0Type(..), Variable(..), QuantifierBlock(..), LabelBit(..), LabelSectionType(..), LabelSectionValue(..), RowType(..), ProductType(..), ProductValue(..), SumType(..), SumValue(..), LambdaType(..), LambdaValue(..), AtomicType(..), AtomicValue(..), CodeType(..), CodeValue(..), Expression(..), Statement(..), Program(..)) where
+module KropayaTypes(Atomic(..), Row(..), Label(..), Predicate(..), RowOp(..), TRow(..), Lambda(..), Arglist(..), Code(..), R0Type(..), Variable(..), QuantifierBlock(..), LabelLit(..), LabelBit(..), LabelSectionType(..), LabelSectionValue(..), RowType(..), ProductType(..), ProductValue(..), SumType(..), SumValue(..), LambdaType(..), LambdaValue(..), AtomicType(..), AtomicValue(..), CodeType(..), CodeValue(..), Expression(..), Statement(..), Program(..)) where
 
 import Numeric
 import Data.Text
@@ -13,8 +13,9 @@ data QuantifierBlock = UniversalBlock [Variable]
                      | ExistentialBlock [Variable]
                      | LambdaBlock [Variable] deriving (Eq, Show)
 
-data LabelBit = LabelLit Text
-              | LabelVar Variable deriving (Show, Eq)
+data LabelLit = LabelLit Text deriving (Show, Eq)
+data LabelBit = LabelLitBit LabelLit
+              | LabelVarBit Variable deriving (Show, Eq)
 data LabelSectionType  = LabelSectionType LabelBit Expression deriving (Show, Eq)
 data LabelSectionValue = LabelSectionValue LabelBit Expression deriving (Show, Eq)
 data RowType = RowType [LabelSectionType] deriving (Show, Eq)
@@ -32,14 +33,16 @@ data AtomicValue = IntValue Integer
                  | BinaryValue BS.ByteString
                  | SymbolValue Text deriving (Show, Eq)
 
-data CodeType = CTLabelBit    LabelBit
+data CodeType = CTLabelLit    LabelLit
+              | CTVariable    Variable
               | CTRowType     RowType
               | CTProductType ProductType
               | CTSumType     SumType
               | CTLambdaType  LambdaType
               | CTAtomicType  AtomicType deriving (Show, Eq)
 
-data CodeValue = CVLabelBit     LabelBit
+data CodeValue = CVLabelLit     LabelLit
+               | CVVariable     Variable
                | CVProductValue ProductValue
                | CVSumValue     SumValue
                | CVLambdaValue  LambdaValue

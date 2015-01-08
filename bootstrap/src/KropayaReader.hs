@@ -29,14 +29,17 @@ quantifier_blocks :: [QuantifierBlock]
 code :: [Statement] = ((code_value { JustExpression $ Expression [] $ Right $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
 
 code_value :: CodeValue
- = atomic_value { CVAtomicValue $1 }
+ = atomic_value { CVAtomicValue $1 } / label_lit {CVLabelLit $1}
 
 atomic_value :: AtomicValue
   = (txt / number)
 
+label_lit :: LabelLit
+  = '&' identifier { LabelLit $1 }
+
 identifier :: Text
-  = ([_+]+[_+:]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_:$!?%=<>-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
-  [~!@$%^&*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+<>-]+ [:~!@$%^&*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+<>-]* { pack $ $1 ++ $2 } /
+  = ([_+]+[_+:]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_:$!?%=-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
+  [!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□⊃∈+-]+ [:~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□⊃∈+-]* { pack $ $1 ++ $2 } /
   '[' ']' { pack "[]" } / '{' '}' { pack "\123\125" } / '…' { pack "…" }
 
 sstring_escapes :: Char
