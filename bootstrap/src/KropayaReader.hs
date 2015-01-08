@@ -32,7 +32,7 @@ expression :: Expression
  = quantifier_block* (code_type { Left $1 } / code_value { Right $1 }) { Expression $1 $2 }
 
 code_type :: CodeType
- = atomic_type { CTAtomicType $1 }
+ = atomic_type { CTAtomicType $1 } / row_type { CTRowType $1 }
 
 atomic_type :: AtomicType
  = (('I' 'n' 't' 'e' 'g' 'e' 'r' { IntType }) / ('D' 'e' 'c' 'i' 'm' 'a' 'l' { DecimalType })
@@ -55,14 +55,17 @@ label_bit :: LabelBit
  = label_lit { LabelLitBit $1 } / variable { LabelVarBit $1 }
 
 label_section_type :: LabelSectionType
- = label_bit ':' ':' expression { LabelSectionType $1 $2 }
+ = label_bit ws? ':' ':' ws? expression { LabelSectionType $1 $4 }
 
-label_section_value :: LabelSectionType
- = label_bit '⇒' expression { LabelSectionType $1 $2 }
+label_section_value :: LabelSectionValue
+ = label_bit ws? '⇒' ws? expression { LabelSectionValue $1 $4 }
+
+row_type :: RowType
+ = '⦇' ws? label_section_type* ws? '⦈' { RowType $2 }
 
 identifier :: Text
-  = ([_+]+[_+:]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_:$!?%=-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
-  [!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□⊃∈+-]+ [:~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□⊃∈+-]* { pack $ $1 ++ $2 } /
+  = ([_+]+[_+]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_$!?%=-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
+  [!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□⊃∈+-]+ [~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□⊃∈+-]* { pack $ $1 ++ $2 } /
   '[' ']' { pack "[]" } / '{' '}' { pack "\123\125" } / '…' { pack "…" }
 
 sstring_escapes :: Char
