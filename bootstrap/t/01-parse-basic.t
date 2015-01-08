@@ -2,7 +2,7 @@
 
 . $(dirname $0)/test.sh
 
-plan 20
+plan 21
 
 name "Parse an int"
 first=`echo "3" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
@@ -102,4 +102,9 @@ expect_eq "$first" "$first_expect"
 name "Parse simple sum value"
 first=`echo "<&three ⇒ 3>" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
 first_expect="Right [JustExpression (Expression [] (Right (CVSumValue (SumValue (LabelSectionValue (LabelLitBit (LabelLit \"three\")) (Expression [] (Right (CVAtomicValue (IntValue 3)))))))))]"
+expect_eq "$first" "$first_expect"
+
+name "Parse simple lambda type"
+first=`echo "<x::y> → {x::y→a} → a" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect='Right [JustExpression (Expression [] (Left (CTLambdaType (LambdaType [Expression [] (Left (CTSumType (SumType [LabelSectionType (LabelVarBit (Variable "x")) (Expression [] (Right (CVVariable (Variable "y"))))]))),Expression [] (Left (CTProductType (ProductType [LabelSectionType (LabelVarBit (Variable "x")) (Expression [] (Left (CTLambdaType (LambdaType [Expression [] (Right (CVVariable (Variable "y"))),Expression [] (Right (CVVariable (Variable "a")))]))))]))),Expression [] (Right (CVVariable (Variable "a")))]))))]'
 expect_eq "$first" "$first_expect"

@@ -31,18 +31,30 @@ code :: [Statement] = ((expression { JustExpression $1 }) { [$1] } / nl { [] }) 
 expression :: Expression
  = quantifier_block* (code_type { Left $1 } / code_value { Right $1 }) { Expression $1 $2 }
 
-code_type :: CodeType
+code_type_b :: CodeType
  = atomic_type { CTAtomicType $1 } / row_type { CTRowType $1 } / product_type { CTProductType $1 }
  / sum_type { CTSumType $1 }
+ 
+code_type :: CodeType
+ = lambda_type { CTLambdaType $1 } / code_type_b
+
+lambda_arg :: Expression
+ = (code_type_b { Left $1 } / code_value_b { Right $1 }) { Expression [] $1 }
+
+lambda_type :: LambdaType
+ = lambda_arg (ws? '→' ws? lambda_arg { $3 })+ { LambdaType ($1:$2) }
 
 atomic_type :: AtomicType
  = (('I' 'n' 't' 'e' 'g' 'e' 'r' { IntType }) / ('D' 'e' 'c' 'i' 'm' 'a' 'l' { DecimalType })
  / ('T' 'e' 'x' 't' { TextType }) / ('B' 'i' 'n' 'a' 'r' 'y' { BinaryType })
  / ('S' 'y' 'm' 'b' 'o' 'l' { SymbolType }))
 
-code_value :: CodeValue
+code_value_b :: CodeValue
  = atomic_value { CVAtomicValue $1 } / label_lit { CVLabelLit $1 } / variable { CVVariable $1 }
  / product_value { CVProductValue $1 } / sum_value { CVSumValue $1 }
+
+code_value :: CodeValue
+ = code_value_b
 
 variable :: Variable
  = identifier { Variable $1 }
