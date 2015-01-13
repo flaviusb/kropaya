@@ -2,7 +2,7 @@
 
 . $(dirname $0)/test.sh
 
-plan 24
+plan 25
 
 name "Parse an int"
 first=`echo "3" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
@@ -110,8 +110,13 @@ first_expect='Right [JustExpression (Expression [] (Left (CTLambdaType (LambdaTy
 expect_eq "$first" "$first_expect"
 
 name "Parse simple lambda value"
-first=`echo '\a::Integer b::Boolean⇒a' | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first=`echo '\a::Integer, b::Boolean⇒a' | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
 first_expect='Right [JustExpression (Expression [] (Right [CVLambdaValue (LambdaValue [Binding (Variable "a") (Expression [] (Left (CTAtomicType IntType))),Binding (Variable "b") (Expression [] (Left (CTAtomicType BooleanType)))] [JustExpression (Expression [] (Right [CVVariable (Variable "a")]))])]))]'
+expect_eq "$first" "$first_expect"
+
+name "Parse less simple lambda value"
+first=`echo '\a::list, b::Boolean, c::<&car::Integer> ⇒ if b c' | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect='Right [JustExpression (Expression [] (Right [CVLambdaValue (LambdaValue [Binding (Variable "a") (Expression [] (Right [CVVariable (Variable "list")])),Binding (Variable "b") (Expression [] (Left (CTAtomicType BooleanType))),Binding (Variable "c") (Expression [] (Left (CTSumType (SumType [LabelSectionType (LabelLitBit (LabelLit "car")) (Expression [] (Left (CTAtomicType IntType)))]))))] [JustExpression (Expression [] (Right [CVVariable (Variable "if"),CVVariable (Variable "b"),CVVariable (Variable "c")]))])]))]'
 expect_eq "$first" "$first_expect"
 
 #first=`echo '\a::Integer b::Boolean foobar::Text $$$::<&dollars::Integer, &cents::Integer> ⇒ case {&dollars::Integer ⇒ \\x::Integer ⇒ print "$#{x}", &cents::Integer ⇒ \\x::Integer ⇒ print "#{x} cents" }.' | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`

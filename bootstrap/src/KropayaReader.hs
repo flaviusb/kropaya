@@ -51,7 +51,7 @@ lambda_type :: LambdaType
  = lambda_arg (ws? '→' ws? lambda_arg { $3 })+ { LambdaType ($1:$2) }
 
 lambda_value :: LambdaValue
-  = ( ('\\' variable_with_type (ws variable_with_type { $2 })* { $1:$2 })? { fromMaybe [] $1 } ) ws? '⇒' ws? code { LambdaValue $1 $4 }
+  = ( ('\\' variable_with_type (ws? ',' ws? variable_with_type { $3 })* { $1:$2 })? { fromMaybe [] $1 } ) ws? '⇒' ws? code { LambdaValue $1 $4 }
 
 variable_with_type :: Binding
   = variable ws? ':' ':' ws? expression { Binding $1 $4 }
