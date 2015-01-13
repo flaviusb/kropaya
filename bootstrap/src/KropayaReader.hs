@@ -44,17 +44,23 @@ lambda_arg :: Expression
 lambda_type :: LambdaType
  = lambda_arg (ws? '→' ws? lambda_arg { $3 })+ { LambdaType ($1:$2) }
 
+lambda_value :: LambdaValue
+  = ( ('\\' variable_with_type (ws variable_with_type { $2 })* { $1:$2 })? { fromMaybe [] $1 } ) ws? '⇒' ws? code { LambdaValue $1 $4 }
+
+variable_with_type :: Binding
+  = variable ws? ':' ':' ws? expression { Binding $1 $4 }
+
 atomic_type :: AtomicType
  = (('I' 'n' 't' 'e' 'g' 'e' 'r' { IntType }) / ('D' 'e' 'c' 'i' 'm' 'a' 'l' { DecimalType })
  / ('T' 'e' 'x' 't' { TextType }) / ('B' 'i' 'n' 'a' 'r' 'y' { BinaryType })
- / ('S' 'y' 'm' 'b' 'o' 'l' { SymbolType }))
+ / ('S' 'y' 'm' 'b' 'o' 'l' { SymbolType }) / ('B' 'o' 'o' 'l' 'e' 'a' 'n' { BooleanType }))
 
 code_value_b :: CodeValue
  = atomic_value { CVAtomicValue $1 } / label_lit { CVLabelLit $1 } / variable { CVVariable $1 }
  / product_value { CVProductValue $1 } / sum_value { CVSumValue $1 }
 
 code_value :: CodeValue
- = code_value_b
+ = lambda_value { CVLambdaValue $1 } / code_value_b
 
 variable :: Variable
  = identifier { Variable $1 }
@@ -97,7 +103,7 @@ sum_value :: SumValue
 
 identifier :: Text
   = ([_+]+[_+]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_$!?%=-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
-  [!@$%^*_=\'`/?×÷≠←⇐⧺⧻§∘≢∨∪∩□⊃∈+-]+ [~!@$%^*_=\'`/?×÷≠←⇐⧺⧻§∘≢∨∪∩□⊃∈+-]* { pack $ $1 ++ $2 } /
+  [!@$%^*_=\'`/?×÷≠←⇐⧺⧻§∘≢∨∪∩□⊃∈$+-]+ [~!@$%^*_=\'`/?×÷≠←⇐⧺⧻§∘≢∨∪∩□⊃∈$+-]* { pack $ $1 ++ $2 } /
   '[' ']' { pack "[]" } / '{' '}' { pack "\123\125" } / '…' { pack "…" }
 
 sstring_escapes :: Char

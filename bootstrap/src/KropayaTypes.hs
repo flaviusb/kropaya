@@ -1,4 +1,4 @@
-module KropayaTypes(Atomic(..), Row(..), Label(..), Predicate(..), RowOp(..), TRow(..), Lambda(..), Arglist(..), Code(..), R0Type(..), Variable(..), QuantifierBlock(..), LabelLit(..), LabelBit(..), LabelSectionType(..), LabelSectionValue(..), RowType(..), ProductType(..), ProductValue(..), SumType(..), SumValue(..), LambdaType(..), LambdaValue(..), AtomicType(..), AtomicValue(..), CodeType(..), CodeValue(..), Expression(..), Statement(..), Program(..)) where
+module KropayaTypes(Atomic(..), Row(..), Label(..), Predicate(..), RowOp(..), TRow(..), Lambda(..), Arglist(..), Code(..), R0Type(..), Variable(..), QuantifierBlock(..), LabelLit(..), LabelBit(..), LabelSectionType(..), LabelSectionValue(..), RowType(..), ProductType(..), ProductValue(..), SumType(..), SumValue(..), LambdaType(..), LambdaValue(..), AtomicType(..), AtomicValue(..), CodeType(..), CodeValue(..), Expression(..), Binding(..), Statement(..), Program(..)) where
 
 import Numeric
 import Data.Text
@@ -24,14 +24,15 @@ data SumType = SumType [LabelSectionType] deriving (Show, Eq)
 data ProductValue = ProductValue [LabelSectionValue] deriving (Show, Eq)
 data SumValue = SumValue LabelSectionValue deriving (Show, Eq) -- Unlike product type and value, and sum type, a sum value can only have one labelsection
 data LambdaType = LambdaType [Expression] deriving (Show, Eq)
-data LambdaValue = LambdaValue [Statement] deriving (Show, Eq)
-data AtomicType = IntType | DecimalType | TextType | BinaryType | SymbolType deriving (Show, Eq)
+data LambdaValue = LambdaValue [Binding] [Statement] deriving (Show, Eq)
+data AtomicType = IntType | DecimalType | TextType | BinaryType | SymbolType | BooleanType deriving (Show, Eq)
 data AtomicValue = IntValue Integer
                  | DecimalValue Double
                  | TextValue Text
                  | InterpolatedTextValue [Either [Statement] Text]
                  | BinaryValue BS.ByteString
-                 | SymbolValue Text deriving (Show, Eq)
+                 | SymbolValue Text
+                 | BooleanValue Bool deriving (Show, Eq)
 
 data CodeType = CTLabelLit    LabelLit
               | CTVariable    Variable
@@ -50,8 +51,9 @@ data CodeValue = CVLabelLit     LabelLit
 
 
 data Expression = Expression [QuantifierBlock] (Either CodeType CodeValue) deriving (Show, Eq)
+data Binding   = Binding Variable Expression deriving (Show, Eq)
 data Statement = JustExpression Expression
-               | Binding Variable Expression
+               | JustBinding Binding
                | Typing  Variable Expression deriving (Show, Eq)
 
 data Program = Program [Statement] deriving (Show, Eq)
