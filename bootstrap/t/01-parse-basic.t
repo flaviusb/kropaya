@@ -2,7 +2,7 @@
 
 . $(dirname $0)/test.sh
 
-plan 22
+plan 23
 
 name "Parse an int"
 first=`echo "3" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
@@ -115,3 +115,8 @@ first_expect='Right [JustExpression (Expression [] (Right (CVLambdaValue (Lambda
 expect_eq "$first" "$first_expect"
 
 #first=`echo '\a::Integer b::Boolean foobar::Text $$$::<&dollars::Integer, &cents::Integer> ⇒ case {&dollars::Integer ⇒ \\x::Integer ⇒ print "$#{x}", &cents::Integer ⇒ \\x::Integer ⇒ print "#{x} cents" }.' | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+
+name "Parse brackets"
+first=`echo '("foo bar baz ) zog")' | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect='Right [JustExpression (Expression [] (Right (CVAtomicValue (InterpolatedTextValue [Right "foo bar baz ) zog"]))))]'
+expect_eq "$first" "$first_expect"

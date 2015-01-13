@@ -26,7 +26,10 @@ lambda_block :: QuantifierBlock
 quantifier_block :: QuantifierBlock
   = (existential_block / universal_block / lambda_block)
 
-code :: [Statement] = ((expression { JustExpression $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
+code :: [Statement] = (((bracketed_expression / expression) { JustExpression $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
+
+bracketed_expression :: Expression
+ = '(' ws? expression ws? ')' { $2 }
 
 expression :: Expression
  = quantifier_block* (code_type { Left $1 } / code_value { Right $1 }) { Expression $1 $2 }
