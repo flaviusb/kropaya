@@ -26,12 +26,15 @@ lambda_block :: QuantifierBlock
 quantifier_block :: QuantifierBlock
   = (existential_block / universal_block / lambda_block)
 
-code :: [Statement] = (((bracketed_expression / expression) { JustExpression $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
-
-bracketed_expression :: Expression
- = '(' ws? expression ws? ')' { $2 }
+code :: [Statement] = ((expression { JustExpression $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
 
 expression :: Expression
+ = bracketed_expression / prim_expression
+
+bracketed_expression :: Expression
+ = '(' ws? (bracketed_expression / prim_expression) ws? ')' { $2 }
+
+prim_expression :: Expression
  = quantifier_block* (code_type { Left $1 } / code_value { Right $1 }) { Expression $1 $2 }
 
 code_type_b :: CodeType
@@ -42,7 +45,7 @@ code_type :: CodeType
  = lambda_type { CTLambdaType $1 } / code_type_b
 
 lambda_arg :: Expression
- = (code_type_b { Left $1 } / code_value_b { Right $1 }) { Expression [] $1 }
+ = (code_type_b { Left $1 } / code_value_b { Right [$1] }) { Expression [] $1 }
 
 lambda_type :: LambdaType
  = lambda_arg (ws? '→' ws? lambda_arg { $3 })+ { LambdaType ($1:$2) }
@@ -62,8 +65,8 @@ code_value_b :: CodeValue
  = atomic_value { CVAtomicValue $1 } / label_lit { CVLabelLit $1 } / variable { CVVariable $1 }
  / product_value { CVProductValue $1 } / sum_value { CVSumValue $1 }
 
-code_value :: CodeValue
- = lambda_value { CVLambdaValue $1 } / code_value_b
+code_value :: [CodeValue]
+ = lambda_value { [CVLambdaValue $1] } / (code_value_b (ws code_value_b { $2 })* { $1:$2 })
 
 variable :: Variable
  = identifier { Variable $1 }
