@@ -62,11 +62,11 @@ atomic_type :: AtomicType
  / ('S' 'y' 'm' 'b' 'o' 'l' { SymbolType }) / ('B' 'o' 'o' 'l' 'e' 'a' 'n' { BooleanType }))
 
 code_value_b :: CodeValue
- = atomic_value { CVAtomicValue $1 } / label_lit { CVLabelLit $1 } / variable { CVVariable $1 }
+ = lambda_value { CVLambdaValue $1 } / atomic_value { CVAtomicValue $1 } / label_lit { CVLabelLit $1 } / variable { CVVariable $1 }
  / product_value { CVProductValue $1 } / sum_value { CVSumValue $1 }
 
 code_value :: [CodeValue]
- = lambda_value { [CVLambdaValue $1] } / (code_value_b (ws code_value_b { $2 })* { $1:$2 })
+ = (code_value_b (ws code_value_b { $2 })* { $1:$2 })
 
 variable :: Variable
  = identifier { Variable $1 }
