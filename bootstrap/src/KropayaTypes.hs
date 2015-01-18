@@ -47,10 +47,11 @@ data CodeValue = CVLabelLit     LabelLit
                | CVProductValue ProductValue
                | CVSumValue     SumValue
                | CVLambdaValue  LambdaValue
+               | CVJuxt         [CodeValue]
                | CVAtomicValue  AtomicValue deriving (Show, Eq)
 
 
-data Expression = Expression [QuantifierBlock] (Either CodeType [CodeValue]) deriving (Show, Eq)
+data Expression = Expression [QuantifierBlock] (Either CodeType CodeValue) deriving (Show, Eq)
 data Binding   = Binding Variable Expression deriving (Show, Eq)
 data Statement = JustExpression Expression
                | JustBinding Binding

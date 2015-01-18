@@ -26,10 +26,13 @@ lambda_block :: QuantifierBlock
 quantifier_block :: QuantifierBlock
   = (existential_block / universal_block / lambda_block)
 
-code :: [Statement] = ((expression { JustExpression $1 }) { [$1] } / nl { [] }) ws* nl? { $1 }
+code :: [Statement] = ((binding { JustBinding $1 } / expression { JustExpression $1 }) { [$1] }) ws* nl? { $1 }
+
+binding :: Binding
+ = variable ws? '=' ws? expression { Binding $1 $4 }
 
 expression :: Expression
- = bracketed_expression / prim_expression
+ = prim_expression
 
 bracketed_expression :: Expression
  = '(' ws? (bracketed_expression / prim_expression) ws? ')' { $2 }
@@ -45,7 +48,7 @@ code_type :: CodeType
  = lambda_type { CTLambdaType $1 } / code_type_b
 
 lambda_arg :: Expression
- = (code_type_b { Left $1 } / code_value_b { Right [$1] }) { Expression [] $1 }
+ = (code_type_b { Left $1 } / code_value_b { Right $1 }) { Expression [] $1 }
 
 lambda_type :: LambdaType
  = lambda_arg (ws? '→' ws? lambda_arg { $3 })+ { LambdaType ($1:$2) }
@@ -62,11 +65,26 @@ atomic_type :: AtomicType
  / ('S' 'y' 'm' 'b' 'o' 'l' { SymbolType }) / ('B' 'o' 'o' 'l' 'e' 'a' 'n' { BooleanType }))
 
 code_value_b :: CodeValue
+ = maybe_juxt
+
+pre_code_value_b :: CodeValue
  = lambda_value { CVLambdaValue $1 } / atomic_value { CVAtomicValue $1 } / label_lit { CVLabelLit $1 } / variable { CVVariable $1 }
  / product_value { CVProductValue $1 } / sum_value { CVSumValue $1 }
 
-code_value :: [CodeValue]
- = (code_value_b (ws code_value_b { $2 })* { $1:$2 })
+bracket :: CodeValue
+ = '(' ws? (juxt / bracket / pre_code_value_b) ws? ')' { $2 }
+
+maybe_bracket :: CodeValue
+ = pre_code_value_b / bracket
+
+juxt :: CodeValue
+ = maybe_bracket (ws maybe_bracket { $2 })+ {CVJuxt ($1:$2)}
+
+maybe_juxt :: CodeValue
+ = juxt / maybe_bracket
+
+code_value :: CodeValue
+ = code_value_b
 
 variable :: Variable
  = identifier { Variable $1 }
@@ -109,7 +127,7 @@ sum_value :: SumValue
 
 identifier :: Text
   = ([_+]+[_+]* { $1 ++ $2})? [a-zA-Z] [a-zA-Z0-9_$!?%=-]* { pack ((fromMaybe "" $1) ++ ($2:$3)) } /
-  [!@$%^*_=\'`/?×÷≠←⇐⧺⧻§∘≢∨∪∩□⊃∈$+-]+ [~!@$%^*_=\'`/?×÷≠←⇐⧺⧻§∘≢∨∪∩□⊃∈$+-]* { pack $ $1 ++ $2 } /
+  [!@$%^*_\'`/?×÷≠←⇐⧺⧻§∘≢∨∪∩□⊃∈$+-]+ [~!@$%^*_=\'`/?×÷≠←⇐⧺⧻§∘≢∨∪∩□⊃∈$+-]* { pack $ $1 ++ $2 } /
   '[' ']' { pack "[]" } / '{' '}' { pack "\123\125" } / '…' { pack "…" }
 
 sstring_escapes :: Char
