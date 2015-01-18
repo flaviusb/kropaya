@@ -14,14 +14,17 @@ import KropayaTypes
 ws :: [Char]
   = ' '+ { "" }
 
+block_vars :: [Variable]
+ = ws? (variable (ws variable { $2 })* { $1:$2 }) ws? '.' ws? { $2 }
+
 existential_block :: QuantifierBlock
-  = '∃' ws (identifier ws { Variable $1 })+ '.' { ExistentialBlock $2 }
+  = '∃' block_vars { ExistentialBlock $1 }
 
 universal_block :: QuantifierBlock
-  = '∀' ws (identifier ws { Variable $1 })+ '.' { UniversalBlock $2 }
+  = '∀' block_vars { UniversalBlock $1 }
 
 lambda_block :: QuantifierBlock
-  = 'λ' ws (identifier ws { Variable $1 })+ '.' { LambdaBlock $2 }
+  = 'λ' block_vars { LambdaBlock $1 }
 
 quantifier_block :: QuantifierBlock
   = (existential_block / universal_block / lambda_block)

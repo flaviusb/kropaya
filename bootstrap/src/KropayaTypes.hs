@@ -53,9 +53,11 @@ data CodeValue = CVLabelLit     LabelLit
 
 data Expression = Expression [QuantifierBlock] (Either CodeType CodeValue) deriving (Show, Eq)
 data Binding   = Binding Variable Expression deriving (Show, Eq)
+data Typing    = Typing  Variable Expression deriving (Show, Eq)
+
 data Statement = JustExpression Expression
                | JustBinding Binding
-               | Typing  Variable Expression deriving (Show, Eq)
+               | JustTyping  Variable Expression deriving (Show, Eq)
 
 data Program = Program [Statement] deriving (Show, Eq)
 

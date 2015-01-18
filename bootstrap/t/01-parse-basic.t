@@ -2,7 +2,7 @@
 
 . $(dirname $0)/test.sh
 
-plan 28
+plan 29
 
 name "Parse an int"
 first=`echo "3" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
@@ -144,4 +144,9 @@ expect_eq "$first" "$first_expect"
 name "Parse interspersed brackets"
 first=`echo "3 (6 5) 3 (4 (5 (6 (7)) 4) (2 4))" | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
 first_expect='Right [JustExpression (Expression [] (Right (CVJuxt [CVAtomicValue (IntValue 3),CVJuxt [CVAtomicValue (IntValue 6),CVAtomicValue (IntValue 5)],CVAtomicValue (IntValue 3),CVJuxt [CVAtomicValue (IntValue 4),CVJuxt [CVAtomicValue (IntValue 5),CVJuxt [CVAtomicValue (IntValue 6),CVAtomicValue (IntValue 7)],CVAtomicValue (IntValue 4)],CVJuxt [CVAtomicValue (IntValue 2),CVAtomicValue (IntValue 4)]]])))]'
+expect_eq "$first" "$first_expect"
+
+name "Parse quantified expression"
+first=`echo "List = ∃ t. <&nil::&nil, &cons::{&car::t, &cdr::List t}>." | ../dist/build/kropaya-bootstrap-raw-parser/kropaya-bootstrap-raw-parser`
+first_expect='Right [JustBinding (Binding (Variable "List") (Expression [ExistentialBlock [Variable "t"]] (Left (CTSumType (SumType [LabelSectionType (LabelLitBit (LabelLit "nil")) (Expression [] (Right (CVLabelLit (LabelLit "nil")))),LabelSectionType (LabelLitBit (LabelLit "cons")) (Expression [] (Left (CTProductType (ProductType [LabelSectionType (LabelLitBit (LabelLit "car")) (Expression [] (Right (CVVariable (Variable "t")))),LabelSectionType (LabelLitBit (LabelLit "cdr")) (Expression [] (Right (CVJuxt [CVVariable (Variable "List"),CVVariable (Variable "t")])))]))))])))))]'
 expect_eq "$first" "$first_expect"
