@@ -68,3 +68,7 @@ Atomic -> Thing with an Edge backing onto... something. The Edge defines the pri
 
 levitation -> type -> described type
 sinking -> described type -> type
+
+---
+
+; = ., - for ending a statement that would otherwise be ambiguous, then continuing in a list.
