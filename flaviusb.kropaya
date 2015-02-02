@@ -15,7 +15,7 @@ flaviusb =
     code     ⇒ u«https://github.com/flaviusb»,
     projects ⇒ [
       work &name ⇒ "Why So Ltd", &website ⇒ u«http://whyso.co.nz», &description ⇒ "Android apps for workflow problems";
-      code &name ⇒ "Kropaya", &repo ⇒ u«https://github.com/flaviusb/kropaya", &description ⇒ "A fantasy language, unhindered by reality";
+      code &name ⇒ "Kropaya", &repo ⇒ u«https://github.com/flaviusb/kropaya», &description ⇒ "A fantasy language, unhindered by reality";
       play &name ⇒ "The Crucible", &involvement ⇒ :Player, &website ⇒ u«http://cruciblelarp.com»
     ],
     aspects ⇒ #{
