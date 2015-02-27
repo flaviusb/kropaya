@@ -1,6 +1,8 @@
 kropaya
 =======
 
+[![Join the chat at https://gitter.im/flaviusb/kropaya](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/flaviusb/kropaya?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A fantasy language, unhindered by reality.
 
 Ur-Principle: Like [Atomish](https://github.com/flaviusb/Atomish), but starting from first class labels and row polymorphism instead of starting from message sends to activatable cells.
