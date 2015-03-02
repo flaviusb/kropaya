@@ -11,12 +11,21 @@ Defining form
 
 Note:
 
+###Locatives
+
+- Variables, through quantification. Available both inside the scope of a statement that is typed by a signature, as well as in the signature itself
+- capabilites/unforgeable names
+- selection/projection things, made available through labels
+- by-nameish-things, like procs, fns, methods, predicates etc
+
 &foo = literal foo label
 
 ∀ gives polymorphism as such.
 ∃ gives parametrisation ie functors/modules.
 λ gives free variables as such.
-Everything that is not quantified is assumed to be a bound variable as such.
+ı gives a fresh variable
+μ gives a fixpoint; this is useful for mutual recursion ie 'μ x y.' for x and y as mutually recursive.
+Everything that is not quantified is assumed to be not a variable as such - ie another kind of locative..
 
 {} are products, and can be used to declare type or data
 <> are sums, and can be used to declare type or data
@@ -72,3 +81,10 @@ sinking -> described type -> type
 ---
 
 ; = ., - for ending a statement that would otherwise be ambiguous, then continuing in a list.
+
+---
+
+· like 'flip' in haskell.
+
+a · b == b a.
+This has symmetry with '.' in the case of labels; .&foo gets foo from the environment, a·&foo gets foo from a.
