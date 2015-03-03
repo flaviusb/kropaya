@@ -11,14 +11,18 @@
     & \mathbf{module\ } \mathrm{Reader}  \\
     & \ 
   \begin{aligned}
-    \quad & \mathbf{type\ } \mathrm{Tree} = \langle \\
-    & \quad \ 
+    \quad & \ 
+      \begin{aligned}
+        & \mathbf{type\ } \mathrm{Forest\ } & & = \mathrm{Array\ } \mathrm{Tree\ } \\
+        & \mathbf{type\ } \mathrm{Tree\ } & & = \langle \\
+      \end{aligned} \\
+          & \quad \ 
     \begin{aligned}
       & \mathfrak{module} & & :: \mathrm{Module} \\
       & \mathfrak{proc}   & & :: \mathrm{Procedure} \\
       & \mathfrak{fn}     & & :: \mathrm{Function} \\
     \end{aligned} \\
-    & \rangle \mathbf{.} \\
+          & \rangle \mathbf{.} \\
   \end{aligned} \\
   & \mathbf{\S}\mathrm{Reader}
 \end{aligned}
