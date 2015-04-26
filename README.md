@@ -19,7 +19,7 @@ Project Organisation
 
 Each subfolder has it's own `README.md` detailing relevant things.
 
-The proect is licensed under the GPLv3; details in `LICENSE`. Vendored files are available under their own licenses, which are listed either at the root of their vendored directory or at the top of each file.
+The project is licensed under the GPLv3; details in `LICENSE`. Vendored files are available under their own licenses, which are listed either at the root of their vendored directory or at the top of each file.
 
 Installing instractions will eventually be in `INSTALL.md`.
 
