@@ -27,3 +27,10 @@ Totality. Divergence. Programs and co-programs.
 Edges.
 
 Whole program types and codebase types for program and codebase invariants.
+
+---
+
+Structure of `read`:
+
+- Collection of `states`
+- Each state has reader macros, 
