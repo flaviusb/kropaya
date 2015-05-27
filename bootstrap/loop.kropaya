@@ -2,10 +2,10 @@ coprogram loop
   initialise universe.
   in stream characters char.
   out *.
-  type reader-state = {&1: state, ...}
+  type reader-state = {&1: internal-state, &2: scopes} 
   var state: <&more-please: reader-state, &runnable-fragment: {&ast: AST, &reader-state: reader-state}, &done, &push: reader-state, &pop: reader-state>.
   start state &more-please.
-  switch
+  switch state
     acase &more-please →
       state ← incremental-read @@ it char.
     acase &runnable-fragment →
