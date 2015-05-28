@@ -1,10 +1,17 @@
+module Prelude
+
+type internal-state = 
+type reader-state = {&1: internal-state, &2: scopes} 
+type reader-external-state = <&more-please: reader-state, &runnable-fragment: {&ast: AST, &reader-state: reader-state}, &done, &push: reader-state, &pop: reader-state>.
+function incremental-read: (universe: Universe, state: reader-state, char: stream characters) → reader-external-state
+§incremental-read
+
 coprogram loop
   initialise universe.
   in stream characters char.
-  out *.
-  type reader-state = {&1: internal-state, &2: scopes} 
-  var state: <&more-please: reader-state, &runnable-fragment: {&ast: AST, &reader-state: reader-state}, &done, &push: reader-state, &pop: reader-state>.
-  start state &more-please.
+  
+  var state: reader-external-state.
+  state ← <&more-please ⇒ blank-reader-state>
   switch state
     acase &more-please →
       state ← incremental-read @@ it char.
@@ -21,3 +28,5 @@ coprogram loop
       state ← <&more-please ⇒ it>
   end switch
 §loop
+
+§Prelude
