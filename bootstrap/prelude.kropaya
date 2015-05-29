@@ -34,6 +34,7 @@ type tree = <
 >.
 type Name            = <&literal: Text> ※ Have more kinds of names later - this is needed for doing 'capabilities' the way I want to
 type Quantifier      = <&type: <&lambda, &mu, &forall, &exists, &fresh>, &bound: Name>
+type Arguments       = array {&name: Name, &type: TypeValue}
 type Module          = {&name: Name, &quantifiers: array Quantifier, &exports: array Name, &code: forest}
 type Program         = {&name: Name, &inputs: Arguments, &code: forest}
 type Coprogram       = {&name: Name, &inputs: Arguments, &code: forest}
