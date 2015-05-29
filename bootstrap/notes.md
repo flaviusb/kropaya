@@ -88,3 +88,8 @@ sinking -> described type -> type
 
 a · b == b a.
 This has symmetry with '.' in the case of labels; .&foo gets foo from the environment, a·&foo gets foo from a.
+
+---
+
+a `\w` macro which you can use to create implicit variable/dynamic binding like things.
+
