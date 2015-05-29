@@ -17,7 +17,24 @@ type either a b = <&left: a, &right: b>
 type list a = {&car: a, &cdr: <&list: list a, &end>}
 
 ※ AST types - these are fairly strongly tied to an implementation of read, eval, and mirror
-type AST = <>
+type forest = array tree.
+type tree = <
+  &module:     Module,
+  &program:    Program,  ※ Eventually: must be total and have termination properties
+  &coprogram:  Coprogram, ※ Eventually: must be total and have liveness properties
+  &procedure:  Procedure,
+  &function:   Function, ※ Functions are pure
+  &predicate:  Predicate,
+  &combinator: Combinator,
+  &method:     Method,
+  &multi:      Multi,
+  &let:        Let,
+  &type:       TypeDeclaration,
+  &expression: Expression
+>.
+type Name = {&literal: Text} ※ Have more kinds of names later - this is needed for doing 'capabilities' the way I want to
+type Module = {&name: Name, &quantifiers: array Quantifier, &exports: array name, &code: forest}
+type AST = tree.
 
 ※ The reader is a pure function that operates on a state, and a character.
 ※ The universe reference is in order to get access to a mutable readtable, and other related reading hooks
