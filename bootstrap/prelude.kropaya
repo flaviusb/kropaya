@@ -41,8 +41,10 @@ type Function        = {&name: Name, &inputs: Arguments, &output: Value, &code: 
 ※type Predicate      = {&name: Name, &inputs: Arguments, &output: ???, &code: forest}
 type Combinator      = {&name: Name, &inputs: Arguments, &output: Value, &code: forest}
 type Let             = {&arguments: array {&name: Name, &value: Value}, &code: forest}
-type TypeDeclaration = {&name: Name, &value: TypeValue}
-type Expression      = {}
+type TypeDeclaration = {&name: Name, &inputs: Arguments, &value: TypeValue}
+type TypeValue       = <&row, &product, &sum, &edge, &application> ※ TODO
+type Expression      = {&literal: Literal, &lookup: Lookup, &juxtaposition: Juxtaposition}
+type Literal         = <&text: Text, &int: Int, &float: Float, &product: Product, &sum: Sum>
 type AST = tree.
 
 ※ The reader is a pure function that operates on a state, and a character.
