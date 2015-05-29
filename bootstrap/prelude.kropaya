@@ -32,7 +32,7 @@ type tree = <
   &type:       TypeDeclaration,
   &expression: Expression
 >.
-type Name            = {&literal: Text} ※ Have more kinds of names later - this is needed for doing 'capabilities' the way I want to
+type Name            = <&literal: Text> ※ Have more kinds of names later - this is needed for doing 'capabilities' the way I want to
 type Module          = {&name: Name, &quantifiers: array Quantifier, &exports: array name, &code: forest}
 type Program         = {&name: Name, &inputs: Arguments, &code: forest}
 type Coprogram       = {&name: Name, &inputs: Arguments, &code: forest}
