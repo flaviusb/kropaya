@@ -24,16 +24,25 @@ type tree = <
   &coprogram:  Coprogram, ※ Eventually: must be total and have liveness properties
   &procedure:  Procedure,
   &function:   Function, ※ Functions are pure
-  &predicate:  Predicate,
+※  &predicate:  Predicate,  ※ Implement this later
   &combinator: Combinator,
-  &method:     Method,
-  &multi:      Multi,
+※  &method:     Method,  ※ Implement this later
+※  &multi:      Multi,   ※ Implement this later
   &let:        Let,
   &type:       TypeDeclaration,
   &expression: Expression
 >.
-type Name = {&literal: Text} ※ Have more kinds of names later - this is needed for doing 'capabilities' the way I want to
-type Module = {&name: Name, &quantifiers: array Quantifier, &exports: array name, &code: forest}
+type Name            = {&literal: Text} ※ Have more kinds of names later - this is needed for doing 'capabilities' the way I want to
+type Module          = {&name: Name, &quantifiers: array Quantifier, &exports: array name, &code: forest}
+type Program         = {&name: Name, &inputs: Arguments, &code: forest}
+type Coprogram       = {&name: Name, &inputs: Arguments, &code: forest}
+type Procedure       = {&name: Name, &inputs: Arguments, &output: Value, &code: forest}
+type Function        = {&name: Name, &inputs: Arguments, &output: Value, &code: forest}
+※type Predicate      = {&name: Name, &inputs: Arguments, &output: ???, &code: forest}
+type Combinator      = {&name: Name, &inputs: Arguments, &output: Value, &code: forest}
+type Let             = {&arguments: array {&name: Name, &value: Value}, &code: forest}
+type TypeDeclaration = {&name: Name, &value: TypeValue}
+type Expression      = {}
 type AST = tree.
 
 ※ The reader is a pure function that operates on a state, and a character.
