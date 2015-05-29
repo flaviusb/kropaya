@@ -6,6 +6,7 @@ exports
   print
   mirror
   universe
+  @i/m/tagged/exported-types
 begin
 ※ The start of the prelude 'contains' a number of Edges which are inserted initially by magic
 ※ Many of these are for basic types, and other things that are needed to get the initial machinery running
@@ -14,9 +15,14 @@ begin
 type maybe a = <&some: a, &none>
 type either a b = <&left: a, &right: b>
 
+※ AST types - these are fairly strongly tied to an implementation of read, eval, and mirror
+type 
+
 ※ The reader is a pure function that operates on a state, and a character.
 ※ The universe reference is in order to get access to a mutable readtable, and other related reading hooks
-type internal-state = 
+type internal-state = <
+  &in-progress: Text, &done: AST
+>.
 type reader-state = {&1: internal-state, &2: scopes} 
 type reader-external-state = <&more-please: reader-state, &runnable-fragment: {&ast: AST, &reader-state: reader-state}, &done, &push: reader-state, &pop: reader-state>.
 function incremental-read: (universe: Universe, state: reader-state, char: maybe character) → reader-external-state
