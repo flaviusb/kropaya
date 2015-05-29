@@ -14,9 +14,10 @@ begin
 ※ Some common types
 type maybe a = <&some: a, &none>
 type either a b = <&left: a, &right: b>
+type list a = {&car: a, &cdr: <&list: list a, &end>}
 
 ※ AST types - these are fairly strongly tied to an implementation of read, eval, and mirror
-type 
+type AST = <>
 
 ※ The reader is a pure function that operates on a state, and a character.
 ※ The universe reference is in order to get access to a mutable readtable, and other related reading hooks
