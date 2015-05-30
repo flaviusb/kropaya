@@ -17,7 +17,7 @@ type either a b = <&left: a, &right: b>
 type list a = {&car: a, &cdr: <&list: list a, &end>}
 
 ※ AST types - these are fairly strongly tied to an implementation of read, eval, and mirror
-types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedure Function Combinator Let TypeDeclaration TypeValue TypeVariable RowType ProductType SumType ApplicationType Expression Literal Product Sum Lookup Juxtaposition)
+types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedure Function Combinator Let TypeDeclaration TypeBlock TypeValue TypeVariable RowType ProductType SumType ApplicationType Expression Literal Product Sum Lookup Juxtaposition)
   forest = array tree.
   tree = <
     &module:     Module,
@@ -31,11 +31,12 @@ types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedu
   ※  &multi:      Multi,   ※ Implement this later
     &let:        Let,
     &type:       TypeDeclaration,
+    &types:      TypeBlock,
     &expression: Expression
   >.
 
   Name            = <&literal: Text> ※ Have more kinds of names later - this is needed for doing 'capabilities' the way I want to
-  Quantifier      = <&type: <&lambda, &mu, &forall, &exists, &fresh>, &bound: Name>
+  Quantifier      = <&type: <&lambda, &mu, &forall, &exists, &fresh>, &bound: array Name>
   Arguments       = array {&name: Name, &type: TypeValue}
   Module          = {&name: Name, &quantifiers: array Quantifier, &exports: array Name, &code: forest}
   Program         = {&name: Name, &inputs: Arguments, &code: forest}
@@ -45,7 +46,8 @@ types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedu
   ※ Predicate      = {&name: Name, &inputs: Arguments, &output: ???, &code: forest}
   Combinator      = {&name: Name, &inputs: Arguments, &output: TypeValue, &code: forest}
   Let             = {&arguments: array {&name: Name, &value: Expression}, &code: forest}
-  TypeDeclaration = {&name: Name, &inputs: Arguments, &value: TypeValue}
+  TypeDeclaration = {&name: Name, &inputs: array TypeVariable, &value: TypeValue}
+  TypeBlock       = {&quantifiers: array Quantifier, &declarations: array TypeDeclaration}
   TypeValue       = <&row: RowType, &product: ProductType, &sum: SumType, &edge, &application: ApplicationType, &type-variable: TypeVariable> ※ Add Quantifiers when I can figure out how exactly
   TypeVariable    = Name
   RowType         = array {&label: Lookup, &type: maybe TypeValue}
