@@ -14,7 +14,11 @@ begin
 ※ Some common types
 type maybe a = <&some: a, &none>
 type either a b = <&left: a, &right: b>
-type list a = {&car: a, &cdr: <&list: list a, &end>}
+type list a = <&end, &cons: {&car: a, &cdr: list a}>
+
+※ Some monadic functions on common types
+
+
 
 ※ AST types - these are fairly strongly tied to an implementation of read, eval, and mirror
 types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedure Function Combinator Let TypeDeclaration TypeBlock TypeValue TypeVariable RowType ProductType SumType ApplicationType Expression Literal Product Sum Lookup Juxtaposition)
