@@ -4,25 +4,44 @@
 
 ;; Parsing
 
+(cl-defstruct parser-result pos data (match? t) (decoration nil))
+
 (defun alt (&rest parsers)
-  (lambda (text pos struct)
-    (let ((result-pos pos)
-          (result-struct struct))
+  (lambda (text pos data)
+    (let* ((base-result (make-parser-result :pos pos :data data :match? nil))
+           (result base-result))
       (cl-loop 
         for parser in parsers
-        unless 
-          (eq pos result-pos)
-          return (list result-pos result-struct)
-        do (let ((intermediate-result (funcall parser text pos struct)))
-             (setq result-pos    (car intermediate-result))
-             (setq result-struct (cdr intermediate-result)))
-        finally (return (list result-pos result-struct))
-        ))))
+        if
+          (parser-result-match? result)
+          return result
+        unless
+          (parser-result-match? result)
+          do (setq result base-result)
+        do (let ((intermediate-result (funcall parser text pos data)))
+             (setq result intermediate-result))
+        finally (return result)
+      ))))
 
 
-;;(let ((foo (lambda (text pos struct) (princ "Foo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (list pos struct))))
-;;  (print "About to call alt.")
-;;  (princ (funcall (alt foo) "abcde" 2 '())))
+;;(setq foo (lambda (text pos struct) (princ "Foo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (make-parser-result :pos pos :data struct :decoration "ffffooooo")))
+;;(setq goo (lambda (text pos struct) (princ "Goo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (make-parser-result :pos pos :data struct :decoration "ggggooooo" :match? nil)))
+;;
+;;(print "About to call alt(foo).")
+;;
+;;(princ (funcall (alt foo) "abcde" 2 '()))
+;;
+;;(print "About to call alt(foo, goo).")
+;;
+;;(princ (funcall (alt foo goo) "abcde" 2 '()))
+;;
+;;(print "About to call alt(goo, foo).")
+;;
+;;(princ (funcall (alt goo foo) "abcde" 2 '()))
+;;
+;;(print "About to call alt(goo).")
+;;
+;;(princ (funcall (alt goo) "abcde" 2 '()))
 
 ;;(defun pos-to-line-number (text pos)
 ;;  ())
