@@ -2,9 +2,30 @@
 
 (require 'cl-lib)
 
-;; Monads
-
 ;; Parsing
+
+(defun alt (&rest parsers)
+  (lambda (text pos struct)
+    (let ((result-pos pos)
+          (result-struct struct))
+      (cl-loop 
+        for parser in parsers
+        unless 
+          (eq pos result-pos)
+          return (list result-pos result-struct)
+        do (let ((intermediate-result (funcall parser text pos struct)))
+             (setq result-pos    (car intermediate-result))
+             (setq result-struct (cdr intermediate-result)))
+        finally (return (list result-pos result-struct))
+        ))))
+
+
+;;(let ((foo (lambda (text pos struct) (princ "Foo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (list pos struct))))
+;;  (print "About to call alt.")
+;;  (princ (funcall (alt foo) "abcde" 2 '())))
+
+;;(defun pos-to-line-number (text pos)
+;;  ())
 
 
 ;; Pattern matching + destructuring
