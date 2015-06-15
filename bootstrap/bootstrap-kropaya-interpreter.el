@@ -4,8 +4,10 @@
 
 ;; Parsing
 
+; A parser takes (text pos data) and returns a parser-result.
 (cl-defstruct parser-result pos data (match? t) (decoration nil))
 
+;Combinators take one or more parsers and return a parser
 (defun alt (&rest parsers)
   (lambda (text pos data)
     (let* ((base-result (make-parser-result :pos pos :data data :match? nil))
@@ -23,25 +25,43 @@
         finally (return result)
       ))))
 
+(defun opt (parser)
+  (lambda (text pos data) (
+    (let ((result (funcall parser text pos data)))
+      (if (parser-result-match? result)
+        (result)
+        (make-parser-result :pos pos :data data))))))
+
+(defun seq (&rest parsers)
+  (lambda (text pos data)
+    (let* ((result (make-parser-result :pos pos :data data)))
+      (cl-loop 
+        for parser in parsers
+        unless
+          (parser-result-match? result)
+          return result
+        do (setq result (funcall parser text (parser-result-pos result) (parser-result-data result)))
+        finally (return result)
+      ))))
 
 ;;(setq foo (lambda (text pos struct) (princ "Foo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (make-parser-result :pos pos :data struct :decoration "ffffooooo")))
 ;;(setq goo (lambda (text pos struct) (princ "Goo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (make-parser-result :pos pos :data struct :decoration "ggggooooo" :match? nil)))
 ;;
-;;(print "About to call alt(foo).")
+;;(print "About to call seq(foo).")
 ;;
-;;(princ (funcall (alt foo) "abcde" 2 '()))
+;;(princ (funcall (seq foo) "abcde" 2 '()))
 ;;
-;;(print "About to call alt(foo, goo).")
+;;(print "About to call seq(foo, goo).")
 ;;
-;;(princ (funcall (alt foo goo) "abcde" 2 '()))
+;;(princ (funcall (seq foo goo) "abcde" 2 '()))
 ;;
-;;(print "About to call alt(goo, foo).")
+;;(print "About to call seq(goo, foo).")
 ;;
-;;(princ (funcall (alt goo foo) "abcde" 2 '()))
+;;(princ (funcall (seq goo foo) "abcde" 2 '()))
 ;;
-;;(print "About to call alt(goo).")
+;;(print "About to call seq(goo).")
 ;;
-;;(princ (funcall (alt goo) "abcde" 2 '()))
+;;(princ (funcall (seq goo) "abcde" 2 '()))
 
 ;;(defun pos-to-line-number (text pos)
 ;;  ())
