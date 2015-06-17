@@ -65,6 +65,13 @@
       (make-parser-result :pos (+ pos (length val)) :data data)
       (make-parser-result :pos pos :data data :match? nil))))
 
+(defun wrapped (parser action)
+  (lambda (text pos data)
+    (let ((result (funcall parser text pos data)))
+      (if (parser-result-match? result)
+        (make-parser-result :pos (parser-result-pos result) :data (funcall action (parser-result-data result)) :decoration (parser-result-decoration result))
+        (make-parser-result :pos pos :data data :decoration (parser-result-decoration result))))))
+
 ;;(princ (funcall (lit "foo") "foooo" 0 nil))
 ;;(princ (funcall (lit "foo") "faux" 0 nil))
 
