@@ -57,6 +57,17 @@
         finally (return previous-result)
       ))))
 
+; Some basic parser creators
+
+(defun lit (val)
+  (lambda (text pos data)
+    (if (string= (substring text pos (length val)) val)
+      (make-parser-result :pos (+ pos (length val)) :data data)
+      (make-parser-result :pos pos :data data :match? nil))))
+
+;;(princ (funcall (lit "foo") "foooo" 0 nil))
+;;(princ (funcall (lit "foo") "faux" 0 nil))
+
 ;;(setq foo (lambda (text pos struct) (princ "Foo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (make-parser-result :pos pos :data struct :decoration "ffffooooo")))
 ;;(setq goo (lambda (text pos struct) (princ "Goo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (make-parser-result :pos pos :data struct :decoration "ggggooooo" :match? nil)))
 ;;
