@@ -44,6 +44,19 @@
         finally (return result)
       ))))
 
+(defun star (parser)
+  (lambda (text pos data)
+    (let* ((result (make-parser-result :pos pos :data data))
+           (previous-result result))
+      (cl-loop 
+        unless
+          (parser-result-match? result)
+          return previous-result
+        do (setq previous-result result)
+        do (setq result (funcall parser text (parser-result-pos previous-result) (parser-result-data previous-result)))
+        finally (return previous-result)
+      ))))
+
 ;;(setq foo (lambda (text pos struct) (princ "Foo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (make-parser-result :pos pos :data struct :decoration "ffffooooo")))
 ;;(setq goo (lambda (text pos struct) (princ "Goo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (make-parser-result :pos pos :data struct :decoration "ggggooooo" :match? nil)))
 ;;
