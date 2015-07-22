@@ -59,9 +59,14 @@
 
 ; Some basic parser creators
 
+(defun safe-substring (text start end)
+  (if (> (length text) end)
+    (substring text start end)
+    nil))
+
 (defun lit (val)
   (lambda (text pos data)
-    (if (string= (substring text pos (+ pos (length val))) val)
+    (if (string= (safe-substring text pos (+ pos (length val))) val)
       (make-parser-result :pos (+ pos (length val)) :data data)
       (make-parser-result :pos pos :data data :match? nil))))
 
@@ -72,21 +77,25 @@
         (make-parser-result :pos (parser-result-pos result) :data (funcall action (parser-result-data result) pos (parser-result-pos result) text) :decoration (parser-result-decoration result))
         (make-parser-result :pos pos :data data :decoration (parser-result-decoration result))))))
 
-(defun none-of-lit (&rest vals)
-  (let ((len
-          (cl-loop
-               for val in vals
-               maximize (length val)
-          )))
+(defun none-of-lit (scan-by &rest vals)
+  ;(
+   ;let ((len
+   ;       (cl-loop
+   ;            for val in vals
+   ;            minimize (length val)
+   ;       )))
     (lambda (text pos data)
       (cl-loop
         for val in vals
-        if (string= (substring text pos (+ pos (length val))) val)
+        ;while (> (length text) (+ scan-by pos)) 
+        if (string= (safe-substring text pos (+ pos (length val))) val)
           return (make-parser-result :pos pos :data data :match? nil)
-        finally (return (if (<= (length text) (+ pos len))
+        finally (return (if (<= (length text) (+ pos scan-by))
                   (make-parser-result :pos pos :data data :match? nil)
-                  (make-parser-result :pos (+ pos len) :data data)))
-      ))))
+                  (make-parser-result :pos (+ pos scan-by) :data data)))
+      ))
+    ;)
+    )
 
 ;;(princ (funcall (lit "foo") "foooo" 0 nil))
 ;;(princ (funcall (lit "foo") "faux" 0 nil))
@@ -148,17 +157,18 @@
 (defun parse-string (text pos data)
                      (funcall (seq (lit "\"") 
                         (wrapped 
-                          (star (alt (none-of-lit "\"" "\\") (lit "\\\"") (lit "\\\\")))
+                          (star (alt (none-of-lit 1 "\"" "\\") (lit "\\\"") (lit "\\\\")))
                           (lambda (data start end text)
                             (cons (list 'text (substring text start end)) data)))
                         (lit "\"")) text pos data))
 
-(print (funcall (wrapped (star (none-of-lit "\"" "\\"))
+(print "test 'wrapped' around star(none-of-lit)")
+(print (funcall (wrapped (star (none-of-lit 1 "\"" "\\"))
                 (lambda (data start end text)
                             (cons (list 'text (substring text start end)) data)))  "efwlkn e kj\\fe klen flne " 0 '()))
-
-(print (funcall (star (alt (none-of-lit "\"" "\\") (lit "\\\"") (lit "\\\\"))) "efwlkn e kjfe klen flne " 0 '()))
-
+(print "test funcall (star (alt (...)))")
+(print (funcall (star (alt (none-of-lit 1 "\"" "\\") (lit "\\\"") (lit "\\\\"))) "efwlkn e kjfe klen flne " 0 '()))
+(print "test parse-string")
 (print (parse-string "\"dlifhwelihf oih w okefn wle\\\\ef 2 2\\\"ef \"" 0 '()))
 
 ;; Eval
