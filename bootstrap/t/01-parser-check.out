@@ -1,0 +1,12 @@
+
+"test 'wrapped' around star(none-of-lit)"
+
+[cl-struct-parser-result 11 ((text "efwlkn e kj")) t nil]
+
+"test funcall (star (alt (...)))"
+
+[cl-struct-parser-result 23 nil t nil]
+
+"test parse-string"
+
+[cl-struct-parser-result 41 ((text "dlifhwelihf oih w okefn wle\\\\ef 2 2\\\"ef ")) nil nil]
