@@ -10,4 +10,4 @@ emacs --batch --script bootstrap-kropaya-interpreter.el bootstrap-kropaya-compil
 ./bootstrap-kropaya-compiler-1 bootstrap-kropaya-compiler.kropaya bootstrap-kropaya-compiler
 ~~~
 
-Tests are in the `t` directory, though at the moment they are entirely misleading and in fact will not work at all.
+Tests are in the `t` directory.
