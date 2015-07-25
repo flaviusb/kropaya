@@ -70,6 +70,13 @@
       (make-parser-result :pos (+ pos (length val)) :data data)
       (make-parser-result :pos pos :data data :match? nil))))
 
+(defun regexp-match (val)
+  (lambda (text pos data)
+    (let ((match-point (string-match val text pos)))
+      (if (eq match-point pos)
+        (make-parser-result :pos (match-end 0) :data data)
+        (make-parser-result :pos pos :data data :match? nil)))))
+
 (defun wrapped (parser action)
   (lambda (text pos data)
     (let ((result (funcall parser text pos data)))
@@ -161,6 +168,16 @@
                           (lambda (data start end text)
                             (cons (list 'text (substring text start end)) data)))
                         (lit "\"")) text pos data))
+
+
+(defun parse-int (text pos data)
+  (funcall (wrapped
+             (regexp-match "[0-9]+")
+             (lambda (data start end text)
+               (cons (list 'int (string-to-number (substring text start end))) data))) text pos data))
+
+(defun ws (text pos data)
+  (funcall (regexp-match "[ ]+") text pos data))
 
 ;; Eval
 ;; Print

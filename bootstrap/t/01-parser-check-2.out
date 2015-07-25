@@ -1,0 +1,15 @@
+
+"test int"
+
+[cl-struct-parser-result 1 ((int 1)) t nil]
+
+[cl-struct-parser-result 6 ((int 123124)) t nil]
+
+[cl-struct-parser-result 10 ((int 4574682468)) t nil]
+
+[cl-struct-parser-result 0 nil t nil]
+
+[cl-struct-parser-result 0 nil t nil]
+
+[cl-struct-parser-result 6 ((int 325423)) t nil]
+
