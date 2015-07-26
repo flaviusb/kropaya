@@ -7,9 +7,40 @@
 
 [cl-struct-parser-result 10 ((int 4574682468)) t nil]
 
-[cl-struct-parser-result 0 nil t nil]
+[cl-struct-parser-result 0 nil nil nil]
 
-[cl-struct-parser-result 0 nil t nil]
+[cl-struct-parser-result 0 nil nil nil]
 
 [cl-struct-parser-result 6 ((int 325423)) t nil]
 
+"test number"
+
+[cl-struct-parser-result 1 ((int 1)) t nil]
+
+[cl-struct-parser-result 6 ((int 123124)) t nil]
+
+[cl-struct-parser-result 10 ((int 4574882468)) t nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 6 ((int 325423)) t nil]
+
+[cl-struct-parser-result 2 ((int 7)) t nil]
+
+[cl-struct-parser-result 2 ((int -6)) t nil]
+
+[cl-struct-parser-result 3 ((real 3.0)) t nil]
+
+[cl-struct-parser-result 3 ((real 3.3)) t nil]
+
+[cl-struct-parser-result 8 ((real 1e-06)) t nil]
+
+[cl-struct-parser-result 4 ((real -3.4)) t nil]
+
+[cl-struct-parser-result 13 ((real -0.5423535413)) t nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]

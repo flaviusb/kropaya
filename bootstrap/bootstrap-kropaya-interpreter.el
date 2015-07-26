@@ -82,7 +82,7 @@
     (let ((result (funcall parser text pos data)))
       (if (parser-result-match? result)
         (make-parser-result :pos (parser-result-pos result) :data (funcall action (parser-result-data result) pos (parser-result-pos result) text) :decoration (parser-result-decoration result))
-        (make-parser-result :pos pos :data data :decoration (parser-result-decoration result))))))
+        (make-parser-result :pos pos :data data :decoration (parser-result-decoration result) :match? nil)))))
 
 (defun none-of-lit (scan-by &rest vals)
   ;(
@@ -170,11 +170,23 @@
                         (lit "\"")) text pos data))
 
 
-(defun parse-int (text pos data)
+(defun parse-d-int (text pos data)
   (funcall (wrapped
-             (regexp-match "[0-9]+")
+             (regexp-match "[+-]?[0-9]+")
              (lambda (data start end text)
                (cons (list 'int (string-to-number (substring text start end))) data))) text pos data))
+
+(defun parse-int (text pos data)
+  (funcall (alt #'parse-d-int) text pos data))
+
+(defun parse-real (text pos data)
+  (funcall (wrapped
+             (regexp-match "[+-]?[0-9]+\\.[0-9]+")
+             (lambda (data start end text)
+               (cons (list 'real (string-to-number (substring text start end))) data))) text pos data))
+
+(defun parse-number (text pos data)
+  (funcall (alt #'parse-real #'parse-int) text pos data))
 
 (defun ws (text pos data)
   (funcall (regexp-match "[ ]+") text pos data))
