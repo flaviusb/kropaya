@@ -9,4 +9,4 @@
 
 "test parse-string"
 
-[cl-struct-parser-result 41 ((text "dlifhwelihf oih w okefn wle\\\\ef 2 2\\\"ef ")) nil nil]
+[cl-struct-parser-result 41 ((text "dlifhwelihf oih w okefn wle\\ef 2 2\"ef ")) nil nil]

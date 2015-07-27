@@ -161,12 +161,37 @@
 
 ;; Read
 
+(defun clear-data (text pos data)
+  (make-parser-result :pos pos :data ""))
+
+(defun return-text-under-match (parser)
+  (wrapped
+    parser
+    (lambda (data start end text)
+      (concat data (substring text start end)))))
+
+(defun return-lit-on-match (parser lit)
+  (wrapped
+    parser
+    (lambda (data start end text)
+      (concat data lit))))
+
+(defun new-context-then-merge (parser new-context merge-function)
+  (lambda (text pos data)
+    (let* ((result (funcall parser text pos new-context))
+           (new-data (parser-result-data result)))
+      (make-parser-result :pos (parser-result-pos result) :data (funcall merge-function data new-data) :match? (parser-result-match? result)))))
+
 (defun parse-string (text pos data)
-                     (funcall (seq (lit "\"") 
-                        (wrapped 
-                          (star (alt (none-of-lit 1 "\"" "\\") (lit "\\\"") (lit "\\\\")))
+                     (funcall (seq (lit "\"")
+                      (new-context-then-merge
+                        (wrapped
+                            (star (alt 
+                               (return-text-under-match (none-of-lit 1 "\"" "\\"))
+                               (return-lit-on-match (lit "\\\"") "\"")
+                               (return-lit-on-match (lit "\\\\") "\\")))
                           (lambda (data start end text)
-                            (cons (list 'text (substring text start end)) data)))
+                            (list 'text data))) nil (lambda (x y) (cons y x)))
                         (lit "\"")) text pos data))
 
 
