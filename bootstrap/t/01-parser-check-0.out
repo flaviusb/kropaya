@@ -1,0 +1,6 @@
+
+"test lit"
+
+([cl-struct-parser-result 0 nil nil nil] [cl-struct-parser-result 0 nil nil nil] [cl-struct-parser-result 4 nil t nil] [cl-struct-parser-result 4 nil t nil] [cl-struct-parser-result 4 nil t nil])
+
+"test seq"

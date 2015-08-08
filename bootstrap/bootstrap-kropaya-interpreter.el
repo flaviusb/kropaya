@@ -14,15 +14,11 @@
            (result base-result))
       (cl-loop 
         for parser in parsers
+        do (setq result (funcall parser text pos data))
         if
           (parser-result-match? result)
           return result
-        unless
-          (parser-result-match? result)
-          do (setq result base-result)
-        do (let ((intermediate-result (funcall parser text pos data)))
-             (setq result intermediate-result))
-        finally (return result)
+        finally (return base-result)
       ))))
 
 (defun opt (parser)
@@ -54,13 +50,12 @@
           return previous-result
         do (setq previous-result result)
         do (setq result (funcall parser text (parser-result-pos previous-result) (parser-result-data previous-result)))
-        finally (return previous-result)
       ))))
 
 ; Some basic parser creators
 
 (defun safe-substring (text start end)
-  (if (> (length text) end)
+  (if (>= (length text) end)
     (substring text start end)
     nil))
 
@@ -85,23 +80,15 @@
         (make-parser-result :pos pos :data data :decoration (parser-result-decoration result) :match? nil)))))
 
 (defun none-of-lit (scan-by &rest vals)
-  ;(
-   ;let ((len
-   ;       (cl-loop
-   ;            for val in vals
-   ;            minimize (length val)
-   ;       )))
     (lambda (text pos data)
       (cl-loop
         for val in vals
-        ;while (> (length text) (+ scan-by pos)) 
         if (string= (safe-substring text pos (+ pos (length val))) val)
           return (make-parser-result :pos pos :data data :match? nil)
-        finally (return (if (<= (length text) (+ pos scan-by))
+        finally (return (if (< (length text) (+ pos scan-by))
                   (make-parser-result :pos pos :data data :match? nil)
                   (make-parser-result :pos (+ pos scan-by) :data data)))
       ))
-    ;)
     )
 
 ;;(princ (funcall (lit "foo") "foooo" 0 nil))
@@ -136,6 +123,9 @@
 
 (defun make-primitive (tag val)
     (list tag val))
+
+(defun make-identifier (val)
+  (make-primitive 'identifier val))
 
 ;; Sum and product pairs are an alist of labe
 (defun make-type-row (kind pairs)
@@ -215,6 +205,18 @@
 
 (defun ws (text pos data)
   (funcall (regexp-match "[ ]+") text pos data))
+
+(defun parse-comment (text pos data)
+  (funcall (regexp-match "(※.*$)|(#\\.[^.]*\\.)") text pos data))
+
+(setq identifier-string "(([_+]+[_+:]*)?[a-zA-Z][a-zA-Z0-9_:$!?%=<>-]*)|([~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+-]+[:~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+-]*)|(\\[\\])|…")
+
+(defun parse-identifier (text pos data)
+  (funcall (new-context-then-merge 
+             (return-text-under-match (regexp-match identifier-string))
+             ""
+             (lambda (old new) (cons old (make-identifier new))))
+           text pos data))
 
 ;; Eval
 ;; Print

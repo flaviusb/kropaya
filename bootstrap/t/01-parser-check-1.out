@@ -5,8 +5,12 @@
 
 "test funcall (star (alt (...)))"
 
-[cl-struct-parser-result 23 nil t nil]
+[cl-struct-parser-result 24 nil t nil]
 
 "test parse-string"
 
+[cl-struct-parser-result 42 ((text "dlifhwelihf oih w okefn wle\\ef 2 2\"ef ")) t nil]
+
 [cl-struct-parser-result 41 ((text "dlifhwelihf oih w okefn wle\\ef 2 2\"ef ")) nil nil]
+
+[cl-struct-parser-result 28 ((text "dlifhwelihf oih w okefn wle")) nil nil]

@@ -6,3 +6,5 @@
 (print (funcall (star (alt (none-of-lit 1 "\"" "\\") (lit "\\\"") (lit "\\\\"))) "efwlkn e kjfe klen flne " 0 '()))
 (print "test parse-string")
 (print (parse-string "\"dlifhwelihf oih w okefn wle\\\\ef 2 2\\\"ef \"" 0 '()))
+(print (parse-string "\"dlifhwelihf oih w okefn wle\\\\ef 2 2\\\"ef " 0 '()))
+(print (parse-string "\"dlifhwelihf oih w okefn wle\\ef 2 2\\\"ef \"" 0 '()))
