@@ -1,0 +1,64 @@
+
+"test comments"
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+"test whitespace"
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 1 nil t nil]
+
+[cl-struct-parser-result 3 nil t nil]
+
+[cl-struct-parser-result 3 nil t nil]
+
+[cl-struct-parser-result 2 nil t nil]
+
+[cl-struct-parser-result 3 nil t nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+"test identifier"
+
+[cl-struct-parser-result 1 (nil identifier "a") t nil]
+
+[cl-struct-parser-result 2 (nil identifier "+a") t nil]
+
+[cl-struct-parser-result 2 (nil identifier "_b") t nil]
+
+[cl-struct-parser-result 3 (nil identifier "asd") t nil]
+
+[cl-struct-parser-result 8 (nil identifier "_:wdfwdf") t nil]
+
+[cl-struct-parser-result 4 (nil identifier "_+_b") t nil]
+
+[cl-struct-parser-result 3 (nil identifier "b33") t nil]
+
+[cl-struct-parser-result 0 (nil identifier "") nil nil]
+
+[cl-struct-parser-result 0 (nil identifier "") nil nil]
+
+[cl-struct-parser-result 0 (nil identifier "") nil nil]
+
+[cl-struct-parser-result 0 (nil identifier "") nil nil]
+
+[cl-struct-parser-result 0 (nil identifier "") nil nil]

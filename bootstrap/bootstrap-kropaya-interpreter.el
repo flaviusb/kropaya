@@ -203,13 +203,13 @@
 (defun parse-number (text pos data)
   (funcall (alt #'parse-real #'parse-int) text pos data))
 
-(defun ws (text pos data)
+(defun parse-ws (text pos data)
   (funcall (regexp-match "[ ]+") text pos data))
 
 (defun parse-comment (text pos data)
   (funcall (regexp-match "(※.*$)|(#\\.[^.]*\\.)") text pos data))
 
-(setq identifier-string "(([_+]+[_+:]*)?[a-zA-Z][a-zA-Z0-9_:$!?%=<>-]*)|([~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+-]+[:~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+-]*)|(\\[\\])|…")
+(setq identifier-string "\\(\\([_+]+[_+:]*\\)?[a-zA-Z][a-zA-Z0-9_:$!?%=<>-]*\\)\\|\\([~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+-]+[:~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+-]*\\)\\|\\(\\[\\]\\)\\|…")
 
 (defun parse-identifier (text pos data)
   (funcall (new-context-then-merge 
