@@ -207,7 +207,7 @@
   (funcall (regexp-match "[ ]+") text pos data))
 
 (defun parse-comment (text pos data)
-  (funcall (regexp-match "(※.*$)|(#\\.[^.]*\\.)") text pos data))
+  (funcall (regexp-match "\\(※.*$\\)\\|\\(#\\.[^.]*\\.\\)") text pos data))
 
 (setq identifier-string "\\(\\([_+]+[_+:]*\\)?[a-zA-Z][a-zA-Z0-9_:$!?%=<>-]*\\)\\|\\([~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+-]+[:~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+-]*\\)\\|\\(\\[\\]\\)\\|…")
 

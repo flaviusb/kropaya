@@ -3,23 +3,23 @@
 
 [cl-struct-parser-result 0 nil nil nil]
 
-[cl-struct-parser-result 0 nil nil nil]
+[cl-struct-parser-result 18 nil t nil]
+
+[cl-struct-parser-result 3 nil t nil]
+
+[cl-struct-parser-result 5 nil t nil]
 
 [cl-struct-parser-result 0 nil nil nil]
 
 [cl-struct-parser-result 0 nil nil nil]
 
-[cl-struct-parser-result 0 nil nil nil]
+[cl-struct-parser-result 31 nil t nil]
 
-[cl-struct-parser-result 0 nil nil nil]
+[cl-struct-parser-result 1 nil t nil]
 
-[cl-struct-parser-result 0 nil nil nil]
+[cl-struct-parser-result 1 nil t nil]
 
-[cl-struct-parser-result 0 nil nil nil]
-
-[cl-struct-parser-result 0 nil nil nil]
-
-[cl-struct-parser-result 0 nil nil nil]
+[cl-struct-parser-result 13 nil t nil]
 
 "test whitespace"
 
