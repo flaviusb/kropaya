@@ -12,9 +12,12 @@ begin
 ※ Many of these are for basic types, and other things that are needed to get the initial machinery running
 
 ※ Some common types
-type maybe a = <&some: a, &none>
-type either a b = <&left: a, &right: b>
-type list a = <&end, &cons: {&car: a, &cdr: list a}>
+※ type maybe a = <&some: a, &none>
+type maybe = ∃a. <&some: a, &none>
+※ type either a b = <&left: a, &right: b>
+type either = ∃a. ∃b. <&left: a, &right: b>
+※ type list a = <&end, &cons: {&car: a, &cdr: list a}> 
+type list = μ x. ∃ y. <&end, &cons: {&car: y, &cdr: x y}>
 
 ※ Some monadic functions on common types
 
