@@ -21,7 +21,7 @@ type list a = <&end, &cons: {&car: a, &cdr: list a}>
 
 
 ※ AST types - these are fairly strongly tied to an implementation of read, eval, and mirror
-types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedure Function Combinator Let TypeDeclaration TypeBlock TypeValue TypeVariable RowType ProductType SumType ApplicationType Expression Literal Product Sum Lookup Juxtaposition)
+types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedure Function Combinator Let TypeDeclaration TypeBlock TypeValue TypeVariable RowType ApplicationType Expression Literal Product Sum Lookup Juxtaposition)
   forest = array tree.
   tree = <
     &module:     Module,
@@ -53,11 +53,9 @@ types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedu
   Let             = {&arguments: array {&name: Name, &value: Expression}, &code: forest}
   TypeDeclaration = {&name: Name, &inputs: array TypeVariable, &value: TypeValue}
   TypeBlock       = {&quantifiers: array Quantifier, &declarations: array TypeDeclaration}
-  TypeValue       = <&row: RowType, &product: ProductType, &sum: SumType, &edge, &application: ApplicationType, &type-variable: TypeVariable> ※ Add Quantifiers when I can figure out how exactly
+  TypeValue       = <&row: RowType, &product: RowType, &sum: RowType, &edge, &application: ApplicationType, &type-variable: TypeVariable> ※ Add Quantifiers when I can figure out how exactly
   TypeVariable    = Name
   RowType         = array {&label: Lookup, &type: maybe TypeValue}
-  ProductType     = array {&label: Lookup, &type: maybe TypeValue}
-  SumType         = array {&label: Lookup, &type: maybe TypeValue}
   ApplicationType = {&from: array TypeValue, &to: TypeValue}
   Expression      = {&literal: Literal, &lookup: Lookup, &juxtaposition: Juxtaposition}
   Literal         = <&text: Text, &int: Int, &float: Float, &product: Product, &sum: Sum>
