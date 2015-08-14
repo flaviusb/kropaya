@@ -40,6 +40,7 @@ types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedu
   >.
 
   Name            = <&literal: Text> ※ Have more kinds of names later - this is needed for doing 'capabilities' the way I want to
+  Label           = <&name: Text> ※ Have more kinds of labels later - this is needed for 'label variables' and 'capabilities'
   Quantifier      = <&type: <&lambda, &mu, &forall, &exists, &fresh>, &bound: array Name>
   Arguments       = array {&name: Name, &type: TypeValue}
   Module          = {&name: Name, &quantifiers: array Quantifier, &exports: array Name, &code: forest}
@@ -62,7 +63,7 @@ types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedu
   Literal         = <&text: Text, &int: Int, &float: Float, &product: Product, &sum: Sum>
   Product         = array <&raw-label: Lookup, &value: {&label: Lookup, &type: maybe TypeValue, &value: Expression}>
   Sum             = <&raw-label: Lookup, &value: {&label: Lookup, &type: maybe TypeValue, &value: Expression}>
-  Lookup          = <name: Name, &label: Label>
+  Lookup          = <&name: Name, &label: Label>
   Juxtaposition   = array <&literal: Literal, &lookup: Lookup, &brackets: Expression>
 end types
 type AST = tree.
