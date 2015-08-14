@@ -91,32 +91,6 @@
       ))
     )
 
-;;(princ (funcall (lit "foo") "foooo" 0 nil))
-;;(princ (funcall (lit "foo") "faux" 0 nil))
-
-;;(setq foo (lambda (text pos struct) (princ "Foo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (make-parser-result :pos pos :data struct :decoration "ffffooooo")))
-;;(setq goo (lambda (text pos struct) (princ "Goo: <") (princ text) (princ pos) (princ struct) (princ ">\n") (make-parser-result :pos pos :data struct :decoration "ggggooooo" :match? nil)))
-;;
-;;(print "About to call seq(foo).")
-;;
-;;(princ (funcall (seq foo) "abcde" 2 '()))
-;;
-;;(print "About to call seq(foo, goo).")
-;;
-;;(princ (funcall (seq foo goo) "abcde" 2 '()))
-;;
-;;(print "About to call seq(goo, foo).")
-;;
-;;(princ (funcall (seq goo foo) "abcde" 2 '()))
-;;
-;;(print "About to call seq(goo).")
-;;
-;;(princ (funcall (seq goo) "abcde" 2 '()))
-
-;;(defun pos-to-line-number (text pos)
-;;  ())
-
-
 ;; Pattern matching + destructuring
 
 ;; Builder
