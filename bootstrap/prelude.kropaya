@@ -24,7 +24,17 @@ type arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>
 
 ※ Some monadic functions on common types
 
+※ Some functions
 
+case : ∀ match-label match-type other-cases result. {match-label:(match-type→result) |other-cases} → <match-label:match-type |other-cases> → result.
+case pattern it = (match-label pattern) (match-label it).
+
+id : ∀x. x → x.
+id x = x
+
+※ Usage:
+※ show : either Text Text → Eff IO
+※ show result = print (case {&left ⇒ \x → "error: #{x}", &right ⇒ id} result)
 
 ※ AST types - these are fairly strongly tied to an implementation of read, eval, and mirror
 types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedure Function Combinator Let TypeDeclaration TypeBlock TypeValue TypeVariable RowType ApplicationType Expression Literal Product Sum Lookup Juxtaposition)
@@ -61,7 +71,7 @@ types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedu
   TypeBlock       = {&quantifiers: array Quantifier, &declarations: array TypeDeclaration}
   TypeValue       = <&row: RowType, &product: RowType, &sum: RowType, &edge, &application: ApplicationType, &type-variable: TypeVariable> ※ Add Quantifiers when I can figure out how exactly
   TypeVariable    = Name
-  RowType         = array {&label: Lookup, &type: maybe TypeValue}
+  RowType         = {&rows: array {&label: Lookup, &type: maybe TypeValue}, &polymorphic: array Name}
   ApplicationType = {&from: array TypeValue, &to: TypeValue}
   Expression      = {&literal: Literal, &lookup: Lookup, &juxtaposition: Juxtaposition}
   Literal         = <&text: Text, &int: Int, &float: Float, &product: Product, &sum: Sum>
