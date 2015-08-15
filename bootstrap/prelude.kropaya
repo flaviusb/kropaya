@@ -17,7 +17,10 @@ type maybe = ∃a. <&some: a, &none>
 ※ type either a b = <&left: a, &right: b>
 type either = ∃a. ∃b. <&left: a, &right: b>
 ※ type list a = <&end, &cons: {&car: a, &cdr: list a}> 
-type list = μ x. ∃ y. <&end, &cons: {&car: y, &cdr: x y}>
+type list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>
+type arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>
+※ arbitrary-list is used like so:
+※ <&cons ⇒ {&car ⇒ 3, &cdr ⇒ <&cons ⇒ {&car ⇒ "Foo", &cdr ⇒ <&end>} ← Text>} ← Number>
 
 ※ Some monadic functions on common types
 
