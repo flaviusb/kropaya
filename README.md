@@ -9,6 +9,45 @@ Ur-Principle: Like [Atomish](https://github.com/flaviusb/Atomish), but starting 
 
 Does this even make sense? I am not yet sure.
 
+The Principles
+--------------
+
+- Reified Readers, Evallers, Printers, Universes, Runloops, and Mirrors.
+- Parameterised modules a la Functors, with explicit support for mutual recusion. This allows, amongst other things, really good tree shaking and permgen trimming, as well as elegantly solving the conflicting dependencies problem.
+- Generation of statically and dynamically linked binaries.
+- Something like a logical extension of functional core/imperative shell.
+- Use of staged computation, metaprogramming, generic programming, and tree rewriting for optimisation.
+- No C or C++ anywhere (except as needed for platform/library linkage eg for Open GL support).
+- Type-directed metaprogramming.
+- Locatives, multiple typing.
+- Explicit, extensive use of quantification.
+- Both parametric (ie 'Theorems for Free') and non-parametric code, with clear edges to prevent breaking invariants.
+- Swapping out the reader mid read/the evaller mid eval.
+
+Bibliography/Inspirations/Influences
+------------------------------------
+
+(TODO: Expand this out way more fully)
+
+
+Current inspirations:
+
+
+MetaOCaml/BER. Haskell. ISWIM.
+
+Staged computation inspired by the Shonan Challenge, and especially the papers [http://okmij.org/ftp/meta-programming/HPC.html](here).
+
+
+Past inspirations:
+
+
+Inspired by Cola/Pepsi/Idst/Maru, Ioke, Common Lisp and Haskell.
+
+Other influences: Perl 5&6 (Guts on the outside, TMTWTDI, Moose, 6Model), Io (Mirrors), OCaml (module system), Potion.
+
+Minor influences: Atomy, Atomo, Slate, Erlang, Snobol, MetaLua.
+
+
 Is it any good?
 ---------------
 
