@@ -22,6 +22,8 @@ type arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>
 ※ arbitrary-list is used like so:
 ※ <&cons ⇒ {&car ⇒ 3, &cdr ⇒ <&cons ⇒ {&car ⇒ "Foo", &cdr ⇒ <&end>} ← Text>} ← Number>
 
+※ TODO: type array = ∃type∈Type shape∈Shape.μy.{}
+
 ※ Some monadic functions on common types
 
 ※ Some functions

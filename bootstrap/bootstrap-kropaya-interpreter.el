@@ -192,6 +192,9 @@
              (lambda (old new) (cons old (make-identifier new))))
            text pos data))
 
+(defun parse-name (text pos data)
+  (parse-identifier text pos data))
+
 ;; Eval
 ;; Print
 ;; Runloop
