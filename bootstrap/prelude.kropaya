@@ -81,7 +81,7 @@ id x = x
 
   Name            = <&literal: Text> ※ Have more kinds of names later - this is needed for doing 'capabilities' the way I want to
   Label           = <&name: Text> ※ Have more kinds of labels later - this is needed for 'label variables' and 'capabilities'
-  Quantifier      = <&type: <&lambda, &mu, &forall, &exists, &fresh>, &bound: ∃s∈Shape. array s Name>
+  Quantifier      = <&type: <&lambda, &mu, &forall, &exists, &fresh>, &bound: ∃s∈Shape. array s <&just-name: Name, &name-and-member-of: {&name: Name, &e: TypeValue}>>
   Arguments       = ∃s∈Shape. array s {&name: Name, &type: TypeValue}
   Module          = {&name: Name, &quantifiers: ∃s∈Shape. array s Quantifier, &exports: ∃s∈Shape. array s Name, &code: forest}
   Program         = {&name: Name, &inputs: Arguments, &code: forest}
@@ -93,7 +93,7 @@ id x = x
   Let             = {&arguments: ∃s∈Shape. array s {&name: Name, &value: Expression}, &code: forest}
   TypeDeclaration = {&name: Name, &inputs: ∃s∈Shape. array s TypeVariable, &value: TypeValue}
   TypeBlock       = {&quantifiers: ∃s∈Shape. array s Quantifier, &declarations: ∃s∈Shape. array s TypeDeclaration}
-  TypeValue       = <&row: RowType, &product: RowType, &sum: RowType, &edge, &application: ApplicationType, &type-variable: TypeVariable> ※ Add Quantifiers when I can figure out how exactly
+  TypeValue       = {&quantifiers: ∃s∈Shape. array s Quantifier, &types: <&row: RowType, &product: RowType, &sum: RowType, &edge, &application: ApplicationType, &type-variable: TypeVariable>}
   TypeVariable    = Name
   RowType         = {&rows: ∃s∈Shape. array s {&label: Lookup, &type: maybe TypeValue}, &polymorphic: ∃s∈Shape. array s Name}
   ApplicationType = {&from: ∃s∈Shape. array s TypeValue, &to: TypeValue}
