@@ -1,5 +1,5 @@
-module Prelude
-exports
+%module Prelude
+%exports
   loop
   read
   eval
@@ -7,18 +7,18 @@ exports
   mirror
   universe
   @i/m/tagged/exported-types
-begin
+%begin
 ※ The start of the prelude 'contains' a number of Edges which are inserted initially by magic
 ※ Many of these are for basic types, and other things that are needed to get the initial machinery running
 
 ※ Some common types
 ※ type maybe a = <&some: a, &none>
-type maybe = ∃a. <&some: a, &none>
+%type maybe = ∃a. <&some: a, &none>
 ※ type either a b = <&left: a, &right: b>
-type either = ∃a. ∃b. <&left: a, &right: b>
+%type either = ∃a. ∃b. <&left: a, &right: b>
 ※ type list a = <&end, &cons: {&car: a, &cdr: list a}> 
-type list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>
-type arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>
+%type list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>
+%type arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>
 ※ arbitrary-list is used like so:
 ※ <&cons ⇒ {&car ⇒ 3, &cdr ⇒ <&cons ⇒ {&car ⇒ "Foo", &cdr ⇒ <&end>} ← Text>} ← Number>
 
@@ -39,7 +39,7 @@ id x = x
 ※ show result = print (case {&left ⇒ \x → "error: #{x}", &right ⇒ id} result)
 
 ※ AST types - these are fairly strongly tied to an implementation of read, eval, and mirror
-types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedure Function Combinator Let TypeDeclaration TypeBlock TypeValue TypeVariable RowType ApplicationType Expression Literal Product Sum Lookup Juxtaposition)
+%types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedure Function Combinator Let TypeDeclaration TypeBlock TypeValue TypeVariable RowType ApplicationType Expression Literal Product Sum Lookup Juxtaposition)
   forest = array tree.
   tree = <
     &module:     Module,
@@ -81,17 +81,17 @@ types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedu
   Sum             = <&raw-label: Lookup, &value: {&label: Lookup, &type: maybe TypeValue, &value: Expression}>
   Lookup          = <&name: Name, &label: Label>
   Juxtaposition   = array <&literal: Literal, &lookup: Lookup, &brackets: Expression>
-end types
-type AST = tree.
+%end types
+%type AST = tree.
 
 ※ The reader is a pure function that operates on a state, and a character.
 ※ The universe reference is in order to get access to a mutable readtable, and other related reading hooks
-type internal-state = <
+%type internal-state = <
   &in-progress: Text, &done: AST
 >.
-type reader-state = {&1: internal-state, &2: scopes} 
-type reader-external-state = <&more-please: reader-state, &runnable-fragment: {&ast: AST, &reader-state: reader-state}, &done, &push: reader-state, &pop: reader-state>.
-function incremental-read: (universe: Universe, state: reader-state, char: maybe character) → reader-external-state
+%type reader-state = {&1: internal-state, &2: scopes} 
+%type reader-external-state = <&more-please: reader-state, &runnable-fragment: {&ast: AST, &reader-state: reader-state}, &done, &push: reader-state, &pop: reader-state>.
+%function incremental-read: (universe: Universe, state: reader-state, char: maybe character) → reader-external-state
 §incremental-read
 
 coprogram loop
