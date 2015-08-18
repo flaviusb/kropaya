@@ -12,6 +12,7 @@ Does this even make sense? I am not yet sure.
 The Principles
 --------------
 
+- First class labels and row polymorphic types.
 - Reified Readers, Evallers, Printers, Universes, Runloops, and Mirrors.
 - Parameterised modules a la Functors, with explicit support for mutual recusion. This allows, amongst other things, really good tree shaking and permgen trimming, as well as elegantly solving the conflicting dependencies problem.
 - Generation of statically and dynamically linked binaries.
@@ -23,6 +24,7 @@ The Principles
 - Explicit, extensive use of quantification.
 - Both parametric (ie 'Theorems for Free') and non-parametric code, with clear edges to prevent breaking invariants.
 - Swapping out the reader mid read/the evaller mid eval.
+- A continuum of compile-type to run-time, rather than a binary.
 
 Bibliography/Inspirations/Influences
 ------------------------------------
@@ -34,6 +36,8 @@ Current inspirations:
 
 
 MetaOCaml/BER. Haskell. ISWIM.
+
+Language-Oriented programming inspired by OMeta and the STEPS VPRI project, as well as Kuro/Shiro.
 
 Staged computation inspired by the Shonan Challenge, and especially the papers [http://okmij.org/ftp/meta-programming/HPC.html](here).
 
