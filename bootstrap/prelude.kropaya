@@ -13,6 +13,17 @@
 ※ arbitrary-list is used like so:
 ※ <&cons ⇒ {&car ⇒ 3, &cdr ⇒ <&cons ⇒ {&car ⇒ "Foo", &cdr ⇒ <&end>} ← Text>} ← Number>
 
+%let Foldable = ∃foldable. μfoldr foldMap.
+  foldMap: ∀m. ∃(x: Monoid m). (foldable → m) → foldable → m.
+  foldMap f = foldr (x#mappend ∘ f) x#mempty.
+
+  foldr: ∀a b. (a → b → b) → b → foldable → b.
+  foldr f z t = appEndo (foldMap (Endo ∘ f) t) z 
+
+  foldl: ∀a b. (b → a → b) → b → foldable → b.
+  foldl f z t = appEndo (getDual (foldMap (Dual ∘ Endo ∘ flip f) t)) z.
+%end
+
 %let μget set lengths volume.
   %let shape = list Int.
   %let array = ∃(s:shape) type. %edge magic-array-body.
