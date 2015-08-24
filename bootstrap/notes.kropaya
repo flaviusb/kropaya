@@ -1,6 +1,7 @@
 ※ This is a comment
 
 ※ All definitions define for the rest of the scope, plus enclosed scopes
+※ For definition blocks, all rhs are evaluated before binding; if you want to refer to other variables in the block simultaneously, you have to use quantification (usually μ) - non simultaneously, you must use explicit thunks and forcing
 
 ※ Variable definitions:
 
@@ -23,11 +24,32 @@
 
 %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>
 
-%let shape = μshape. <&chunk: shape, &length: Int>.
+%let shape = list Int.
+
+※ Useful functions
+
+%let μid.
+  id: ∀x. x → x.
+  id a = a.
+%end
+
+%let ∀a b. λt∈Foldable.
+  foldl: (b → a → b) → b → t a → b
+  fold
+%end
 
 ※ Module definitions
 
-%let array = ∃the-shape type. μarray. ıget set lengths.
+%let μsplitChunk foo.
+  splitChunk = case foo
+
+  foo = {
+    &chunk ⇒ \x → fold x splitChunk,
+    &length ⇒ id
+  }
+%end
+
+%let array = ∃the-shape type. μarray. ıget set lengths length.
   get: Int → array shape type → maybe type.
   get index the-array = %edge magic-array-get.
 
@@ -36,4 +58,7 @@
 
   lengths: array shape type → shape.
   lengths _ = the-shape.
+
+  length: array shape type → Int.
+  length _ = the-shape
 %end

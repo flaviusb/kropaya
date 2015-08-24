@@ -9,6 +9,31 @@ Defining form
 
 ---
 
+type/variable:
+
+%let name = quantifier\* type-stuff/value-stuff.
+
+*or*
+
+%let quantifier\*
+  (name = quantifier\* type-stuff/value-stuff.)\*
+%end
+
+module:
+
+%let name = quantifier\*
+  (name = quantifier\* type-stuff/value-stuff.)\*
+%end
+
+*or*
+
+%let quantifier\*
+  (%let name = quantifier\*
+    (name = quantifier\* type-stuff/value-stuff.)\*
+  %end)\*
+%end
+
+
 Note:
 
 ###Locatives
