@@ -40,28 +40,19 @@
   volume _ = foldl shape (+) 0.
 %end
 
-%module map-base
-%exports
-  keys
-  values
-  map
-  get
-  set
-%begin
-  %module ∃keys values. map
-  %begin
-    %edge magic-map-body
-  %end
-  %functions
-    get : ∀keys values. keys → map keys values → maybe values
-    get index the-map = %edge magic-map-get
+%let μmap.
+  map = ∃keys values. %edge magic-map-body.
 
-    set : ∀keys values. keys → values → map keys values → values
-    set index value the-map = %edge magic-map-set
+  get: ∀keys values. keys → map keys values → maybe values.
+  get = %edge magic-map-get.
 
-    values : ∀keys values. map keys
+  set: ∀keys values. keys → values → map keys values → values.
+  set = %edge magic-map-set.
 
-  %end
+  keys: ∀k v. map k v → list k.
+  keys = %edge magic-map-key.
+  values: ∀k v. map k v → list v.
+  values = %edge magic-map-value
 %end
 
 
