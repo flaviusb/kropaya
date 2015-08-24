@@ -64,9 +64,11 @@ Each subfolder has it's own `README.md` detailing relevant things.
 
 The project is licensed under the GPLv3; details in `LICENSE`. Vendored files are available under their own licenses, which are listed either at the root of their vendored directory or at the top of each file.
 
-Installing instractions will eventually be in `INSTALL.md`.
+Installing instructions will eventually be in `INSTALL.md`.
 
 General project layout explanations are in `LAYOUT.md`.
+
+The basic language description is in `kropaya-description.md`.
 
 My assorted noodling and ill-considered thoughts at any given time about the project are in `scratch.md`.
 
