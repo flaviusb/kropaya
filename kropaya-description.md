@@ -9,7 +9,7 @@ Variables are introduced in two ways:
 - Through quantification
 - Through %let statements
 
-The quantifiers are ∀ ∃ μ λ ı (forall, there exists, mu, lambda, fresh), which work 'as usual'.
+The quantifiers are ∀ ∃ μ λ ı (forall, there exists, mu, lambda, fresh), which work 'as usual'. Note: ∃ has no ontological commitment.
 
 The evaluation of %let blocks happens sequentially. Evaluation of = statements inside a %let block happens with all rhs first, then when the corresponding %end is reached, all the bindings are made. So, this means that μ must be used for = statements inside a %let to refer to each other, but succesive %let statements may refer to previous %let statements.
 
