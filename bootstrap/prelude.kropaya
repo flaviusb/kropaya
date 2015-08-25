@@ -26,7 +26,7 @@
     foldl f z t = appEndo (getDual (foldMap (Dual ∘ Endo ∘ flip f) t)) z.
   %end
 
-  %let Quotient = ∃a. ∃(eq: a → a → truth).
+  %let Quotient = ∃a. ∃(eq: a → a → truth). ※ Properties: ∀m n o. eq m n ≡ eq n m. (eq m n ∧ eq n o) → eq m o.
   %end
 
   %let μget set lengths volume.
