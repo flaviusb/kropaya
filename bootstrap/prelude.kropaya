@@ -4,11 +4,17 @@
 
   ※ Some common types
 
-  %let truth = <&t, &f>.
-
   %let maybe = ∃a. <&some: a, &none>.
 
   %let either = ∃a. ∃b. <&left: a, &right: b>.
+
+  %let truth = <&true, &false>.
+  %let
+    if: ∀a b. truth → a → b → either a b.
+    if condition then else = condition {&true ⇒ <&left ⇒ then>, &false ⇒ <&right ⇒ else>}.
+    if: ∀a. truth → a → a → a.
+    if condition then else = condition {&true ⇒ then, &false ⇒ else}.
+  %end
 
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
   %let arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>.
@@ -45,11 +51,12 @@
     volume _ = foldl shape (+) 0.
   %end
 
-  %let μmap.
-    map = ∃k v comparator (quotient: Quotient k comparator). 
+  ※ For now, we do map as a naive association-list.
+  %let μmap map-part.
+    map = ∃k v comparator (quotient: Quotient k comparator). list <&key: k, &value: v>.
 
     get: ∀keys values c q. keys → map keys values c q → maybe values.
-    get = %edge magic-map-get.
+    get = ※ ...
 
     set: ∀keys values c q. keys → values → map keys values c q → values.
     set = %edge magic-map-set.
