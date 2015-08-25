@@ -3,6 +3,8 @@
   ※ Many of these are for basic types, and other things that are needed to get the initial machinery running
 
   ※ Some common types
+
+  %let truth = <&t, &f>.
   ※ type maybe a = <&some: a, &none>
   %let maybe = ∃a. <&some: a, &none>.
   ※ type either a b = <&left: a, &right: b>
@@ -24,6 +26,9 @@
     foldl f z t = appEndo (getDual (foldMap (Dual ∘ Endo ∘ flip f) t)) z.
   %end
 
+  %let Quotient = ∃a. ∃(eq: a → a → truth).
+  %end
+
   %let μget set lengths volume.
     %let shape = list Int.
     %let array = ∃(s:shape) type. %edge magic-array-body.
@@ -41,17 +46,17 @@
   %end
 
   %let μmap.
-    map = ∃keys values. %edge magic-map-body.
+    map = ∃k v comparator (quotient: Quotient k comparator). 
 
-    get: ∀keys values. keys → map keys values → maybe values.
+    get: ∀keys values c q. keys → map keys values c q → maybe values.
     get = %edge magic-map-get.
 
-    set: ∀keys values. keys → values → map keys values → values.
+    set: ∀keys values c q. keys → values → map keys values c q → values.
     set = %edge magic-map-set.
 
-    keys: ∀k v. map k v → list k.
+    keys: ∀k v q c. map k v q c  → list k.
     keys = %edge magic-map-key.
-    values: ∀k v. map k v → list v.
+    values: ∀k v q c. map k v q c → list v.
     values = %edge magic-map-value
   %end
 
