@@ -5,11 +5,11 @@
   ※ Some common types
 
   %let truth = <&t, &f>.
-  ※ type maybe a = <&some: a, &none>
+
   %let maybe = ∃a. <&some: a, &none>.
-  ※ type either a b = <&left: a, &right: b>
+
   %let either = ∃a. ∃b. <&left: a, &right: b>.
-  ※ type list a = <&end, &cons: {&car: a, &cdr: list a}> 
+
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
   %let arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>.
   ※ arbitrary-list is used like so:
