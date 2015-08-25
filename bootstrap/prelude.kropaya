@@ -19,7 +19,19 @@
 
   %let either = ∃a. ∃b. <&left: a, &right: b>.
 
-  %let truth = <&true, &false>.
+  %let μtruth and or not.
+    truth = <&true, &false>.
+    and: truth → truth → truth.
+    and &true &true = &true.
+    and _ _ = &false.
+    or: truth → truth → truth.
+    or &false &false = &false.
+    or _ _ = &true.
+    not: truth → truth.
+    not &true = &false.
+    not &false = &true.
+  %end
+
   %let
     if: ∀a b. truth → U a → U b → either a b.
     if condition then else = (condition {&true ⇒ \x → <&left ⇒ force then>, &false ⇒ \x → <&right ⇒ force else>}) _.
@@ -82,8 +94,12 @@
     get: ∀keys values c q. keys → map keys values c q → maybe values.
     get key the-map = case { &end ⇒ \x → <&none>, &cons ⇒ (\x → (if (c the-key (&key (&car x))) (thunk (<&some⇒(&value x)>)) (thunk (get key (&cdr x))))) } the-map
 
-    set: ∀keys values c q. keys → values → map keys values c q → values.
-    set = %edge magic-map-set.
+    set: ∀keys values c q. keys → values → map keys values c q → map keys values c q.
+    set key value the-map = <&cons⇒{&car⇒{&key⇒key, &value⇒value}, &cdr⇒filter (\x → not (c the-key x)) the-map}>.
+    ※set key value the-map = case {&none ⇒ (\x → (<&cons⇒<&car⇒<&key⇒key, &value⇒value>, &cdr⇒the-map>>: map keys values c q)), &some⇒} (get key the-map)
+
+    filter: ∀keys values c q. (keys → truth) → map keys values c q → map keys values c q.
+    filter pred the-map = case { &end ⇒ id, &cons ⇒ \x → (if (pred (&car x)) (thunk (<&cons⇒{&car⇒&car x, &cdr⇒filter pred (&cdr x)}>)) (thunk (filter pred (&cdr x)))) } the-map.
 
     keys: ∀k v q c. map k v q c  → list k.
     keys = %edge magic-map-key.
