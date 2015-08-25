@@ -16,7 +16,7 @@ Variables are introduced in two ways:
 
 The quantifiers are ∀ ∃ μ λ ı (forall, there exists, mu, lambda, fresh), which work 'as usual'. Note: ∃ has no ontological commitment.
 
-The evaluation of %let blocks happens sequentially. Evaluation of = statements inside a %let block happens with all rhs first, then when the corresponding %end is reached, all the bindings are made. So, this means that μ must be used for = statements inside a %let to refer to each other, but succesive %let statements may refer to previous %let statements.
+The evaluation of %let blocks happens sequentially. Evaluation of = statements inside a %let block happens with all rhs first, then when the corresponding %end is reached, all the bindings are made. So, this means that μ must be used for = statements inside a %let to refer to each other, but succesive %let statements may refer to previous %let statements. Bindings can be plain names, or names with a trailing pattern. Patterns are evaluated for matching in the order declared.
 
 Typing judgements are signalled with ':'.
 
