@@ -201,10 +201,10 @@
 ;; Universe
 
 ; We use the kropaya representation of these things as much as possible
-(defun make-universe ()
-  )
+;(defun make-universe ()
+;  )
 
-(setq universe)
+;(setq universe)
 
 ;; Mirror
 
