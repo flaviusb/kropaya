@@ -56,7 +56,7 @@
   %end
 
   %let
-    case : ∀ match-label match-type other-cases result. {match-label:(match-type→result) |other-cases} → <match-label:match-type |other-cases> → result.
+    case : ∀ match-label match-type other-cases result. {match-label:(match-type→result) |other-cases} → <match-label:match-type> → result.
     case pattern it = (match-label pattern) (match-label it).
 
     id : ∀x. x → x.
