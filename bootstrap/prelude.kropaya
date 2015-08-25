@@ -70,21 +70,21 @@
   %let Quotient = ∃a. ∃(eq: a → a → truth). ※ Properties we want to be able to state: ∀m n o. eq m m. eq m n ≡ eq n m. (eq m n ∧ eq n o) → eq m o.
   %end
 
-  %let μget set lengths volume.
-    %let shape = list Int.
-    %let array = ∃(s:shape) type. %edge magic-array-body.
-    get: ∀type. Int → array shape type → maybe type.
-    get index the-array = %edge magic-array-get.
-
-    set: ∀type. Int → array shape type → type → either Text type.
-    set index the-array the-value = %edge magic-array-set.
-
-    lengths: ∀type. array shape type → list Int.
-    lengths _ = shape.
-
-    volume: ∀type. array shape type → Int.
-    volume _ = foldl shape (+) 0.
-  %end
+  ※%let μget set lengths volume.
+  ※  %let shape = list Int.
+  ※  %let array = ∃(s:shape) type. %edge magic-array-body.
+  ※  get: ∀type. Int → array shape type → maybe type.
+  ※  get index the-array = %edge magic-array-get.
+  ※
+  ※  set: ∀type. Int → array shape type → type → either Text type.
+  ※  set index the-array the-value = %edge magic-array-set.
+  ※
+  ※  lengths: ∀type. array shape type → list Int.
+  ※  lengths _ = shape.
+  ※
+  ※  volume: ∀type. array shape type → Int.
+  ※  volume _ = foldl shape (+) 0.
+  ※%end
 
 
   ※ For now, we do map as a naive association-list.
