@@ -88,7 +88,7 @@
 
 
   ※ For now, we do map as a naive association-list.
-  %let μmap.
+  %let μmap keys values filter set get.
     map = ∃k v comparator (quotient: Quotient k comparator). list <&key: k, &value: v>.
 
     get: ∀keys values c q. keys → map keys values c q → maybe values.
@@ -102,9 +102,9 @@
     filter pred the-map = case { &end ⇒ id, &cons ⇒ \x → (if (pred (&car x)) (thunk (<&cons⇒{&car⇒&car x, &cdr⇒filter pred (&cdr x)}>)) (thunk (filter pred (&cdr x)))) } the-map.
 
     keys: ∀k v q c. map k v q c  → list k.
-    keys = %edge magic-map-key.
+    keys the-map = case { &end ⇒ id, &cons ⇒ \x → <&cons⇒{&car⇒(&key (&car x)), &cdr⇒(keys (&cdr x))}> } the-map.
     values: ∀k v q c. map k v q c → list v.
-    values = %edge magic-map-value
+    values the-map = case { &end ⇒ id, &cons ⇒ \x → <&cons⇒{&car⇒(&value (&car x)), &cdr⇒(keys (&cdr x))}> } the-map.
   %end
 
 
