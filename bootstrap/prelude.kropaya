@@ -67,7 +67,7 @@
   ※ show : either Text Text → Eff IO
   ※ show result = print (case {&left ⇒ \x → "error: #{x}", &right ⇒ id} result)
 
-  %let Quotient = ∃a. ∃(eq: a → a → truth). ※ Properties: ∀m n o. eq m n ≡ eq n m. (eq m n ∧ eq n o) → eq m o.
+  %let Quotient = ∃a. ∃(eq: a → a → truth). ※ Properties we want to be able to state: ∀m n o. eq m m. eq m n ≡ eq n m. (eq m n ∧ eq n o) → eq m o.
   %end
 
   %let μget set lengths volume.
