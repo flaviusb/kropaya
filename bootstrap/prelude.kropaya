@@ -92,7 +92,7 @@
     map = ∃k v comparator (quotient: Quotient k comparator). list <&key: k, &value: v>.
 
     get: ∀keys values c q. keys → map keys values c q → maybe values.
-    get key the-map = case { &end ⇒ \x → <&none>, &cons ⇒ (\x → (if (c the-key (&key (&car x))) (thunk (<&some⇒(&value x)>)) (thunk (get key (&cdr x))))) } the-map
+    get key the-map = case { &end ⇒ \x → <&none>, &cons ⇒ (\x → (if (c the-key (&key (&car x))) (thunk (<&some⇒(&value x)>)) (thunk (get key (&cdr x))))) } the-map.
 
     set: ∀keys values c q. keys → values → map keys values c q → map keys values c q.
     set key value the-map = <&cons⇒{&car⇒{&key⇒key, &value⇒value}, &cdr⇒filter (\x → not (c the-key x)) the-map}>.
