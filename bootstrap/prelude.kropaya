@@ -4,16 +4,27 @@
 
   ※ Some common types
 
+  %let
+    U = ∃a. %edge magic-thunk-type.
+    ※ Notionally there should be a symmetric type for 'forced' things; it doesn't quite make sense in the current formulation.
+    ※ The type declaration would be F = ∃a. %edge magic-force-type.
+
+    ※ Type sig would notionally be thunk: ∀a: a → U a. This does not capture the fact that a is swallowed unevalled though.
+    thunk i = %edge magic-thunk.
+    force: ∀a: U a → a.
+    force i = %edge magic-force.
+  %end
+
   %let maybe = ∃a. <&some: a, &none>.
 
   %let either = ∃a. ∃b. <&left: a, &right: b>.
 
   %let truth = <&true, &false>.
   %let
-    if: ∀a b. truth → a → b → either a b.
-    if condition then else = condition {&true ⇒ <&left ⇒ then>, &false ⇒ <&right ⇒ else>}.
-    if: ∀a. truth → a → a → a.
-    if condition then else = condition {&true ⇒ then, &false ⇒ else}.
+    if: ∀a b. truth → U a → U b → either a b.
+    if condition then else = condition {&true ⇒ <&left ⇒ force then>, &false ⇒ <&right ⇒ force else>}.
+    if: ∀a. truth → U a → U a → a.
+    if condition then else = condition {&true ⇒ force then, &false ⇒ force else}.
   %end
 
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
@@ -52,7 +63,7 @@
   %end
 
   ※ For now, we do map as a naive association-list.
-  %let μmap map-part.
+  %let μmap.
     map = ∃k v comparator (quotient: Quotient k comparator). list <&key: k, &value: v>.
 
     get: ∀keys values c q. keys → map keys values c q → maybe values.
