@@ -80,7 +80,7 @@
     map = ∃k v comparator (quotient: Quotient k comparator). list <&key: k, &value: v>.
 
     get: ∀keys values c q. keys → map keys values c q → maybe values.
-    get = if ({}) (thunk ())
+    get key the-map = case { &end ⇒ \x → <&none>, &cons ⇒ (\x → (if (c the-key (&key (&car x))) (thunk (<&some⇒(&value x)>)) (thunk (get key (&cdr x))))) } the-map
 
     set: ∀keys values c q. keys → values → map keys values c q → values.
     set = %edge magic-map-set.
