@@ -112,7 +112,7 @@
   %end
 
 
-  %let μlet lambda juxtaposition quantifier tree pattern type variable literal label row product sum.
+  %let μlet lambda juxtaposition quantifier tree pattern type-function type variable literal label row product sum.
     tree = list <&let: let, &lambda: lambda, &juxtaposition: juxtaposition, &literal: literal, &variable: variable>.
     variable = Text.
     literal = <&text: Text, &number: Int, &product: product, &sum: sum, &label: label>.
@@ -121,6 +121,8 @@
     juxtaposition = list tree.
     quantifier = {&quantifier: <&forall, &exists, &fresh, &lambda, &mu>, &variables: list <&bare: variable, &constraint: {&variable: variable, &judgement: type}>}.
     pattern = list <&variable: variable, &underscore, &literal: literal>.
+    type-function = {&l: type, &r: type}.
+    type = {&quantifiers: list quantifier, &formula: <&fn: type-function, &row: row, &literal: literal>}.
   %end
 
 %end
