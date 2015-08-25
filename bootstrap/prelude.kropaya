@@ -108,6 +108,10 @@
   %end
 
 
+  %let μlet lambda juxtaposition quantifier tree pattern type.
+    let = {&root: <&parent, &module: Text>, &quantifiers: list quantifier, &bindings: map Text <&judgement: type, &thing: {&pattern: pattern, &rhs: tree}>}
+  %end
+
   ※ AST types - these are fairly strongly tied to an implementation of read, eval, and mirror
   %types (μ tree forest Name Quantifier Arguments Module Program Coprogram Procedure Function Combinator Let TypeDeclaration TypeBlock TypeValue TypeVariable RowType ApplicationType Expression Literal Product Sum Lookup Juxtaposition)
     forest = array tree.
