@@ -112,10 +112,10 @@
   %end
 
 
-  %let μlet lambda juxtaposition quantifier tree pattern type-function type variable literal label row product sum.
+  %let μlet lambda juxtaposition quantifier tree pattern type-function type variable literal label singular-row row product sum.
     tree = list <&let: let, &lambda: lambda, &juxtaposition: juxtaposition, &literal: literal, &variable: variable>.
     variable = Text.
-    literal = <&text: Text, &number: Int, &product: product, &sum: sum, &label: label>.
+    literal = <&text: Text, &number: Int, &product: product, &sum: sum, &singular-row: singular-row, &label: label>.
     let = {&root: <&parent, &module: variable>, &quantifiers: list quantifier, &bindings: map variable (list <&judgement: type, &thing: {&pattern: pattern, &rhs: tree}>)}.
     lambda = {&arguments: list variable, &body: tree}.
     juxtaposition = list tree.
@@ -123,6 +123,11 @@
     pattern = list <&variable: variable, &underscore, &literal: literal>.
     type-function = {&l: type, &r: type}.
     type = {&quantifiers: list quantifier, &formula: <&fn: type-function, &row: row, &literal: literal>}.
+    label = <&literal: Text, &variable: variable>.
+    singular-row = {&label: label, &extra: <&type: type, &value: tree, &nothing>}.
+    row = list singular-row.
+    product = row.
+    sum = row.
   %end
 
 %end
