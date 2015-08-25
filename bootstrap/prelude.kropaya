@@ -108,8 +108,12 @@
   %end
 
 
-  %let μlet lambda juxtaposition quantifier tree pattern type.
-    let = {&root: <&parent, &module: Text>, &quantifiers: list quantifier, &bindings: map Text <&judgement: type, &thing: {&pattern: pattern, &rhs: tree}>}
+  %let μlet lambda juxtaposition quantifier tree pattern type variable.
+    variable = Text.
+    let = {&root: <&parent, &module: variable>, &quantifiers: list quantifier, &bindings: map variable <&judgement: type, &thing: {&pattern: pattern, &rhs: tree}>}.
+    lambda = {&arguments: list variable, &body: tree}.
+    juxtaposition = list tree.
+    quantifier = {&quantifier: <&forall, &exists, &fresh, &lambda, &mu>, &variables: list <&bare: variable, &constraint: {&variable: variable, &judgement: type}>}.
   %end
 
   ※ AST types - these are fairly strongly tied to an implementation of read, eval, and mirror
