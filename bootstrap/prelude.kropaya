@@ -22,9 +22,9 @@
   %let truth = <&true, &false>.
   %let
     if: ∀a b. truth → U a → U b → either a b.
-    if condition then else = condition {&true ⇒ <&left ⇒ force then>, &false ⇒ <&right ⇒ force else>}.
+    if condition then else = (condition {&true ⇒ \x → <&left ⇒ force then>, &false ⇒ \x → <&right ⇒ force else>}) _.
     if: ∀a. truth → U a → U a → a.
-    if condition then else = condition {&true ⇒ force then, &false ⇒ force else}.
+    if condition then else = (condition {&true ⇒ \x → force then, &false ⇒ \x → force else}) _.
   %end
 
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
