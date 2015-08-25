@@ -29,10 +29,13 @@ Juxtaposition is function application. Brackets work 'as usual'. Numeric and str
 The syntax of a %let block is:
 
 %let ((target =)|) quantifier\*
+
   ((binding = value)|(%let...)) \*
+
 %end
+
 
 Without a target, the bindings are evaluated into the current context. Otherwise, a module is created.
 
-Bindings inside a module are accessed with #.
+Bindings inside a module are accessed with # - ie 'module#foo' to access 'foo' which is in 'module'.
 
