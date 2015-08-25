@@ -5,7 +5,7 @@ The keywords are %let, %end, and %edge.
 Labels are first class, and are punned as functions; literal labels are sigillised with &.
 
 Syntax for lambdas is:
-\(space separated variables) → body
+\\(space separated variables) → body
 
 Lambdas form functions exactly like function definitions, but without needing a binding, 'like usual'.
 
