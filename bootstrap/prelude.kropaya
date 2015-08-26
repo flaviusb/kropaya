@@ -5,6 +5,11 @@
   ※ Some common types
 
   %let
+    ⊥ = %edge magic-bottom.
+    ⊤ = %edge magic-top.
+  %end
+
+  %let
     U = ∃a. %edge magic-thunk-type.
     ※ Notionally there should be a symmetric type for 'forced' things; it doesn't quite make sense in the current formulation.
     ※ The type declaration would be F = ∃a. %edge magic-force-type.
