@@ -48,15 +48,25 @@
   %end
 
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
+  %let non-empty-list-of-y = ∃(x: ★ → ★). ∃y. <&cons: {&car: y, &cdr: x y}>.
+  %let list-of-2-or-more = non-empty-list-of-y (non-empty-list-of-y (list)).
   %let arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>.
   ※ arbitrary-list is used like so:
   ※ <&cons ⇒ {&car ⇒ 3, &cdr ⇒ <&cons ⇒ {&car ⇒ "Foo", &cdr ⇒ <&end>}: arbitrary-list Text>}: arbitrary-list Number>
 
-  %let Foldable = ∃foldable. μfoldr foldMap.
-    foldMap: ∀m. ∃(x: Monoid m). (foldable → m) → foldable → m.
+  %let BinaryNat = μnum start done.
+    num = <&zero: num, &one: num, &done>.
+    start = <&one: num, &zero: done>.
+    done = <&done>.
+  %end
+  %let nat = BinaryNat#start.
+  %let Foldable = ∃foldable. μfoldr foldMap foldrType foldMapType Foldable.
+    foldMapType = ∀m. ∃(x: Monoid m). (foldable → m) → foldable → m.
+    foldMap: foldMapType.
     foldMap f = foldr (x#mappend ∘ f) x#mempty.
 
-    foldr: ∀a b. (a → b → b) → b → foldable → b.
+    foldrType = ∀a b. (a → b → b) → b → foldable → b.
+    foldr: foldrType.
     foldr f z t = appEndo (foldMap (Endo ∘ f) t) z 
 
     foldl: ∀a b. (b → a → b) → b → foldable → b.
