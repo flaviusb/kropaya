@@ -50,7 +50,7 @@
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
   %let arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>.
   ※ arbitrary-list is used like so:
-  ※ <&cons ⇒ {&car ⇒ 3, &cdr ⇒ <&cons ⇒ {&car ⇒ "Foo", &cdr ⇒ <&end>} ← Text>} ← Number>
+  ※ <&cons ⇒ {&car ⇒ 3, &cdr ⇒ <&cons ⇒ {&car ⇒ "Foo", &cdr ⇒ <&end>}: arbitrary-list Text>}: arbitrary-list Number>
 
   %let Foldable = ∃foldable. μfoldr foldMap.
     foldMap: ∀m. ∃(x: Monoid m). (foldable → m) → foldable → m.
