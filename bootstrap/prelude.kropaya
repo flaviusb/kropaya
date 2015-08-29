@@ -4,9 +4,12 @@
 
   ※ Some common types
 
-  %let
+  %let μNum.
     ⊥ = %edge magic-bottom.
     ⊤ = %edge magic-top.
+    Text = %edge magic-text.
+    Num = %edge magic-num. ※ For now, num is just int. Fairly soon we will need an actual numerical hierarchy. I envisage three separate sets of typeclasses - one based on machine types, one based on infinite precision types, and one based on group theory.
+    Int = Num.
   %end
 
   %let
@@ -120,7 +123,7 @@
   %let μlet lambda juxtaposition quantifier tree pattern type-function type variable literal label singular-row row product sum.
     tree = list <&let: let, &lambda: lambda, &juxtaposition: juxtaposition, &literal: literal, &variable: variable>.
     variable = Text.
-    literal = <&text: Text, &number: Int, &product: product, &sum: sum, &singular-row: singular-row, &label: label>.
+    literal = <&text: Text, &number: Num, &product: product, &sum: sum, &singular-row: singular-row, &label: label>.
     let = {&root: <&parent, &module: variable>, &quantifiers: list quantifier, &bindings: map variable (list <&judgement: type, &thing: {&pattern: pattern, &rhs: tree}>)}.
     lambda = {&arguments: list variable, &body: tree}.
     juxtaposition = list tree.
