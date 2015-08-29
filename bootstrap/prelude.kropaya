@@ -48,7 +48,7 @@
   %end
 
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
-  %let non-empty-list-of-y = ∃(x: ★ → ★). ∃y. <&cons: {&car: y, &cdr: x y}>.
+  %let non-empty-list-of-y = ∀q r. ∃(x: q → r). ∃y. <&cons: {&car: y, &cdr: x y}>.
   %let list-of-2-or-more = non-empty-list-of-y (non-empty-list-of-y (list)).
   %let arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>.
   ※ arbitrary-list is used like so:
