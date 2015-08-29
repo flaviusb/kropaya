@@ -133,7 +133,7 @@
     type = {&quantifiers: list quantifier, &formula: <&fn: type-function, &row: row, &literal: literal>}.
     label = <&literal: Text, &variable: variable>.
     singular-row = {&label: label, &extra: <&type: type, &value: tree, &nothing>}.
-    row = list singular-row.
+    row = {&fixed-rows: list singular-row, &polymorphic-extensions: list variable, &restrictions: list <&variable: variable, &literal-singular-row: singular-row, &literal-row: row>}.
     product = row.
     sum = row.
   %end
