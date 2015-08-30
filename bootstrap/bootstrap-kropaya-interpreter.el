@@ -195,14 +195,14 @@
   (funcall (new-context-then-merge
              (return-text-under-match (regexp-match identifier-string))
              ""
-             (lambda (old new) (cons old (make-variable new))))
+             (lambda (old new) (if (eq old nil) (list (make-variable new)) (append old (list (make-variable new))))))
            text pos data))
 
 (defun list-of-vars (text pos data)
   (funcall (new-context-then-merge
              (seq #'parse-variable (star (seq #'parse-ws #'parse-variable)))
              nil
-             (lambda (old new) (list new old)))
+             (lambda (old new) new))
            text pos data))
 
 (defun quantifier (name parser)
