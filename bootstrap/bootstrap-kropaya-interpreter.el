@@ -101,6 +101,9 @@
 (defun make-identifier (val)
   (make-primitive 'identifier val))
 
+(defun make-quantifier (kind variables)
+  (make-primitive 'quantifier (make-primitive kind variables)))
+
 ;; Sum and product pairs are an alist of labe
 (defun make-type-row (kind pairs)
   (make-primitive kind pairs))
@@ -113,6 +116,9 @@
 
 (defun make-module (name quantifiers forest)
   (make-primitive 'module `((name . ,name) (quantifiers . ,quantifiers) (forest . ,forest))))
+
+(defun make-variable (name)
+  (make-primitive 'variable name))
 
 ;(setq prelude (make-module 'prelude '() '()))
 ;
@@ -184,6 +190,40 @@
   (funcall (regexp-match "\\(※.*$\\)\\|\\(#\\.[^.]*\\.\\)") text pos data))
 
 (setq identifier-string "\\(\\([_+]+[_+:]*\\)?[a-zA-Z][a-zA-Z0-9_:$!?%=<>-]*\\)\\|\\([~!@$%^*_=\'`/?×÷≠⧺⧻§∘≢∨∪∩□⊃∈+-]+[:~!@$%^*_=\'`/?×÷≠⧺⧻§∘≢∨∪∩□⊃∈+-]*\\)\\|\\(\\[\\]\\)\\|…")
+
+(defun parse-variable (text pos data)
+  (funcall (new-context-then-merge
+             (return-text-under-match (regexp-match identifier-string))
+             ""
+             (lambda (old new) (cons old (make-variable new))))
+           text pos data))
+
+(defun list-of-vars (text pos data)
+  (funcall (new-context-then-merge
+             (seq #'parse-variable (star (seq #'parse-ws #'parse-variable)))
+             nil
+             (lambda (old new) (list new old)))
+           text pos data))
+
+(defun quantifier (name parser)
+  (lambda (text pos data)
+    (funcall (wrapped
+               parser
+               (lambda (data start end text) (make-quantifier name data)))
+             text pos data)))
+
+(defun parse-quantifier (text pos data)
+  (funcall (new-context-then-merge
+             (alt
+               (quantifier 'forall (seq (lit "∀") (star #'parse-ws) #'list-of-vars (star #'parse-ws) (lit ".")))
+               (quantifier 'exists (seq (lit "∃") (star #'parse-ws) #'list-of-vars (star #'parse-ws) (lit ".")))
+               (quantifier 'mu     (seq (lit "μ") (star #'parse-ws) #'list-of-vars (star #'parse-ws) (lit ".")))
+               (quantifier 'fresh  (seq (lit "ı") (star #'parse-ws) #'list-of-vars (star #'parse-ws) (lit ".")))
+               (quantifier 'lambda (seq (lit "λ") (star #'parse-ws) #'list-of-vars (star #'parse-ws) (lit ".")))
+              )
+              nil
+              (lambda (old new) (cons old new)))
+           text pos data))
 
 (defun parse-identifier (text pos data)
   (funcall (new-context-then-merge 

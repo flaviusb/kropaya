@@ -1,0 +1,42 @@
+
+"Test quantifiers."
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 3 (nil quantifier (forall ((nil variable "x") nil))) t nil]
+
+[cl-struct-parser-result 4 (nil quantifier (exists ((nil variable "x") nil))) t nil]
+
+[cl-struct-parser-result 4 (nil quantifier (mu ((nil variable "x") nil))) t nil]
+
+[cl-struct-parser-result 5 (nil quantifier (fresh ((nil variable "x") nil))) t nil]
+
+[cl-struct-parser-result 14 (nil quantifier (lambda ((nil variable "x") nil))) t nil]
+
+[cl-struct-parser-result 5 (nil quantifier (forall (((nil variable "x") variable "y") nil))) t nil]
+
+[cl-struct-parser-result 9 (nil quantifier (exists (((((nil variable "x") variable "y") variable "z") variable "s") nil))) t nil]
+
+[cl-struct-parser-result 31 (nil quantifier (mu ((((nil variable "dqwfwefx") variable "wef") variable "rgearbgse") nil))) t nil]
+
+[cl-struct-parser-result 5 (nil quantifier (fresh ((nil variable "x4") nil))) t nil]
+
+[cl-struct-parser-result 3 (nil quantifier (lambda ((nil variable "§") nil))) t nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
