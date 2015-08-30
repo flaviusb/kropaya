@@ -183,7 +183,7 @@
 (defun parse-comment (text pos data)
   (funcall (regexp-match "\\(※.*$\\)\\|\\(#\\.[^.]*\\.\\)") text pos data))
 
-(setq identifier-string "\\(\\([_+]+[_+:]*\\)?[a-zA-Z][a-zA-Z0-9_:$!?%=<>-]*\\)\\|\\([~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+-]+[:~!@$%^*_=\'`/?×÷≠→←⇒⇐⧺⧻§∘≢∨∪∩□∀⊃∈+-]*\\)\\|\\(\\[\\]\\)\\|…")
+(setq identifier-string "\\(\\([_+]+[_+:]*\\)?[a-zA-Z][a-zA-Z0-9_:$!?%=<>-]*\\)\\|\\([~!@$%^*_=\'`/?×÷≠⧺⧻§∘≢∨∪∩□⊃∈+-]+[:~!@$%^*_=\'`/?×÷≠⧺⧻§∘≢∨∪∩□⊃∈+-]*\\)\\|\\(\\[\\]\\)\\|…")
 
 (defun parse-identifier (text pos data)
   (funcall (new-context-then-merge 
