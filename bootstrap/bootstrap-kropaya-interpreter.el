@@ -205,6 +205,13 @@
              (lambda (old new) new))
            text pos data))
 
+(defun list-of-quantifiers (text pos data)
+  (funcall (new-context-then-merge
+             (seq #'parse-quantifier (star (seq #'parse-ws #'parse-quantifier)))
+             nil
+             (lambda (old new) new))
+           text pos data))
+
 (defun quantifier (name parser)
   (lambda (text pos data)
     (funcall (wrapped
@@ -224,6 +231,9 @@
               nil
               (lambda (old new) (cons old new)))
            text pos data))
+
+(defun parse-quantifiers (text pos data)
+  (list-of-quantifiers text pos data))
 
 (defun parse-identifier (text pos data)
   (funcall (new-context-then-merge 

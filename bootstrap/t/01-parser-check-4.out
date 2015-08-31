@@ -40,3 +40,25 @@
 [cl-struct-parser-result 0 (nil) nil nil]
 
 [cl-struct-parser-result 0 (nil) nil nil]
+
+"Test quantifier lists."
+
+[cl-struct-parser-result 7 ((nil quantifier (forall ((variable "x")))) quantifier (forall ((variable "y")))) t nil]
+
+[cl-struct-parser-result 14 ((nil quantifier (exists ((variable "a") (variable "q")))) quantifier (forall ((variable "r") (variable "q")))) t nil]
+
+[cl-struct-parser-result 16 ((nil quantifier (mu ((variable "w")))) quantifier (lambda ((variable "qwewefwdv")))) t nil]
+
+[cl-struct-parser-result 7 ((nil quantifier (fresh ((variable "i")))) quantifier (lambda ((variable "l")))) t nil]
+
+[cl-struct-parser-result 34 (((nil quantifier (lambda ((variable "a1") (variable "b2") (variable "c3")))) quantifier (lambda ((variable "§") (variable "*") (variable "×")))) quantifier (exists ((variable "$") (variable "$$") (variable "$$$") (variable "$$$$")))) t nil]
+
+[cl-struct-parser-result 3 (nil quantifier (forall ((variable "x")))) t nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 4 (nil quantifier (mu ((variable "w")))) t nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
+
+[cl-struct-parser-result 0 (nil) nil nil]
