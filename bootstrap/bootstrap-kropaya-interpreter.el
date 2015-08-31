@@ -52,6 +52,10 @@
         do (setq result (funcall parser text (parser-result-pos previous-result) (parser-result-data previous-result)))
       ))))
 
+(defun plus (parser)
+  (lambda (text pos data)
+    (funcall (seq parser (star parser)) text pos data)))
+
 ; Some basic parser creators
 
 (defun safe-substring (text start end)
@@ -185,6 +189,13 @@
 
 (defun parse-literal (text pos data)
   (funcall (alt #'parse-number #'parse-string) text pos data)) ; Extend this as we add more literal types
+
+(defun parse-juxtaposition (text pos data)
+  (funcall (seq (plus (alt #'parse-tree-branch (bracketed-x parse-tree))) #'parse-nl-or-dot) text pos data))
+
+(defun bracketed-x (parser)
+  (lambda (text pos data)
+    (funcall (seq (lit "(") (opt #'parse-ws) (alt (bracketed-x parser) parser) (opt #'parse-ws) (lit ")")) text pos data)))
 
 (defun parse-nl-or-dot (text pos data)
   (funcall (regexp-match "[.\n\r]+") text pos data))
