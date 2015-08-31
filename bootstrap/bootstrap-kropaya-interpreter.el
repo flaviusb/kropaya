@@ -183,6 +183,9 @@
 (defun parse-number (text pos data)
   (funcall (alt #'parse-real #'parse-int) text pos data))
 
+(defun parse-literal (text pos data)
+  (funcall (alt #'parse-number #'parse-string) text pos data)) ; Extend this as we add more literal types
+
 (defun parse-ws (text pos data)
   (funcall (regexp-match "[ ]+") text pos data))
 
