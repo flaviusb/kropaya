@@ -186,6 +186,28 @@
 (defun parse-literal (text pos data)
   (funcall (alt #'parse-number #'parse-string) text pos data)) ; Extend this as we add more literal types
 
+(defun parse-nl-or-dot (text pos data)
+  (funcall (regexp-match "[.\n\r]+") text pos data))
+
+(defun blocks-of-x (parser)
+  (lambda (text pos data)
+    (funcall (new-context-then-merge
+               (seq parser (star (seq #'parse-nl-or-dot parser)))
+               nil
+               (lambda (old new) new))
+             text pos data)))
+
+(defun parse-tree-branch (text pos data)
+  (funcall (new-context-then-merge
+             (alt #'parse-literal)
+             ""
+             (lambda (old new) (if (eq old nil) (list new) (append old (list new)))))
+           text pos data))
+
+;; parse-tree is the key parsing thing
+(defun parse-tree (text pos data)
+  (funcall (blocks-of-x parse-tree-branch) text pos data))
+
 (defun parse-ws (text pos data)
   (funcall (regexp-match "[ ]+") text pos data))
 
