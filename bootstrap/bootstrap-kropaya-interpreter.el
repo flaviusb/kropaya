@@ -191,7 +191,7 @@
   (funcall (alt #'parse-number #'parse-string) text pos data)) ; Extend this as we add more literal types
 
 (defun parse-juxtaposition (text pos data)
-  (funcall (seq (plus (alt #'parse-tree-branch (bracketed-x parse-tree))) #'parse-nl-or-dot) text pos data))
+  (funcall (seq (list-of-x (alt #'parse-tree-branch (bracketed-x parse-tree))) #'parse-nl-or-dot) text pos data))
 
 (defun bracketed-x (parser)
   (lambda (text pos data)
@@ -234,18 +234,20 @@
              (lambda (old new) (if (eq old nil) (list (make-variable new)) (append old (list (make-variable new))))))
            text pos data))
 
+(defun list-of-x (parser)
+  (lambda (text pos data)
+    (funcall (new-context-then-merge
+               (seq parser (star (seq #'parse-ws parser)))
+               nil
+               (lambda (old new) new))
+             text pos data)))
+
 (defun list-of-vars (text pos data)
-  (funcall (new-context-then-merge
-             (seq #'parse-variable (star (seq #'parse-ws #'parse-variable)))
-             nil
-             (lambda (old new) new))
+  (funcall (list-of-x #'parse-variable)
            text pos data))
 
 (defun list-of-quantifiers (text pos data)
-  (funcall (new-context-then-merge
-             (seq #'parse-quantifier (star (seq #'parse-ws #'parse-quantifier)))
-             nil
-             (lambda (old new) new))
+  (funcall (list-of-x #'parse-quantifier)
            text pos data))
 
 (defun quantifier (name parser)
