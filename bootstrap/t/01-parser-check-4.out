@@ -11,25 +11,25 @@
 
 [cl-struct-parser-result 0 (nil) nil nil]
 
-[cl-struct-parser-result 3 (nil quantifier (forall ((variable "x")))) t nil]
+[cl-struct-parser-result 3 ((quantifier (forall ((variable "x"))))) t nil]
 
-[cl-struct-parser-result 4 (nil quantifier (exists ((variable "x")))) t nil]
+[cl-struct-parser-result 4 ((quantifier (exists ((variable "x"))))) t nil]
 
-[cl-struct-parser-result 4 (nil quantifier (mu ((variable "x")))) t nil]
+[cl-struct-parser-result 4 ((quantifier (mu ((variable "x"))))) t nil]
 
-[cl-struct-parser-result 5 (nil quantifier (fresh ((variable "x")))) t nil]
+[cl-struct-parser-result 5 ((quantifier (fresh ((variable "x"))))) t nil]
 
-[cl-struct-parser-result 14 (nil quantifier (lambda ((variable "x")))) t nil]
+[cl-struct-parser-result 14 ((quantifier (lambda ((variable "x"))))) t nil]
 
-[cl-struct-parser-result 5 (nil quantifier (forall ((variable "x") (variable "y")))) t nil]
+[cl-struct-parser-result 5 ((quantifier (forall ((variable "x") (variable "y"))))) t nil]
 
-[cl-struct-parser-result 9 (nil quantifier (exists ((variable "x") (variable "y") (variable "z") (variable "s")))) t nil]
+[cl-struct-parser-result 9 ((quantifier (exists ((variable "x") (variable "y") (variable "z") (variable "s"))))) t nil]
 
-[cl-struct-parser-result 31 (nil quantifier (mu ((variable "dqwfwefx") (variable "wef") (variable "rgearbgse")))) t nil]
+[cl-struct-parser-result 31 ((quantifier (mu ((variable "dqwfwefx") (variable "wef") (variable "rgearbgse"))))) t nil]
 
-[cl-struct-parser-result 5 (nil quantifier (fresh ((variable "x4")))) t nil]
+[cl-struct-parser-result 5 ((quantifier (fresh ((variable "x4"))))) t nil]
 
-[cl-struct-parser-result 3 (nil quantifier (lambda ((variable "§")))) t nil]
+[cl-struct-parser-result 3 ((quantifier (lambda ((variable "§"))))) t nil]
 
 [cl-struct-parser-result 0 (nil) nil nil]
 
@@ -43,21 +43,21 @@
 
 "Test quantifier lists."
 
-[cl-struct-parser-result 7 ((nil quantifier (forall ((variable "x")))) quantifier (forall ((variable "y")))) t nil]
+[cl-struct-parser-result 7 ((quantifier (forall ((variable "x")))) (quantifier (forall ((variable "y"))))) t nil]
 
-[cl-struct-parser-result 14 ((nil quantifier (exists ((variable "a") (variable "q")))) quantifier (forall ((variable "r") (variable "q")))) t nil]
+[cl-struct-parser-result 14 ((quantifier (exists ((variable "a") (variable "q")))) (quantifier (forall ((variable "r") (variable "q"))))) t nil]
 
-[cl-struct-parser-result 16 ((nil quantifier (mu ((variable "w")))) quantifier (lambda ((variable "qwewefwdv")))) t nil]
+[cl-struct-parser-result 16 ((quantifier (mu ((variable "w")))) (quantifier (lambda ((variable "qwewefwdv"))))) t nil]
 
-[cl-struct-parser-result 7 ((nil quantifier (fresh ((variable "i")))) quantifier (lambda ((variable "l")))) t nil]
+[cl-struct-parser-result 7 ((quantifier (fresh ((variable "i")))) (quantifier (lambda ((variable "l"))))) t nil]
 
-[cl-struct-parser-result 34 (((nil quantifier (lambda ((variable "a1") (variable "b2") (variable "c3")))) quantifier (lambda ((variable "§") (variable "*") (variable "×")))) quantifier (exists ((variable "$") (variable "$$") (variable "$$$") (variable "$$$$")))) t nil]
+[cl-struct-parser-result 34 ((quantifier (lambda ((variable "a1") (variable "b2") (variable "c3")))) (quantifier (lambda ((variable "§") (variable "*") (variable "×")))) (quantifier (exists ((variable "$") (variable "$$") (variable "$$$") (variable "$$$$"))))) t nil]
 
-[cl-struct-parser-result 3 (nil quantifier (forall ((variable "x")))) t nil]
+[cl-struct-parser-result 3 ((quantifier (forall ((variable "x"))))) t nil]
 
 [cl-struct-parser-result 0 (nil) nil nil]
 
-[cl-struct-parser-result 4 (nil quantifier (mu ((variable "w")))) t nil]
+[cl-struct-parser-result 4 ((quantifier (mu ((variable "w"))))) t nil]
 
 [cl-struct-parser-result 0 (nil) nil nil]
 

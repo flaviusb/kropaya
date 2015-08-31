@@ -229,7 +229,7 @@
                (quantifier 'lambda (seq (lit "λ") (star #'parse-ws) #'list-of-vars (star #'parse-ws) (lit ".")))
               )
               nil
-              (lambda (old new) (cons old new)))
+              (lambda (old new) (if (eq old nil) (list new) (append old (list new)))))
            text pos data))
 
 (defun parse-quantifiers (text pos data)
