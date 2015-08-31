@@ -108,6 +108,9 @@
 (defun make-quantifier (kind variables)
   (make-primitive 'quantifier (make-primitive kind variables)))
 
+(defun make-juxtaposition (tree)
+  (make-primitive 'juxtaposition tree))
+
 ;; Sum and product pairs are an alist of labe
 (defun make-type-row (kind pairs)
   (make-primitive kind pairs))
@@ -191,7 +194,11 @@
   (funcall (alt #'parse-number #'parse-string) text pos data)) ; Extend this as we add more literal types
 
 (defun parse-juxtaposition (text pos data)
-  (funcall (seq (list-of-x (alt #'parse-tree-branch (bracketed-x parse-tree))) #'parse-nl-or-dot) text pos data))
+  (funcall (new-context-then-merge
+              (seq (list-of-x (alt #'parse-tree-branch (bracketed-x parse-tree))) #'parse-nl-or-dot)
+              nil
+              (lambda (old new) (make-juxtaposition new)))
+           text pos data))
 
 (defun bracketed-x (parser)
   (lambda (text pos data)
@@ -210,7 +217,7 @@
 
 (defun parse-tree-branch (text pos data)
   (funcall (new-context-then-merge
-             (alt #'parse-literal)
+             (alt #'parse-juxtaposition #'parse-literal)
              ""
              (lambda (old new) (if (eq old nil) (list new) (append old (list new)))))
            text pos data))
