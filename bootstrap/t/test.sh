@@ -10,6 +10,7 @@ function plan() {
 let test_num=0
 description=""
 pragma=""
+result=""
 
 function name() {
   description=$1
@@ -18,15 +19,17 @@ function name() {
 
 function test_text() {
   test_num=$((test_num+1))
-  return "$test_num $description $pragma"
+  result="$test_num $description $pragma"
 }
 
 function ok() {
-  echo "ok ${test_text}"
+  test_text
+  echo "ok $result"
 }
 
 function not_ok() {
-  echo "not ok ${test_text}"
+  test_text
+  echo "not ok $result"
 }
 
 function to_todo() {
@@ -37,7 +40,7 @@ function to_skip() {
   pragma="# SKIP $1"
 }
 
-expect_eq() {
+function expect_eq() {
   if [ "$1" = "$2" ]; then
     ok
   else

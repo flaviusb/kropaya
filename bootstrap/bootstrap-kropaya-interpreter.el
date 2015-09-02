@@ -25,7 +25,7 @@
   (lambda (text pos data)
     (let ((result (funcall parser text pos data)))
       (if (parser-result-match? result)
-        (result)
+        result
         (make-parser-result :pos pos :data data)))))
 
 (defun seq (&rest parsers)
@@ -195,9 +195,10 @@
 
 (defun parse-juxtaposition (text pos data)
   (funcall (new-context-then-merge
-              (seq (list-of-x (alt #'parse-tree-branch (bracketed-x parse-tree))) #'parse-nl-or-dot)
+              ;(seq (alt #'parse-literal (bracketed-x #'parse-tree)) #'parse-ws (list-of-x (alt #'parse-tree-branch (bracketed-x #'parse-tree))) #'parse-nl-or-dot)
+              (seq #'juxtaposition-chain-thing #'parse-nl-or-dot)
               nil
-              (lambda (old new) (make-juxtaposition new)))
+              (lambda (old new) (if (eq old nil) (list (make-juxtaposition new)) (append old (list (make-juxtaposition new))))))
            text pos data))
 
 (defun bracketed-x (parser)
@@ -218,13 +219,13 @@
 (defun parse-tree-branch (text pos data)
   (funcall (new-context-then-merge
              (alt #'parse-juxtaposition #'parse-literal)
-             ""
-             (lambda (old new) (if (eq old nil) (list new) (append old (list new)))))
+             nil
+             (lambda (old new) (if (eq old nil) new (append old new))))
            text pos data))
 
 ;; parse-tree is the key parsing thing
 (defun parse-tree (text pos data)
-  (funcall (blocks-of-x parse-tree-branch) text pos data))
+  (funcall (blocks-of-x #'parse-tree-branch) text pos data))
 
 (defun parse-ws (text pos data)
   (funcall (regexp-match "[ ]+") text pos data))
@@ -237,7 +238,7 @@
 (defun parse-variable (text pos data)
   (funcall (new-context-then-merge
              (return-text-under-match (regexp-match identifier-string))
-             ""
+             nil
              (lambda (old new) (if (eq old nil) (list (make-variable new)) (append old (list (make-variable new))))))
            text pos data))
 
@@ -248,6 +249,18 @@
                nil
                (lambda (old new) new))
              text pos data)))
+
+(defun list-of-at-least-two-x (parser)
+  (lambda (text pos data)
+    (funcall (new-context-then-merge
+               (seq parser #'parse-ws parser #'parse-ws (star (seq #'parse-ws parser)))
+               nil
+               (lambda (old new) new))
+             text pos data)))
+
+(defun juxtaposition-chain-thing (text pos data)
+  (funcall (list-of-at-least-two-x (alt #'parse-literal (bracketed-x #'parse-tree)))
+           text pos data))
 
 (defun list-of-vars (text pos data)
   (funcall (list-of-x #'parse-variable)
