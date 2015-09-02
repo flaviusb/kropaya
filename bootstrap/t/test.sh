@@ -2,6 +2,10 @@
 
 # A super simple way to generate TAP
 # Source this at the top of your bash .t files, use the funtions, then run with prove or etc
+# In each tests file, start with `plan $number_of_tests`
+# The for each test, start with `name  $name of the test`
+# Finish the test with `expect_eq "$actual_result" "$expected_result"`
+# This file is licensed under the GPLv3, the details of which are in the LICENSE file at the root of the repository
 
 function plan() {
   echo "1..$1"
