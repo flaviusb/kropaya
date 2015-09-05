@@ -210,7 +210,13 @@
 
 (defun parse-lambda (text pos data)
   (funcall (new-context-then-merge
-             (seq (lit "\\") (opt #'parse-ws) (opt #'list-of-vars) (opt #'parse-ws) (lit "→") (opt #'parse-ws) (alt #'parse-literal (bracketed-x #'parse-tree)) #'parse-nl-or-dot)
+             (seq (lit "\\") (opt #'parse-ws) 
+                  (wrapped (opt #'list-of-vars) (lambda (data start end text) (list 'arguments data))) (opt #'parse-ws) (lit "→") (opt #'parse-ws)
+                  (new-context-then-merge
+                    (wrapped (alt #'parse-literal (bracketed-x #'parse-tree)) (lambda (data start end text) (list 'body data)))
+                    nil
+                    (lambda (old new) (if (eq old nil) new (append old new))))
+                  #'parse-nl-or-dot)
              nil
              (lambda (old new) (if (eq old nil) (list (make-lambda new)) (append old (list (make-lambda new))))))
            text pos data))

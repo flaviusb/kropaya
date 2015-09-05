@@ -45,10 +45,10 @@
 
 [cl-struct-parser-result 0 nil nil nil]
 
-[cl-struct-parser-result 6 ((lambda ((int 3)))) t nil]
+[cl-struct-parser-result 6 ((lambda (arguments nil body ((int 3))))) t nil]
 
-[cl-struct-parser-result 6 ((lambda ((int 3)))) t nil]
+[cl-struct-parser-result 6 ((lambda (arguments nil body ((int 3))))) t nil]
 
-[cl-struct-parser-result 11 ((lambda ((variable "x") (variable "y") (variable "z") (int 3)))) t nil]
+[cl-struct-parser-result 11 ((lambda (arguments ((variable "x") (variable "y") (variable "z")) body ((int 3))))) t nil]
 
-[cl-struct-parser-result 11 ((lambda ((variable "x") (variable "y") (variable "z") (int 3)))) t nil]
+[cl-struct-parser-result 11 ((lambda (arguments ((variable "x") (variable "y") (variable "z")) body ((int 3))))) t nil]
