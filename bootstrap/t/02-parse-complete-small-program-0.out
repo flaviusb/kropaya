@@ -52,3 +52,11 @@
 [cl-struct-parser-result 11 ((lambda (arguments ((variable "x") (variable "y") (variable "z")) body ((int 3))))) t nil]
 
 [cl-struct-parser-result 11 ((lambda (arguments ((variable "x") (variable "y") (variable "z")) body ((int 3))))) t nil]
+
+[cl-struct-parser-result 10 ((lambda (arguments ((variable "x") (variable "y") (variable "z")) body ((variable "y"))))) t nil]
+
+[cl-struct-parser-result 10 ((lambda (arguments ((variable "x") (variable "y") (variable "z")) body ((variable "y"))))) t nil]
+
+[cl-struct-parser-result 16 ((lambda (arguments ((variable "x") (variable "y") (variable "z")) body ((juxtaposition ((variable "z") (variable "y") (variable "x"))))))) t nil]
+
+[cl-struct-parser-result 16 ((lambda (arguments ((variable "x") (variable "y") (variable "z")) body ((juxtaposition ((variable "z") (variable "y") (variable "x"))))))) t nil]

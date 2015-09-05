@@ -213,7 +213,7 @@
              (seq (lit "\\") (opt #'parse-ws) 
                   (wrapped (opt #'list-of-vars) (lambda (data start end text) (list 'arguments data))) (opt #'parse-ws) (lit "→") (opt #'parse-ws)
                   (new-context-then-merge
-                    (wrapped (alt #'parse-literal (bracketed-x #'parse-tree)) (lambda (data start end text) (list 'body data)))
+                    (wrapped (alt #'parse-tree-branch (bracketed-x #'parse-tree)) (lambda (data start end text) (list 'body data)))
                     nil
                     (lambda (old new) (if (eq old nil) new (append old new))))
                   #'parse-nl-or-dot)
@@ -236,9 +236,11 @@
                (lambda (old new) (if (eq old nil) new (append old new))))
              text pos data)))
 
+(setq non-juxt-basis (alt #'parse-lambda #'parse-literal #'parse-variable))
+
 (defun parse-tree-branch (text pos data)
   (funcall (new-context-then-merge
-             (alt #'parse-juxtaposition #'parse-lambda #'parse-literal)
+             (alt #'parse-juxtaposition non-juxt-basis)
              nil
              (lambda (old new) (if (eq old nil) new (append old (list new))))
              ;(lambda (old new) new)
@@ -281,7 +283,7 @@
              text pos data)))
 
 (defun juxtaposition-chain-thing (text pos data)
-  (funcall (list-of-at-least-two-x (alt #'parse-literal (bracketed-x #'parse-tree)))
+  (funcall (list-of-at-least-two-x (alt non-juxt-basis (bracketed-x #'parse-tree)))
            text pos data))
 
 (defun list-of-vars (text pos data)
