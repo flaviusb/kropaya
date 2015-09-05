@@ -191,7 +191,11 @@
   (funcall (alt #'parse-real #'parse-int) text pos data))
 
 (defun parse-literal (text pos data)
-  (funcall (alt #'parse-number #'parse-string) text pos data)) ; Extend this as we add more literal types
+  (funcall (new-context-then-merge
+             (alt #'parse-number #'parse-string)
+             nil
+             (lambda (old new) (if (eq old nil) new (append old new))))
+             text pos data)) ; Extend this as we add more literal types
 
 (defun parse-juxtaposition (text pos data)
   (funcall (new-context-then-merge
@@ -213,14 +217,16 @@
     (funcall (new-context-then-merge
                (seq parser (star (seq #'parse-nl-or-dot parser)))
                nil
-               (lambda (old new) new))
+               (lambda (old new) (if (eq old nil) new (append old new))))
              text pos data)))
 
 (defun parse-tree-branch (text pos data)
   (funcall (new-context-then-merge
              (alt #'parse-juxtaposition #'parse-literal)
              nil
-             (lambda (old new) (if (eq old nil) new (append old new))))
+             (lambda (old new) (if (eq old nil) new (append old (list new))))
+             ;(lambda (old new) new)
+             )
            text pos data))
 
 ;; parse-tree is the key parsing thing
@@ -253,9 +259,9 @@
 (defun list-of-at-least-two-x (parser)
   (lambda (text pos data)
     (funcall (new-context-then-merge
-               (seq parser #'parse-ws parser #'parse-ws (star (seq #'parse-ws parser)))
+               (seq parser #'parse-ws parser (opt (seq #'parse-ws (star (seq #'parse-ws parser)))))
                nil
-               (lambda (old new) new))
+               (lambda (old new) (if (eq old nil) new (append old (list new)))))
              text pos data)))
 
 (defun juxtaposition-chain-thing (text pos data)

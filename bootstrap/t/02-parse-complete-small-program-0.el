@@ -1,4 +1,8 @@
 (print "Test parsing some tiny programs.")
+
+(print (funcall (list-of-at-least-two-x (alt #'parse-literal)) "6 5." 0 '()))
+(print (funcall (seq #'parse-juxtaposition) "6 5." 0 '()))
+
 (mapcar (lambda (txt)
     (progn 
         (print (parse-tree-branch txt 0 '()))
