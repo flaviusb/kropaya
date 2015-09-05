@@ -1,0 +1,42 @@
+
+"Test parsing some tiny programs."
+
+[cl-struct-parser-result 3 ((int 6) (int 5)) t nil]
+
+[cl-struct-parser-result 4 ((juxtaposition ((int 6) (int 5)))) t nil]
+
+[cl-struct-parser-result 1 ((int 7)) t nil]
+
+[cl-struct-parser-result 1 ((int 7)) t nil]
+
+[cl-struct-parser-result 3 ((real 8.4)) t nil]
+
+[cl-struct-parser-result 3 ((real 8.4)) t nil]
+
+[cl-struct-parser-result 20 ((text "a wef ref regbrev ")) t nil]
+
+[cl-struct-parser-result 20 ((text "a wef ref regbrev ")) t nil]
+
+[cl-struct-parser-result 4 ((juxtaposition ((int 1) (int 2)))) t nil]
+
+[cl-struct-parser-result 4 ((juxtaposition ((int 1) (int 2)))) t nil]
+
+[cl-struct-parser-result 6 ((juxtaposition ((int 1) (int 2) (int 3)))) t nil]
+
+[cl-struct-parser-result 6 ((juxtaposition ((int 1) (int 2) (int 3)))) t nil]
+
+[cl-struct-parser-result 9 ((juxtaposition ((int 7) (juxtaposition ((int 8) (int 9)))))) t nil]
+
+[cl-struct-parser-result 9 ((juxtaposition ((int 7) (juxtaposition ((int 8) (int 9)))))) t nil]
+
+[cl-struct-parser-result 9 ((juxtaposition ((juxtaposition ((int 7) (int 8))) (int 9)))) t nil]
+
+[cl-struct-parser-result 9 ((juxtaposition ((juxtaposition ((int 7) (int 8))) (int 9)))) t nil]
+
+[cl-struct-parser-result 11 ((juxtaposition ((int 7) (juxtaposition ((int 4) (int 5))) (int 7)))) t nil]
+
+[cl-struct-parser-result 11 ((juxtaposition ((int 7) (juxtaposition ((int 4) (int 5))) (int 7)))) t nil]
+
+[cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 0 nil nil nil]
