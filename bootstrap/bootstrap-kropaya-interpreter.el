@@ -111,6 +111,9 @@
 (defun make-juxtaposition (tree)
   (make-primitive 'juxtaposition tree))
 
+(defun make-lambda (tree)
+  (make-primitive 'lambda tree))
+
 ;; Sum and product pairs are an alist of labe
 (defun make-type-row (kind pairs)
   (make-primitive kind pairs))
@@ -205,6 +208,13 @@
               (lambda (old new) (if (eq old nil) (list (make-juxtaposition new)) (append old (list (make-juxtaposition new))))))
            text pos data))
 
+(defun parse-lambda (text pos data)
+  (funcall (new-context-then-merge
+             (seq (lit "\\") (opt #'parse-ws) (opt #'list-of-vars) (opt #'parse-ws) (lit "→") (opt #'parse-ws) (alt #'parse-literal (bracketed-x #'parse-tree)) #'parse-nl-or-dot)
+             nil
+             (lambda (old new) (if (eq old nil) (list (make-lambda new)) (append old (list (make-lambda new))))))
+           text pos data))
+
 (defun bracketed-x (parser)
   (lambda (text pos data)
     (funcall (seq (lit "(") (opt #'parse-ws) (alt (bracketed-x parser) parser) (opt #'parse-ws) (lit ")")) text pos data)))
@@ -222,7 +232,7 @@
 
 (defun parse-tree-branch (text pos data)
   (funcall (new-context-then-merge
-             (alt #'parse-juxtaposition #'parse-literal)
+             (alt #'parse-juxtaposition #'parse-lambda #'parse-literal)
              nil
              (lambda (old new) (if (eq old nil) new (append old (list new))))
              ;(lambda (old new) new)

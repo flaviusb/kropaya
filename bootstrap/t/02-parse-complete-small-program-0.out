@@ -37,6 +37,18 @@
 
 [cl-struct-parser-result 11 ((juxtaposition ((int 7) (juxtaposition ((int 4) (int 5))) (int 7)))) t nil]
 
+[cl-struct-parser-result 18 ((juxtaposition ((int 1) (juxtaposition ((int 2) (juxtaposition ((int 3) (int 4))) (int 5))) (int 6)))) t nil]
+
+[cl-struct-parser-result 18 ((juxtaposition ((int 1) (juxtaposition ((int 2) (juxtaposition ((int 3) (int 4))) (int 5))) (int 6)))) t nil]
+
 [cl-struct-parser-result 0 nil nil nil]
 
 [cl-struct-parser-result 0 nil nil nil]
+
+[cl-struct-parser-result 6 ((lambda ((int 3)))) t nil]
+
+[cl-struct-parser-result 6 ((lambda ((int 3)))) t nil]
+
+[cl-struct-parser-result 11 ((lambda ((variable "x") (variable "y") (variable "z") (int 3)))) t nil]
+
+[cl-struct-parser-result 11 ((lambda ((variable "x") (variable "y") (variable "z") (int 3)))) t nil]
