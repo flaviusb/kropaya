@@ -259,7 +259,7 @@
 (defun list-of-at-least-two-x (parser)
   (lambda (text pos data)
     (funcall (new-context-then-merge
-               (seq parser #'parse-ws parser (opt (seq #'parse-ws (star (seq #'parse-ws parser)))))
+               (seq parser #'parse-ws parser (star (seq #'parse-ws parser)))
                nil
                (lambda (old new) (if (eq old nil) new (append old (list new)))))
              text pos data)))
