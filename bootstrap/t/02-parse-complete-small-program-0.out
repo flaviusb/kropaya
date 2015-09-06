@@ -68,3 +68,23 @@
 [cl-struct-parser-result 16 ((lambda (arguments ((variable "x") (variable "y") (variable "z")) body ((juxtaposition ((variable "z") (variable "y") (variable "x"))))))) t nil]
 
 [cl-struct-parser-result 16 ((lambda (arguments ((variable "x") (variable "y") (variable "z")) body ((juxtaposition ((variable "z") (variable "y") (variable "x"))))))) t nil]
+
+[cl-struct-parser-result 2 ((label-literal "f")) t nil]
+
+[cl-struct-parser-result 2 ((label-literal "f")) t nil]
+
+[cl-struct-parser-result 7 ((juxtaposition ((label-literal "car") (variable "x")))) t nil]
+
+[cl-struct-parser-result 7 ((juxtaposition ((label-literal "car") (variable "x")))) t nil]
+
+[cl-struct-parser-result 15 ((juxtaposition ((label-literal "car") (juxtaposition ((label-literal "cdr") (variable "y")))))) t nil]
+
+[cl-struct-parser-result 15 ((juxtaposition ((label-literal "car") (juxtaposition ((label-literal "cdr") (variable "y")))))) t nil]
+
+[cl-struct-parser-result 12 ((juxtaposition ((juxtaposition ((label-literal "car") (variable "x"))) (variable "y")))) t nil]
+
+[cl-struct-parser-result 12 ((juxtaposition ((juxtaposition ((label-literal "car") (variable "x"))) (variable "y")))) t nil]
+
+[cl-struct-parser-result 13 ((lambda (arguments ((variable "x")) body ((juxtaposition ((label-literal "foo") (variable "x"))))))) t nil]
+
+[cl-struct-parser-result 13 ((lambda (arguments ((variable "x")) body ((juxtaposition ((label-literal "foo") (variable "x"))))))) t nil]

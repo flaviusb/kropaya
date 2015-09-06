@@ -130,6 +130,9 @@
 (defun make-variable (name)
   (make-primitive 'variable name))
 
+(defun make-label-literal (name)
+  (make-primitive 'label-literal name))
+
 ;(setq prelude (make-module 'prelude '() '()))
 ;
 ;(print prelude)
@@ -195,7 +198,7 @@
 
 (defun parse-literal (text pos data)
   (funcall (new-context-then-merge
-             (alt #'parse-number #'parse-string)
+             (alt #'parse-number #'parse-string #'parse-label-literal)
              nil
              (lambda (old new) (if (eq old nil) new (append old new))))
              text pos data)) ; Extend this as we add more literal types
@@ -266,6 +269,15 @@
              (return-text-under-match (regexp-match identifier-string))
              nil
              (lambda (old new) (if (eq old nil) (list (make-variable new)) (append old (list (make-variable new))))))
+           text pos data))
+
+(defun parse-label-literal (text pos data)
+  (funcall (new-context-then-merge
+             (seq 
+               (lit "&")
+               (return-text-under-match (regexp-match identifier-string)))
+             nil
+             (lambda (old new) (if (eq old nil) (list (make-label-literal new)) (append old (list (make-label-literal new))))))
            text pos data))
 
 (defun list-of-x (parser)
