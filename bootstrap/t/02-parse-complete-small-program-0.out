@@ -37,13 +37,21 @@
 
 [cl-struct-parser-result 11 ((juxtaposition ((int 7) (juxtaposition ((int 4) (int 5))) (int 7)))) t nil]
 
-[cl-struct-parser-result 18 ((juxtaposition ((int 1) (juxtaposition ((int 2) (juxtaposition ((int 3) (int 4))) (int 5))) (int 6)))) t nil]
+[cl-struct-parser-result 16 ((juxtaposition ((int 1) (juxtaposition ((juxtaposition ((int 3) (int 4))) (int 5))) (int 6)))) t nil]
+
+[cl-struct-parser-result 16 ((juxtaposition ((int 1) (juxtaposition ((juxtaposition ((int 3) (int 4))) (int 5))) (int 6)))) t nil]
+
+[cl-struct-parser-result 16 ((juxtaposition ((int 1) (juxtaposition ((int 2) (juxtaposition ((int 3) (int 4))))) (int 6)))) t nil]
+
+[cl-struct-parser-result 16 ((juxtaposition ((int 1) (juxtaposition ((int 2) (juxtaposition ((int 3) (int 4))))) (int 6)))) t nil]
 
 [cl-struct-parser-result 18 ((juxtaposition ((int 1) (juxtaposition ((int 2) (juxtaposition ((int 3) (int 4))) (int 5))) (int 6)))) t nil]
 
-[cl-struct-parser-result 0 nil nil nil]
+[cl-struct-parser-result 18 ((juxtaposition ((int 1) (juxtaposition ((int 2) (juxtaposition ((int 3) (int 4))) (int 5))) (int 6)))) t nil]
 
-[cl-struct-parser-result 0 nil nil nil]
+[cl-struct-parser-result 26 ((juxtaposition ((juxtaposition ((int 3) (juxtaposition ((int 4) (int 5))) (int 7))) (juxtaposition ((juxtaposition ((int 4) (int 5))) (int 7)))))) t nil]
+
+[cl-struct-parser-result 26 ((juxtaposition ((juxtaposition ((int 3) (juxtaposition ((int 4) (int 5))) (int 7))) (juxtaposition ((juxtaposition ((int 4) (int 5))) (int 7)))))) t nil]
 
 [cl-struct-parser-result 6 ((lambda (arguments nil body ((int 3))))) t nil]
 

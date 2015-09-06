@@ -223,7 +223,9 @@
 
 (defun bracketed-x (parser)
   (lambda (text pos data)
-    (funcall (seq (lit "(") (opt #'parse-ws) (alt (bracketed-x parser) parser) (opt #'parse-ws) (lit ")")) text pos data)))
+    (funcall (seq (lit "(") (opt #'parse-ws) (alt 
+                                               ;(bracketed-x parser)
+                                               parser) (opt #'parse-ws) (lit ")")) text pos data)))
 
 (defun parse-nl-or-dot (text pos data)
   (funcall (regexp-match "[.\n\r]+") text pos data))
