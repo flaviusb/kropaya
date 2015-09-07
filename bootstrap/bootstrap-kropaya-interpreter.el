@@ -224,7 +224,7 @@
              (seq (lit "\\") (opt #'parse-ws) 
                   (wrapped (opt #'list-of-vars) (lambda (data start end text) (list 'arguments data))) (opt #'parse-ws) (lit "→") (opt #'parse-ws)
                   (new-context-then-merge
-                    (wrapped #'parse-sub-expression (lambda (data start end text) (list 'body data)))
+                    (wrapped parse-sub-expression (lambda (data start end text) (list 'body data)))
                     nil
                     (lambda (old new) (if (eq old nil) new (append old new))))
                   #'parse-nl-or-dot)
@@ -282,9 +282,17 @@
              (lambda (old new) (if (eq old nil) (list (make-label-literal new)) (append old (list (make-label-literal new))))))
            text pos data))
 
+(defun parse-type-function-rhs (text pos data)
+  (funcall (seq (opt #'parse-ws) (lit "→") (opt #'parse-ws) #'parse-type) text pos data))
+
+(setq start-of-type-fragment (alt #'parse-variable (bracketed-x #'parse-type)))
+
 ;TODO: actually flesh out parse-type
 (defun parse-type (text pos data)
-  (funcall (star (alt #'parse-variable)) text pos data))
+  (funcall (alt 
+             (seq #'start-of-type-fragment #'parse-type-function-rhs)
+             #'start-of-type-fragment)
+           text pos data))
 
 (defun parse-singular-row (text pos data)
   (funcall (new-context-then-merge
@@ -293,7 +301,7 @@
                (opt
                  (alt
                    (seq (opt #'parse-ws) (lit ":") (opt #'parse-ws) #'parse-type)
-                   (seq (opt #'parse-ws) (lit "⇒") (opt #'parse-ws) #'parse-sub-expression))))
+                   (seq (opt #'parse-ws) (lit "⇒") (opt #'parse-ws) parse-sub-expression))))
              nil
              (lambda (old new) (if (eq old nil) (make-singular-row new) (append old (make-singular-row new)))))
            text pos data))
