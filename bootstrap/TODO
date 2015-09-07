@@ -1,0 +1,28 @@
+- Finish map
+- Redo AST
+- Reader in elisp
+- Evaller in elisp
+  - Let expressions
+    - Quantified vars
+    - Calculation and assignment to temps
+    - Bindings at %end
+  - Lambda expressions
+  - Juxtaposition
+    - Functions
+    - Labels
+- Populate universe in elisp, but as a kropaya object
+- Some alien cells - unsafe IO etc. These will need an effect system eventually.
+- Printer in elisp
+
+- Kmettify the reader/evaller/printer combo - make more coinductive, more productive, more chunk based, so that read/eval groupings can self modify read and eval in progress.
+- Add support for HEREDOC style things.
+- Add more hooks to the reader for self modification.
+- Add support for import
+- 'Delayed' features:
+    - Levitation
+    - Proper quasiquotes and compiled functions with holes - essentially two types of more generalised quasiquotation.
+    - More support for staged compilation/staged execution.
+    - More typesystem work.
+    - Polarised type theory/cbpv/focussing stuff.
+    - Proofs and proof carrying code.
+    - Locatives?
