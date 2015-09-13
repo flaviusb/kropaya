@@ -1,3 +1,16 @@
+Positive types: values. Negative types: computations.
+All values must therefore be positive, all computations negative.
+'F x' makes x a computation - return a val, or force a thunk/computation. 'U x' makes x a value - thunk.
+'→' goes from +ve to -ve - ie it has a default. 
+U (x → F y)
+
+foo^-: ⦇foo^+: z|\_⦈ → F z.
+That is,
+∀z (l:label).⌜⦇\`l^+:\`z|\_⦈ ⊨ \`l^-: ⦇\`l^+: \`z|\_⦈ → F \`z.⌝
+z, l:label, a:rows, ⦇l^+:z|a⦈ ⊢ l^-: ⦇l^+: z|a⦈ → F z
+
+---
+
 Atomic
 Lambda
 Row: Product or Sum - represent tagged constructors as nested rows ie a sum of products
