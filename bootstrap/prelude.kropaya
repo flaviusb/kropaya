@@ -49,13 +49,21 @@
   %end
 
   %let
-    if: ∀a b. truth → U a → U b → either a b.
-    if condition then else = (condition {&true ⇒ \x → <&left ⇒ force then>, &false ⇒ \x → <&right ⇒ force else>}) _.
-    if: ∀a. truth → U a → U a → a.
-    if condition then else = (condition {&true ⇒ \x → force then, &false ⇒ \x → force else}) _.
+    if^-: ∀a b. truth → U (F a) → U (F b) → either a b.
+    if^- condition then else = (condition {&true ⇒ \x → <&left ⇒ %force then>, &false ⇒ \x → <&right ⇒ %force else>}) _.
+    if^-: ∀a. truth → U (F a) → U (F a) → a.
+    if^- condition then else = (condition {&true ⇒ \x → %force then, &false ⇒ \x → %force else}) _.
+    if^+: ∀a b. truth ⊸ U a ⊸ U b ⊸ either a b.
+    if^+ condition then else = condition {&true ⇒ <&left ⇒ then>, &false ⇒ <&right ⇒ else>}.
+    if^+: ∀a. truth ⊸ U a ⊸ U a ⊸ a.
+    if condtion then else = condition {&true ⇒ then, &false ⇒ else}.
   %end
 
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
+  %let
+    Cons: ∃x. x ⊸ list ⊸ list.
+    Cons x lst = <&cons ⇒ {&car ⇒ x, &cdr ⇒ lst}>.
+  %end
   %let non-empty-list-of-y = ∀q r. ∃(x: q → r). ∃y. <&cons: {&car: y, &cdr: x y}>.
   %let list-of-2-or-more = non-empty-list-of-y (non-empty-list-of-y (list)).
   %let arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>.
