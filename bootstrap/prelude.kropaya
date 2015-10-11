@@ -4,6 +4,21 @@
 
   ※ Some common types
 
+  %let
+    U = %edge magic-u
+    ※ U notionally has the type ∀x. U x.
+    ※ It is the type of all positive (value) x.
+    F = %edge magic-f
+    ※ F notionally has the type ∀x. F x.
+    ※ It is the type of all negative (computation) x.
+    ※ (%return ⌜U x⌝) fits in a negative hole that wants an x
+    ※ That is, %return makes a simple computation out of a value.
+    ※ (%thunk ⌜F x⌝) fits in a positive hole that wants an ⌜F x⌝
+    ※ That is, %thunk wraps a simple computation in a value.
+    ※ (%force ⌜U (F a)⌝) produces an ⌜a⌝
+    ※ That is, %force unwraps a thunk and then runs the resulting computation.
+  %end
+
   %let μNum.
     ⊥ = %edge magic-bottom.
     ⊤ = %edge magic-top.
