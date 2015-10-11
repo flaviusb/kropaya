@@ -41,6 +41,7 @@ Language-Oriented programming inspired by OMeta and the STEPS VPRI project, as w
 
 Staged computation inspired by the Shonan Challenge, and especially the papers [http://okmij.org/ftp/meta-programming/HPC.html](here).
 
+Type polarity, and some of the approach to pattern matching were inspired by Levy and Levy#.
 
 Past inspirations:
 
