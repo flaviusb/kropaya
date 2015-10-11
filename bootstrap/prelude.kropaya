@@ -17,6 +17,10 @@
     ※ That is, %thunk wraps a simple computation in a value.
     ※ (%force ⌜U (F a)⌝) produces an ⌜a⌝
     ※ That is, %force unwraps a thunk and then runs the resulting computation.
+    ※ Computation arrows (eg a → b) notionally are of type (U a ⇒ F b).
+    ※ They can thus be pattern matched on the left, and destructed on the right.
+    ※ Value arrows (eg a ⊸ b) notionally are of type (U a ⇒ U b).
+    ※ They can be pattern matched on both the left and the right.
   %end
 
   %let μNum.
@@ -25,17 +29,6 @@
     Text = %edge magic-text.
     Num = %edge magic-num. ※ For now, num is just int. Fairly soon we will need an actual numerical hierarchy. I envisage three separate sets of typeclasses - one based on machine types, one based on infinite precision types, and one based on group theory.
     Int = Num.
-  %end
-
-  %let
-    U = ∃a. %edge magic-thunk-type.
-    ※ Notionally there should be a symmetric type for 'forced' things; it doesn't quite make sense in the current formulation.
-    ※ The type declaration would be F = ∃a. %edge magic-force-type.
-
-    ※ Type sig would notionally be thunk: ∀a: a → U a. This does not capture the fact that a is swallowed unevalled though.
-    thunk i = %edge magic-thunk.
-    force: ∀a: U a → a.
-    force i = %edge magic-force.
   %end
 
   %let maybe = ∃a. <&some: a, &none>.
