@@ -56,8 +56,10 @@
     if^+: ∀a b. truth ⊸ U a ⊸ U b ⊸ either a b.
     if^+ condition then else = condition {&true ⇒ <&left ⇒ then>, &false ⇒ <&right ⇒ else>}.
     if^+: ∀a. truth ⊸ U a ⊸ U a ⊸ a.
-    if condition then else = condition {&true ⇒ then, &false ⇒ else}.
+    if^+ condition then else = condition {&true ⇒ then, &false ⇒ else}.
   %end
+
+
 
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
   %let
