@@ -17,9 +17,9 @@
     ※ That is, %thunk wraps a simple computation in a value.
     ※ (%force ⌜U (F a)⌝) produces an ⌜a⌝
     ※ That is, %force unwraps a thunk and then runs the resulting computation.
-    ※ Computation arrows (eg a → b) notionally are of type (U a ⇒ F b).
+    ※ Computation arrows (eg U a → F b) notionally are of type (U a ⇒ F b).
     ※ They can thus be pattern matched on the left, and destructed on the right.
-    ※ Value arrows (eg a ⊸ b) notionally are of type (U a ⇒ U b).
+    ※ Value arrows (eg U a → U b) notionally are of type (U a ⇒ U b).
     ※ They can be pattern matched on both the left and the right.
   %end
 
@@ -37,15 +37,24 @@
 
   %let μtruth and or not.
     truth = <&true, &false>.
-    and: truth → truth → truth.
-    and &true &true = &true.
-    and _ _ = &false.
-    or: truth → truth → truth.
-    or &false &false = &false.
-    or _ _ = &true.
-    not: truth → truth.
-    not &true = &false.
-    not &false = &true.
+    and^-: U truth → U truth → F truth.
+    and^- <&true> <&true> = %return <&true>.
+    and^- _ _ = %return <&false>.
+    and^+: U truth → U truth → U truth.
+    and^+ <&true> <&true> = <&true>.
+    and^+ _ _ = <&false>.
+    or^-: U truth → U truth → F truth.
+    or^- <&false> <&false> = %return <&false>.
+    or^- _ _ = %return <&true>.
+    or^+: U truth → U truth → U truth.
+    or^+ <&false> <&false> = <&false>.
+    or^+ _ _ = <&true>.
+    not^-: U truth → F truth.
+    not^- <&true> = %return <&false>.
+    not^- <&false> = %return <&true>.
+    not^+: U truth → U truth.
+    not^+ <&true> = <&false>.
+    not^+ <&false> = <&true>.
   %end
 
   %let
