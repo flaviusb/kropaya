@@ -72,7 +72,7 @@
 
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
   %let
-    Cons: ∃x. x ⊸ list ⊸ list.
+    Cons: ∃x. U x → U list → U list.
     Cons x lst = <&cons ⇒ {&car ⇒ x, &cdr ⇒ lst}>.
   %end
   %let non-empty-list-of-y = ∀q r. ∃(x: q → r). ∃y. <&cons: {&car: y, &cdr: x y}>.
