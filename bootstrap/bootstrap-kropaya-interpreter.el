@@ -367,6 +367,9 @@
 (defun parse-name (text pos data)
   (parse-identifier text pos data))
 
+(defun parse-let (text pos data)
+  (funcall (alt parse-short-let parse-long-let) text pos data))
+
 ;; Eval
 ;; Print
 ;; Runloop
