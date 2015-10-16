@@ -87,6 +87,11 @@
     done = <&done>.
   %end
   %let nat = BinaryNat#start.
+  ※%let Foldable = ...
+  ※  
+  ※%end
+  ※zog: ∀type (folds: Foldable type). ıa fn. U type → (U b → U type → F b) → F b.
+  ※zog a fn = 
   %let Foldable = ∃foldable. μfoldr foldMap foldrType foldMapType Foldable.
     foldMapType = ∀m. ∃(x: Monoid m). (foldable → m) → foldable → m.
     foldMap: foldMapType.
@@ -139,7 +144,7 @@
   %let μmap keys values filter set get mapcar.
     map = ∃k v (comparator: Quotient k). list {&key: k, &value: v}.
 
-    get: ∀keys values c. keys → map keys values c → maybe values.
+    get: ∀keys values c. U keys → U (map keys values c) → U (maybe values).
     get key the-map = case { &end ⇒ \x → <&none>, &cons ⇒ (\x → (if (c the-key (&key (&car x))) (thunk (<&some⇒(&value x)>)) (thunk (get key (&cdr x))))) } the-map.
 
     set: ∀keys values c. keys → values → map keys values c → map keys values c.
