@@ -58,13 +58,13 @@
   %end
 
   %let
-    if^-: ∀a. U truth → U (U (F a)) → U (U (F a)) → F a.
+    if^-: ∀a. ıcondition then else. U truth → U (U (F a)) → U (U (F a)) → F a.
     if^- condition then else = (condition {&true ⇒ \x → %force then, &false ⇒ \x → %force else}) &true.
-    if^-: ∀a b. U truth → U (U (F a)) → U (U (F b)) → F (either a b).
+    if^-: ∀a b. ıcondition then else. U truth → U (U (F a)) → U (U (F b)) → F (either a b).
     if^- condition then else = (condition {&true ⇒ \x → <&left ⇒ %force then>, &false ⇒ \x → <&right ⇒ %force else>}) &true.
-    if^+: ∀a. U truth → U (U a) → U (U a) → U a.
+    if^+: ∀a. ıcondition then else. U truth → U (U a) → U (U a) → U a.
     if^+ condition then else = condition {&true ⇒ then, &false ⇒ else}.
-    if^+: ∀a b. U truth → U (U a) → U (U b) → U (either a b).
+    if^+: ∀a b. ıcondition then else. U truth → U (U a) → U (U b) → U (either a b).
     if^+ condition then else = condition {&true ⇒ <&left ⇒ then>, &false ⇒ <&right ⇒ else>}.
   %end
 
