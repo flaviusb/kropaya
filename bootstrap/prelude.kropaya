@@ -72,7 +72,7 @@
 
   %let list = ∃y. μx. <&end, &cons: {&car: y, &cdr: x}>.
   %let
-    Cons: ∃x. U x → U list → U list.
+    Cons: ∃x. ılst.  U x → U list → U list.
     Cons x lst = <&cons ⇒ {&car ⇒ x, &cdr ⇒ lst}>.
   %end
   ※%let non-empty-list-of-y = ∀q r. ∃(x: q → r). ∃y. <&cons: {&car: y, &cdr: x y}>.
@@ -101,7 +101,7 @@
   %end
 
   %let
-    case : ∀ match-label match-type other-cases result. {match-label:(match-type→result) |other-cases} → <match-label:match-type> → result.
+    case : ∀ match-label match-type other-cases result. ıpattern it. {match-label:(match-type→result) |other-cases} → <match-label:match-type> → result.
     case pattern it = (match-label pattern) (match-label it).
 
     id : ∀x. x → x.
