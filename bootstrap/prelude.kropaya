@@ -74,8 +74,8 @@
     list = ∃y. <&end, &cons: {&car: y, &cdr: list y}>.
   %end
   %let
-    Cons: ∃x. ılst.  U x → U (list x) → U (list x).
-    Cons x lst = <&cons ⇒ {&car ⇒ x, &cdr ⇒ lst}>.
+    Cons: ∀type. ı(head: type) (lst: list type).  U type → U (list type) → U (list type).
+    Cons head lst = <&cons ⇒ {&car ⇒ head, &cdr ⇒ lst}>.
   %end
   ※%let non-empty-list-of-y = ∀q r. ∃(x: q → r). ∃y. <&cons: {&car: y, &cdr: x y}>.
   ※%let list-of-2-or-more = non-empty-list-of-y (non-empty-list-of-y (list)).
