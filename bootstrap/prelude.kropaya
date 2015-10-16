@@ -113,7 +113,8 @@
   ※ show result = print (case {&left ⇒ \x → "error: #{x}", &right ⇒ id} result)
 
   %let 
-    Quotient^+ = ∃a. U a → U a → U truth. ※ Properties we want to be able to state: ∀m n o. eq m m. eq m n ≡ eq n m. (eq m n ∧ eq n o) → eq m o.
+    ※ Properties we want to be able to state: (eq: Quotient) ⊨ ∀m n o. eq m m. eq m n ≡ eq n m. (eq m n ∧ eq n o) → eq m o.
+    Quotient^+ = ∃a. U a → U a → U truth.
     Quotient^- = ∃a. U a → U a → F truth.
   %end
 
@@ -136,25 +137,25 @@
 
   ※ For now, we do map as a naive association-list.
   %let μmap keys values filter set get mapcar.
-    map = ∃k v comparator (quotient: Quotient k comparator). list {&key: k, &value: v}.
+    map = ∃k v (comparator: Quotient k). list {&key: k, &value: v}.
 
-    get: ∀keys values c q. keys → map keys values c q → maybe values.
+    get: ∀keys values c. keys → map keys values c → maybe values.
     get key the-map = case { &end ⇒ \x → <&none>, &cons ⇒ (\x → (if (c the-key (&key (&car x))) (thunk (<&some⇒(&value x)>)) (thunk (get key (&cdr x))))) } the-map.
 
-    set: ∀keys values c q. keys → values → map keys values c q → map keys values c q.
+    set: ∀keys values c. keys → values → map keys values c → map keys values c.
     set key value the-map = <&cons⇒{&car⇒{&key⇒key, &value⇒value}, &cdr⇒filter (\x → not (c the-key x)) the-map}>.
     ※set key value the-map = case {&none ⇒ (\x → (<&cons⇒<&car⇒<&key⇒key, &value⇒value>, &cdr⇒the-map>>: map keys values c q)), &some⇒} (get key the-map)
 
-    filter: ∀keys values c q. (keys → truth) → map keys values c q → map keys values c q.
+    filter: ∀keys values c. (keys → truth) → map keys values c → map keys values c.
     filter pred the-map = case { &end ⇒ id, &cons ⇒ \x → (if (pred (&car x)) (thunk (<&cons⇒{&car⇒&car x, &cdr⇒filter pred (&cdr x)}>)) (thunk (filter pred (&cdr x)))) } the-map.
 
     ※ Use this janky mapcar for now
     mapcar: ∀a b. list a  → (a → b) → list b.
     mapcar in fn = case { &end ⇒ id, &cons ⇒ \x → <&cons⇒{&car⇒(fn (&car x)), &cdr⇒(mapcar (&cdr x))}> } in.
 
-    keys: ∀k v q c. map k v q c  → list k.
+    keys: ∀k v q. map k v q  → list k.
     keys the-map = mapcar the-map &key.
-    values: ∀k v q c. map k v q c → list v.
+    values: ∀k v q. map k v q → list v.
     values the-map = mapcar the-map &value.
   %end
 
