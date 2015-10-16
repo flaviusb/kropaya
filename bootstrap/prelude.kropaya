@@ -77,6 +77,8 @@
     Cons: ∀type. ı(head: type) (lst: list type).  U type → U (list type) → U (list type).
     Cons head lst = <&cons ⇒ {&car ⇒ head, &cdr ⇒ lst}>.
   %end
+  ※ An example of the use of Cons:
+  ※   Cons 3 &end ⊨ <&cons ⇒ {&car ⇒ 3, &cdr ⇒ <&end>}>.
   ※%let non-empty-list-of-y = ∀q r. ∃(x: q → r). ∃y. <&cons: {&car: y, &cdr: x y}>.
   ※%let list-of-2-or-more = non-empty-list-of-y (non-empty-list-of-y (list)).
   ※%let arbitrary-list = μx. <&end, &cons: ∃y. {&car: y, &cdr: x}>.
