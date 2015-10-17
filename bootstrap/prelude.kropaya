@@ -105,8 +105,17 @@
     foldMap: ∀x y. ∃(m: Monoid x y). U (U (Foldable content-type) → F m#S) → U (Foldable content-type) → F m#S.
     foldl: ∀a. U (U a → U content-type → F a) → U content-type → U (Foldable content-type) → F a.
   %end
-  ※zog: ∀type (folds: Foldable type). ıa fn. U type → (U b → U type → F b) → F b.
-  ※zog a fn = 
+  ※ To use this, we first make a foldable thing and name it
+  ※ %let (arrayFolds: Foldable Array) =
+  ※   ※ Define any 'overridden' members here
+  ※ %end
+  ※ Then, we can hoist and/or partially bind any of the members for convenience like so:
+  ※ Assuming we have a list monoid called traceM, and traces are stored in a foldable, which happens to be an array here
+  ※ %let
+  ※   mergeTraces = arrayFolds#fold traceM.
+  ※ %end
+  ※ We can refactor this, make it more or less polymorphic, or swap out bits of it relatively easily.
+
   ※%let Foldable = ∃foldable. μfoldr foldMap foldrType foldMapType Foldable.
   ※  foldMapType = ∀m. ∃(x: Monoid m). (foldable → m) → foldable → m.
   ※  foldMap: foldMapType.
