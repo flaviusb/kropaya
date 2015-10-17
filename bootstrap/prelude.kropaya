@@ -91,23 +91,31 @@
     done = <&done>.
   %end
   %let nat = BinaryNat#start.
-  ※%let Foldable = ...
-  ※  
-  ※%end
+  %let Monoid = ∀S. ∃(•: U S → U S → F S) (id: S).
+    ※ We want to be able to show associativity and identity, that is:
+    ※   ∀(a: S) (b: S) (c: S). (a • b) • c ≡ a • (b • c)
+    ※   ∀(a: S). a • id ≡ id • a ≡ a
+  %end
+  %let μFoldable. Foldable = ∃content-type. μfoldr foldl foldMap fold.
+    fold: ∀x y. ∃(m: Monoid x y). U (Foldable content-type) → F m#S.
+    fold = foldMap id.
+    foldMap: ∀x y. ∃(m: Monoid x y). U (U (Foldable content-type) → F m#S) → U (Foldable content-type) → F m#S.
+    foldl: ∀a. U (U a → U content-type → F a) → U content-type → U (Foldable content-type) → F a.
+  %end
   ※zog: ∀type (folds: Foldable type). ıa fn. U type → (U b → U type → F b) → F b.
   ※zog a fn = 
-  %let Foldable = ∃foldable. μfoldr foldMap foldrType foldMapType Foldable.
-    foldMapType = ∀m. ∃(x: Monoid m). (foldable → m) → foldable → m.
-    foldMap: foldMapType.
-    foldMap f = foldr (x#mappend ∘ f) x#mempty.
-
-    foldrType = ∀a b. (a → b → b) → b → foldable → b.
-    foldr: foldrType.
-    foldr f z t = appEndo (foldMap (Endo ∘ f) t) z 
-
-    foldl: ∀a b. (b → a → b) → b → foldable → b.
-    foldl f z t = appEndo (getDual (foldMap (Dual ∘ Endo ∘ flip f) t)) z.
-  %end
+  ※%let Foldable = ∃foldable. μfoldr foldMap foldrType foldMapType Foldable.
+  ※  foldMapType = ∀m. ∃(x: Monoid m). (foldable → m) → foldable → m.
+  ※  foldMap: foldMapType.
+  ※  foldMap f = foldr (x#mappend ∘ f) x#mempty.
+  ※
+  ※  foldrType = ∀a b. (a → b → b) → b → foldable → b.
+  ※  foldr: foldrType.
+  ※  foldr f z t = appEndo (foldMap (Endo ∘ f) t) z 
+  ※
+  ※  foldl: ∀a b. (b → a → b) → b → foldable → b.
+  ※  foldl f z t = appEndo (getDual (foldMap (Dual ∘ Endo ∘ flip f) t)) z.
+  ※%end
 
   %let
     case : ∀ match-label match-type other-cases result. ıpattern it. {match-label:(match-type→result) |other-cases} → <match-label:match-type> → result.
