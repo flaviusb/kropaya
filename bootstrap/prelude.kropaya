@@ -101,7 +101,7 @@
   %end
   %let μFoldable. Foldable = ∃content-type. μfoldr foldl foldMap fold.
     fold: ∀x y. ∃(m: Monoid x y). U (Foldable content-type) → F m#S.
-    fold = foldMap id.
+    fold = foldMap m id^-.
     foldMap: ∀x y. ∃(m: Monoid x y). U (U (Foldable content-type) → F m#S) → U (Foldable content-type) → F m#S.
     foldl: ∀a. U (U a → U content-type → F a) → U content-type → U (Foldable content-type) → F a.
   %end
@@ -133,8 +133,10 @@
     case : ∀ match-label match-type other-cases result. ıpattern it. {match-label:(match-type→result) |other-cases} → <match-label:match-type> → result.
     case pattern it = (match-label pattern) (match-label it).
 
-    id : ∀x. x → x.
-    id x = x
+    id^+ : ∀x. ı(it: x).  U x → U x.
+    id^+ it = it.
+    id^- : ∀x. ı(it: x).  U x → F x.
+    id^- it = (%return it).
   %end
 
   ※ Usage:
