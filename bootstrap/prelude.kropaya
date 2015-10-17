@@ -31,9 +31,10 @@
     Int = Num.
   %end
 
-  %let maybe = ∃a. <&some: a, &none>.
-
-  %let either = ∃a. ∃b. <&left: a, &right: b>.
+  %let
+    maybe = ∃a. <&some: a, &none>.
+    either = ∃a. ∃b. <&left: a, &right: b>.
+  %end
 
   %let μtruth and or not.
     truth = <&true, &false>.
@@ -90,7 +91,9 @@
     start = <&one: num, &zero: done>.
     done = <&done>.
   %end
-  %let nat = BinaryNat#start.
+  %let
+    nat = BinaryNat#start.
+  %end
   %let Monoid = ∀S. ∃(•: U S → U S → F S) (id: S).
     ※ We want to be able to show associativity and identity, that is:
     ※   ∀(a: S) (b: S) (c: S). (a • b) • c ≡ a • (b • c)
