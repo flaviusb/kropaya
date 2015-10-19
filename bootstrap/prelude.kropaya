@@ -97,8 +97,10 @@
   %let (Magma: ∀S. ∃(•: U S → U S → F S).) =
   %end
   %let (Semigroup: ∀S. ∃(•: U S → U S → F S).) = Magma •.
+    ※ We want to be able to show associativity, that is:
+    ※   ∀(a: S) (b: S) (c: S). (a • b) • c ≡ a • (b • c)
   %end
-  %let (Monoid: ∀S. ∃(•: U S → U S → F S) (id: S).) =
+  %let (Monoid: ∀S. ∃(•: U S → U S → F S) (id: S).) = Semigroup •.
     ※ We want to be able to show associativity and identity, that is:
     ※   ∀(a: S) (b: S) (c: S). (a • b) • c ≡ a • (b • c)
     ※   ∀(a: S). a • id ≡ id • a ≡ a
