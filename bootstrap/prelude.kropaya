@@ -94,12 +94,16 @@
   %let
     nat = BinaryNat#start.
   %end
-  %let Monoid = ∀S. ∃(•: U S → U S → F S) (id: S).
+  %let (Magma: ∀S. ∃(•: U S → U S → F S).) =
+  %end
+  %let (Semigroup: ∀S. ∃(•: U S → U S → F S).) = Magma •.
+  %end
+  %let (Monoid: ∀S. ∃(•: U S → U S → F S) (id: S).) =
     ※ We want to be able to show associativity and identity, that is:
     ※   ∀(a: S) (b: S) (c: S). (a • b) • c ≡ a • (b • c)
     ※   ∀(a: S). a • id ≡ id • a ≡ a
   %end
-  %let μFoldable. Foldable = ∃content-type. μfoldr foldl foldMap fold.
+  %let μFoldable. (Foldable: ∃content-type. μfoldr foldl foldMap fold.) =
     fold: ∀x y. ∃(m: Monoid x y). U (Foldable content-type) → F m#S.
     fold = foldMap m id^-.
     foldMap: ∀x y. ∃(m: Monoid x y). U (U (Foldable content-type) → F m#S) → U (Foldable content-type) → F m#S.
