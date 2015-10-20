@@ -136,7 +136,7 @@
   ※%end
 
   %let
-    case : ∀match-label match-type other-cases result. ıpattern it. {match-label:(match-type→result) |other-cases} → <match-label:match-type> → result.
+    case : ∀match-label match-type other-cases result. ıpattern it. U {match-label: (U match-type → F result) |other-cases} → U <match-label: U match-type> → F result.
     case pattern it = (match-label pattern) (match-label it).
 
     id^+ : ∀x. ı(it: x).  U x → U x.
