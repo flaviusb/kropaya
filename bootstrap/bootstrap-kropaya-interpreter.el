@@ -368,7 +368,13 @@
   (parse-identifier text pos data))
 
 (defun parse-let (text pos data)
-  (funcall (seq (star #'parse-ws) (lit "%let") (plus #'parse-ws)
+  (funcall (seq (star #'parse-ws) (lit "%let")
+                (alt
+                  ;; Parse a module
+                  (seq (plus #'parse-ws) parse-variable (plus #'parse-ws) (lit "="))
+                  ;; Parse into the current namespace
+                  (seq (star #'parse-ws) #'parse-nl-or-dot)
+                )
                 (lit "%end")) text pos data))
 
 ;; Eval
