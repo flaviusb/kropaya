@@ -368,7 +368,8 @@
   (parse-identifier text pos data))
 
 (defun parse-let (text pos data)
-  (funcall (alt parse-short-let parse-long-let) text pos data))
+  (funcall (seq (star #'parse-ws) (lit "%let") (plus #'parse-ws)
+                (lit "%end")) text pos data))
 
 ;; Eval
 ;; Print
