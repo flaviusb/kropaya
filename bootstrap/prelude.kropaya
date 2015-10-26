@@ -36,7 +36,7 @@
     either = ∃a. ∃b. <&left: a, &right: b>.
   %end
 
-  %let μtruth and or not.
+  %let μtruth and^- and^+ or^- or^+ not^- not^+.
     truth = <&true, &false>.
     and^-: U truth → U truth → F truth.
     and^- <&true> <&true> = %return <&true>.
