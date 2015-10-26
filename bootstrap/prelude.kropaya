@@ -201,7 +201,7 @@
     tree = list <&let: let, &lambda: lambda, &juxtaposition: juxtaposition, &literal: literal, &variable: variable>.
     variable = Text.
     literal = <&text: Text, &number: Num, &product: product, &sum: sum, &singular-row: singular-row, &label: label, &underscore>.
-    let = {&root: <&parent, &module: variable>, &quantifiers: list quantifier, &bindings: map variable (list <&judgement: type, &thing: {&pattern: pattern, &rhs: tree}>)}.
+    let = {&root: <&parent, &module: variable>, &quantifiers: list quantifier, &bindings: map variable (list <&judgement: type, &thing: list {&pattern: pattern, &rhs: tree}>)}.
     lambda = {&arguments: list variable, &body: tree}.
     juxtaposition = list tree.
     quantifier = {&quantifier: <&forall, &exists, &fresh, &lambda, &mu>, &variables: list <&bare: variable, &constraint: {&variable: variable, &judgement: type}>}.
