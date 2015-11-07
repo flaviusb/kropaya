@@ -206,7 +206,7 @@
     lambda = {&arguments: list variable, &body: tree}.
     juxtaposition = list juxt-tree.
     quantifier = {&quantifier: <&forall, &exists, &fresh, &lambda, &mu>, &variables: list <&bare: variable, &constraint: {&variable: variable, &judgement: type}>}.
-    pattern = list <&variable: variable, &literal: literal>.
+    pattern = list <&variable: variable, &literal: literal, &positive-expression: juxt-tree>. ※ positive-function must be positive; this only gets checked at typechecking time, so we reject asts as ill typed that do not satisfy this rather than assuming we can somehow detect this syntactically
     type-function = {&l: type, &r: type}.
     type = {&quantifiers: list quantifier, &formula: <&fn: type-function, &row: row, &literal: literal>}.
     label = <&literal: Text, &variable: variable>.
