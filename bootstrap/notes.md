@@ -1,3 +1,32 @@
+The reified things must satisfy a signature.
+
+Reader ∃input ast partial-ast-container.
+  read: U input → F ast.
+  read-partial: U input → F {&partial-ast: partial-ast-container ast, &residual-input: input}.
+
+Printer ∃output ast.
+  print: U ast → F output.
+
+Evaller ∃ast partial-ast-container.
+  eval: U Universe → U ast → F Universe.
+  eval-partial: U Universe → U (partial-ast-container ast) → F Universe.
+
+Universe
+  sprout
+  join
+  get
+  set
+  exists
+
+Mirror
+
+Looper
+  next: ∀ast input partial-ast-container (ev: Evaller ast partial-ast-container) (re: Reader input ast partial-ast-container). U {&universe: Universe, &partial-ast: partial-ast-container ast, &residual-input: input} → F {&universe: Universe, &partial-ast: partial-ast-container ast, &residual-input: input}.
+  fork
+  join
+
+---
+
 Positive types: values. Negative types: computations.
 All values must therefore be positive, all computations negative.
 'F x' makes x a computation - return a val, or force a thunk/computation. 'U x' makes x a value - thunk.
